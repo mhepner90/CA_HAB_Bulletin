@@ -1,0 +1,33 @@
+Parent #,ID #,Date -Sampled-,NtoS -code-,Sample Site,Species -code-,Percent Composition,Density -code-,RA_Rank,RA Index,Latitude,Longitude
+UA-6581-00,UA-6581-01,6/18/2018,13,"Morro Bay, Boat Launch",B-Pseu_Sum,5,P,2,0.09,35.36,-120.85
+UA-6585-00,UA-6585-01,6/18/2018,2,"Humboldt Bay, Indian Is. Ch.",B-Pseu_Sum,2,P,2,0.00,40.81,-124.16
+UA-6586-00,UA-6586-01,6/18/2018,4,"Bodega Harbor, USCG Dock",No tox sp,0,X,0,0.00,38.31,-123.05
+UA-6587-00,UA-6587-01,6/18/2018,5,"Drakes Bay, Chimney Rock LBS",B-Pseu_Sum,0.5,R,1,0.06,37.99,-122.97
+UA-6588-00,UA-6588-01,6/17/2018,5,"Tomales Bay, Lease #M430-15",No tox sp,0,X,0,0.00,38.22,-122.94
+UA-6599-00,UA-6599-01,6/15/2018,13,San Simeon Pier,B-Pseu_Sum,15,C,3,0.57,35.64,-121.19
+UA-6605-00,UA-6605-01,6/21/2018,14,Santa Barbara Island,No tox sp,0,X,0,0.00,33.53,-119.14
+UA-6606-00,UA-6606-01,6/19/2018,10,Bean Hollow State Beach,No tox sp,0,X,0,0.00,37.22,-122.41
+UA-6606-00,UA-6606-02,6/19/2018,10,Pillar Point,No tox sp,0,X,0,0.00,37.5,-122.5
+UA-6608-00,UA-6608-01,6/21/2018,14,Santa Barbara Channel Islands,B-Pseu_Sum,0.5,R,1,0.00,34.09,-120.05
+UA-6611-00,UA-6611-01,6/15/2018,3,Point Arena Pier,No tox sp,0,X,0,0.00,38.91,-123.71
+UA-6612-00,UA-6612-01,6/20/2018,11,Santa Cruz Pier,No tox sp,0,X,0,0.00,36.96,-122.02
+UA-6613-00,UA-6613-01,6/20/2018,18,Imperial Beach Pier,No tox sp,0,X,0,0.00,32.58,-117.14
+UA-6614-00,UA-6614-01,6/18/2018,12,"Monterey, Granite Canyon",B-Pseu_Sum,2,P,2,0.08,36.47,-121.93
+UA-6615-00,UA-6615-01,6/19/2018,5,Bolinas Lagoon,No tox sp,0,X,0,0.00,37.91,-122.68
+UA-6616-00,UA-6616-01,6/15/2018,17,Bolsa Chica,B-Pseu_Sum,2,P,2,0.00,33.68,-118.03
+UA-6617-00,UA-6617-01,6/19/2018,17,"Newport Bay, Back Bay",No tox sp,0,X,0,0.00,33.62,-117.89
+UA-6618-00,UA-6618-01,6/18/2018,13,"Port San Luis, Diablo Cove",B-Pseu_Sum,20,C,3,1.33,35.14,-120.82
+UA-6619-00,UA-6619-01,6/19/2018,13,Cayucos Pier,B-Pseu_Sum,2,P,2,0.01,35.45,-120.91
+UA-6621-00,UA-6621-01,6/19/2018,18,Agua Hedionda Lagoon,No tox sp,0,X,0,0.00,33.14,-117.34
+UA-6622-00,UA-6622-01,6/17/2018,6,"Point Richmond, Ferry Point",No tox sp,0,X,0,0.00,37.91,-122.39
+UA-6623-00,UA-6623-01,6/19/2018,11,"Santa Cruz, Capitola Pier",B-Pseu_Sum,0.5,R,1,0.01,36.97,-121.95
+UA-6624-00,UA-6624-01,6/20/2018,18,"San Diego Bay, U.S. Navy Pier",No tox sp,0,X,0,0.00,32.7,-117.24
+UA-6625-00,UA-6625-01,6/18/2018,15,"Ventura, Port Hueneme Pier",B-Pseu_Sum,3.5,P,2,0.01,34.14,-119.2
+UA-6626-00,UA-6626-01,6/18/2018,18,"La Jolla, Scripps Pier",B-Pseu_Sum,8,P,2,0.03,32.87,-117.26
+UA-6627-00,UA-6627-01,6/20/2018,12,"Monterey, Stillwater Cove",B-Pseu_Sum,0.5,R,1,0.02,36.57,-121.94
+UA-6628-00,UA-6628-01,6/20/2018,14,Goleta Pier,B-Pseu_Sum,0.5,R,1,0.00,34.41,-119.83
+UA-6629-00,UA-6629-01,6/17/2018,12,"CDFG Trawl Block 508, Aptos",B-Pseu_Sum,1,P,2,0.01,36.89,-121.92
+UA-6630-00,UA-6630-01,6/21/2018,5,"Tomales Bay, Marshall Boat Wrk",No tox sp,0,X,0,0.00,38.15,-122.89
+UA-6631-00,UA-6631-01,6/17/2018,10,Pacifica Pier,B-Pseu_Sum,0.5,R,1,0.13,37.63,-122.5
+UA-6632-00,UA-6632-01,6/21/2018,17,San Clemente Pier,No tox sp,0,X,0,0.00,33.42,-117.62
+UA-6633-00,UA-6633-01,6/20/2018,15,Ventura Pier,B-Pseu_Sum,0.5,R,1,0.00,34.27,-119.29

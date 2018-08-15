@@ -25,12 +25,13 @@ library(shiny)
 
 ```{r cars}
 
-ass_temp = read_csv("2018_07_20_automated_shorestations.csv") 
+ass_temp = read_csv("2018_07_20_automated_shore_stations.csv") #A tibble: 86,384 x 3
 
 #Parsed with column specification:
 #cols(station = col_character(),time = col_datetime(format = ""),temperature = col_double())
 
 ass_temp_date = ass_temp %>%  
+  na.omit() %>% 
   mutate(date = as.Date(time, format ="%m/%d/%Y/%HH/%mm/%ss"), "%Y-%m") %>%
   mutate(year = format(as.Date(time, format="%m/%d/%Y/%HH/%mm/%ss"), "%Y")) %>% 
   mutate(month = format(as.Date(time, format="%m/%d/%Y/%HH/%mm/%ss"), "%m")) %>% 
@@ -94,3 +95,67 @@ ass_temp_plot_year = ggplot(ass_temp_year, aes(x=year, y=temperature_mean, color
     title=element_text(size=12))
 
 ```
+
+## CDPH Data
+
+California Department of Public Health weekly observations for Pseudo-nitzschia and Alexandrium. 
+
+Density Codes:
+R = Rare (1)
+P = Present (2)
+C = Common (3)
+A = Abundant (4)
+
+The RAI is based on the sampling effort (total tow length), percent composition, and settled cell mass (in milliliters).
+
+```{r July 2018 CDPH data}
+
+CDPH_2018 = list.files(path="CDPH_Data/Pseudo_nitzschia/", pattern = "*.csv")
+#"2018_06_week_3_Pn.csv" "2018_06_week_4_Pn.csv" "2018_07_week_1_Pn.csv" "2018_07_week_2_Pn.csv" "2018_07_week_3_Pn.csv"
+
+#Pn_2018_06_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06_week_3_Pn.csv")
+#Pn_2018_06_wk4 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06_week_4_Pn.csv")
+Pn_2018_07_wk1 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_1_Pn.csv") #36x11 
+Pn_2018_07_wk2 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_2_Pn.csv") 
+Pn_2018_07_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_3_Pn.csv") 
+
+CDPH_2018_07 = dplyr::bind_rows(Pn_2018_07_wk1, Pn_2018_07_wk2) #74x11
+CDPH_2018_07 = dplyr::bind_rows(CDPH_2018_07, Pn_2018_07_wk3) #106x11
+
+CDPH_Pn_2018_07 = CDPH_2018_07 %>%
+  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
+
+# Parsed with column specification:
+#   `ID #` = col_character(),
+#   `Date -Sampled-` = col_character(),
+#   `NtoS -code-` = col_integer(),
+#   `Sample Site` = col_character(),
+#   `Species -code-` = col_character(),
+#   `Percent Composition` = col_double(),
+#   `Density -code-` = col_character(),
+#   RA_Rank = col_integer(),
+#   `RA Index` = col_double(),
+#   Latitude = col_double(),
+#   Longitude = col_double()
+
+write_csv(CDPH_Pn_2018_07, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_wk_1-3.csv")
+
+CDPH_2018 = list.files(path="CDPH_Data/Alexandria/", pattern = "*.csv")
+#"2018_06_week_3_Al.csv" "2018_06_week_4_Al.csv" "2018_07_week_1_Al.csv" "2018_07_week_2_Al.csv" "2018_07_week_3_Al.csv"
+
+#Al_2018_06_wk3 = read_csv("CDPH_Data/Alexandria/2018_06_week_3_Al.csv")
+#Al_2018_06_wk4 = read_csv("CDPH_Data/Alexandria/2018_06_week_4_Al.csv")
+Al_2018_07_wk1 = read_csv("CDPH_Data/Alexandria/2018_07_week_1_Al.csv") #36x11 
+Al_2018_07_wk2 = read_csv("CDPH_Data/Alexandria/2018_07_week_2_Al.csv") 
+Al_2018_07_wk3 = read_csv("CDPH_Data/Alexandria/2018_07_week_3_Al.csv") 
+
+CDPH_Al_2018_07 = dplyr::bind_rows(Al_2018_07_wk1, Al_2018_07_wk2) 
+CDPH_Al_2018_07 = dplyr::bind_rows(CDPH_Al_2018_07, Al_2018_07_wk3) #72x11
+
+CDPH_Al_2018_07 = CDPH_Al_2018_07 %>%
+  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
+
+write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07_wk_1-3.csv")
+
+```
+

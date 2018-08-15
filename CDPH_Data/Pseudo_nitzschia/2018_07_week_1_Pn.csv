@@ -1,0 +1,37 @@
+ID #,Date -Sampled-,NtoS -code-,Sample Site,Species -code-,Percent Composition,Density -code-,RA_Rank,RA Index,Latitude,Longitude
+UA-6661-01,7/1/2018,8,"San Francisco, Presidio Pier",No tox sp,0,X,0,0.00,37.81,-122.47
+UA-6668-01,7/5/2018,16,"Palos Verdes, OFFSHORE",No tox sp,0,X,0,0.00,33.72,-118.35
+UA-6669-01,7/6/2018,17,Bolsa Chica,No tox sp,0,X,0,0.00,33.68,-118.03
+UA-6672-01,7/1/2018,2,Trinidad Pier,B-Pseu_Sum,0.5,R,1,0.01,41.06,-124.15
+UA-6673-01,7/2/2018,18,"La Jolla, Scripps Pier",B-Pseu_Sum,4,P,2,0.00,32.87,-117.26
+UA-6674-01,7/5/2018,4,Goat Rock,B-Pseu_Sum,0.5,R,1,0.00,38.44,-123.13
+UA-6677-01,7/4/2018,12,"Monterey, Stillwater Cove",No tox sp,0,X,0,0.00,36.57,-121.94
+UA-6678-01,7/6/2018,17,"Newport Bay, Back Bay",No tox sp,0,X,0,0.00,33.62,-117.89
+UA-6679-01,7/5/2018,14,Goleta Pier,B-Pseu_Sum,0.5,R,1,0.00,34.41,-119.83
+UA-6682-01,7/2/2018,10,Pacifica Pier,B-Pseu_Sum,20,C,3,0.13,37.63,-122.5
+UA-6683-01,7/2/2018,4,"Russian River, Jenner",B-Pseu_Sum,1,P,2,0.00,38.45,-123.12
+UA-6684-01,7/1/2018,5,"Tomales Bay, Lease #M430-15",B-Pseu_Sum,1,P,2,0.08,38.22,-122.94
+UA-6685-01,7/2/2018,13,"Morro Bay, Boat Launch",B-Pseu_Sum,2,P,2,0.02,35.36,-120.85
+UA-6686-01,7/2/2018,10,Pillar Point Harbor,B-Pseu_Sum,2,P,2,0.00,37.5,-122.49
+UA-6686-02,7/2/2018,10,Bean Hollow State Beach,B-Pseu_Sum,4,P,2,0.08,37.22,-122.41
+UA-6688-01,7/2/2018,2,"Humboldt Bay, Indian Is. Ch.",B-Pseu_Sum,2,P,2,0.04,40.81,-124.16
+UA-6689-01,7/5/2018,5,"Drakes Bay, Chimney Rock LBS",B-Pseu_Sum,1,P,2,0.03,37.99,-122.97
+UA-6690-01,7/2/2018,4,"Bodega Harbor, USCG Dock",B-Pseu_Sum,0.5,R,1,0.25,38.31,-123.05
+UA-6691-01,7/5/2018,15,Ventura Pier,No tox sp,0,X,0,0.00,34.27,-119.29
+UA-6692-01,7/3/2018,13,San Simeon Pier,B-Pseu_Sum,69,A,4,0.38,35.64,-121.19
+UA-6693-01,7/2/2018,11,"Santa Cruz, Capitola Pier",No tox sp,0,X,0,0.00,36.97,-121.95
+UA-6708-01,7/3/2018,3,Point Arena Pier,B-Pseu_Sum,3,P,2,0.03,38.91,-123.71
+UA-6713-01,7/5/2018,11,Santa Cruz Pier,No tox sp,0,X,0,0.00,36.96,-122.02
+UA-6714-01,7/6/2018,5,"GFNMS, Marin Line 4E",B-Pseu_Sum,4,P,2,0.04,37.89,-123.09
+UA-6730-01,7/3/2018,18,"CDFG Trawl Block 860, MB",No tox sp,0,X,0,0.00,32.74,-117.28
+UA-6732-01,7/3/2018,11,"Santa Cruz, Seacliff Pier",B-Pseu_Sum,0.5,R,1,0.00,36.97,-121.91
+UA-6737-01,7/3/2018,13,"Port San Luis, Diablo Cove",B-Pseu_Sum,2,P,2,0.00,35.14,-120.82
+UA-6743-01,7/7/2018,5,"GFNMS, Marin Line 2E",B-Pseu_Sum,8,P,2,0.04,38.06,-122.99
+UA-6744-01,7/6/2018,5,"GFNMS, Marin Line N4-WN",B-Pseu_Sum,8,P,2,0.71,37.9,-122.87
+UA-6745-01,7/4/2018,10,"GFNMS, San Mateo Line 10W",B-Pseu_Sum,4,P,2,0.01,37.35,-122.94
+UA-6746-01,7/5/2018,8,"GFNMS, San Francisco Line 6W",B-Pseu_Sum,12,C,3,0.03,37.69,-123.18
+UA-6747-01,7/6/2018,5,"GFNMS, Marin Line 4W",B-Pseu_Sum,15,C,3,0.83,37.88,-123.47
+UA-6748-01,7/7/2018,5,"GFNMS, Marin Line N2WN",B-Pseu_Sum,9,P,2,0.10,38.06,-123.13
+UA-6749-01,7/4/2018,10,"GFNMS, San Mateo Line 10E",B-Pseu_Sum,4,P,2,0.07,37.36,-122.46
+UA-6750-01,7/5/2018,8,"GFNMS, San Francisco Line 6E",B-Pseu_Sum,1,P,2,0.02,37.69,-122.51
+UA-6755-01,7/3/2018,18,Imperial Beach Pier,No tox sp,0,X,0,0.00,32.58,-117.14
