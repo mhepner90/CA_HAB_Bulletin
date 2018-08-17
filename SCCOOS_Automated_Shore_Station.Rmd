@@ -8,6 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+#rm(list=ls()) 
+
 library(cowplot) #get_legend 
 library(dygraphs) #dygraphs 
 library(ggplot2) #ggplot
@@ -113,14 +115,14 @@ The RAI is based on the sampling effort (total tow length), percent composition,
 CDPH_2018 = list.files(path="CDPH_Data/Pseudo_nitzschia/", pattern = "*.csv")
 #"2018_06_week_3_Pn.csv" "2018_06_week_4_Pn.csv" "2018_07_week_1_Pn.csv" "2018_07_week_2_Pn.csv" "2018_07_week_3_Pn.csv"
 
-#Pn_2018_06_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06_week_3_Pn.csv")
-#Pn_2018_06_wk4 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06_week_4_Pn.csv")
 Pn_2018_07_wk1 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_1_Pn.csv") #36x11 
-Pn_2018_07_wk2 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_2_Pn.csv") 
-Pn_2018_07_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_3_Pn.csv") 
+Pn_2018_07_wk2 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_2_Pn.csv") #38x11
+Pn_2018_07_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_3_Pn.csv") #32x11
+Pn_2018_07_wk4 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_07_week_4_Pn.csv") #32x11
 
 CDPH_2018_07 = dplyr::bind_rows(Pn_2018_07_wk1, Pn_2018_07_wk2) #74x11
 CDPH_2018_07 = dplyr::bind_rows(CDPH_2018_07, Pn_2018_07_wk3) #106x11
+CDPH_2018_07 = dplyr::bind_rows(CDPH_2018_07, Pn_2018_07_wk4) #138x11
 
 CDPH_Pn_2018_07 = CDPH_2018_07 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
@@ -138,24 +140,25 @@ CDPH_Pn_2018_07 = CDPH_2018_07 %>%
 #   Latitude = col_double(),
 #   Longitude = col_double()
 
-write_csv(CDPH_Pn_2018_07, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_wk_1-3.csv")
+write_csv(CDPH_Pn_2018_07, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_wk_1-4.csv")
 
 CDPH_2018 = list.files(path="CDPH_Data/Alexandria/", pattern = "*.csv")
 #"2018_06_week_3_Al.csv" "2018_06_week_4_Al.csv" "2018_07_week_1_Al.csv" "2018_07_week_2_Al.csv" "2018_07_week_3_Al.csv"
 
-#Al_2018_06_wk3 = read_csv("CDPH_Data/Alexandria/2018_06_week_3_Al.csv")
 #Al_2018_06_wk4 = read_csv("CDPH_Data/Alexandria/2018_06_week_4_Al.csv")
-Al_2018_07_wk1 = read_csv("CDPH_Data/Alexandria/2018_07_week_1_Al.csv") #36x11 
-Al_2018_07_wk2 = read_csv("CDPH_Data/Alexandria/2018_07_week_2_Al.csv") 
-Al_2018_07_wk3 = read_csv("CDPH_Data/Alexandria/2018_07_week_3_Al.csv") 
+Al_2018_07_wk1 = read_csv("CDPH_Data/Alexandria/2018_07_week_1_Al.csv") #26x11 
+Al_2018_07_wk2 = read_csv("CDPH_Data/Alexandria/2018_07_week_2_Al.csv") #22x11
+Al_2018_07_wk3 = read_csv("CDPH_Data/Alexandria/2018_07_week_3_Al.csv") #24x11
+Al_2018_07_wk4 = read_csv("CDPH_Data/Alexandria/2018_07_week_4_Al.csv") #18x11
 
-CDPH_Al_2018_07 = dplyr::bind_rows(Al_2018_07_wk1, Al_2018_07_wk2) 
+CDPH_Al_2018_07 = dplyr::bind_rows(Al_2018_07_wk1, Al_2018_07_wk2) #48x11 
 CDPH_Al_2018_07 = dplyr::bind_rows(CDPH_Al_2018_07, Al_2018_07_wk3) #72x11
+CDPH_Al_2018_07 = dplyr::bind_rows(CDPH_Al_2018_07, Al_2018_07_wk4) #90x11 
 
 CDPH_Al_2018_07 = CDPH_Al_2018_07 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07_wk_1-3.csv")
+write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07_wk_1-4.csv")
 
 ```
 
