@@ -110,7 +110,7 @@ A = Abundant (4)
 
 The RAI is based on the sampling effort (total tow length), percent composition, and settled cell mass (in milliliters).
 
-```{r July 2018 CDPH data}
+```{r July 2018 CDPH data Pseudo nitzschia}
 
 CDPH_2018 = list.files(path="CDPH_Data/Pseudo_nitzschia/", pattern = "*.csv")
 #"2018_06_week_3_Pn.csv" "2018_06_week_4_Pn.csv" "2018_07_week_1_Pn.csv" "2018_07_week_2_Pn.csv" "2018_07_week_3_Pn.csv"
@@ -150,6 +150,10 @@ CDPH_Pn_2018_07_max = CDPH_Pn_2018_07 %>%
   arrange(percent_composition_max)
 
 write_csv(CDPH_Pn_2018_07_max, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_max.csv")
+
+```
+
+```{r July 2018 CDPH data Alexandria}
 
 ###ALEXANDRIUM 
 
