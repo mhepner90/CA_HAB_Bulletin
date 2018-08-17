@@ -140,7 +140,18 @@ CDPH_Pn_2018_07 = CDPH_2018_07 %>%
 #   Latitude = col_double(),
 #   Longitude = col_double()
 
-write_csv(CDPH_Pn_2018_07, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_wk_1-4.csv")
+write_csv(CDPH_Pn_2018_07, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07.csv")
+
+CDPH_Pn_2018_07_max = CDPH_Pn_2018_07 %>%
+  group_by(Sample_Site,Latitude,Longitude) %>%
+  summarize(
+    percent_composition_max = max(Percent_Composition))%>%
+  #arrange(Sample_Site) %>%
+  arrange(percent_composition_max)
+
+write_csv(CDPH_Pn_2018_07_max, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_max.csv")
+
+###ALEXANDRIUM 
 
 CDPH_2018 = list.files(path="CDPH_Data/Alexandria/", pattern = "*.csv")
 #"2018_06_week_3_Al.csv" "2018_06_week_4_Al.csv" "2018_07_week_1_Al.csv" "2018_07_week_2_Al.csv" "2018_07_week_3_Al.csv"
@@ -158,7 +169,33 @@ CDPH_Al_2018_07 = dplyr::bind_rows(CDPH_Al_2018_07, Al_2018_07_wk4) #90x11
 CDPH_Al_2018_07 = CDPH_Al_2018_07 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07_wk_1-4.csv")
+write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07.csv")
+
+CDPH_Al_2018_07_max = CDPH_Al_2018_07 %>%
+  group_by(Sample_Site,Latitude,Longitude) %>%
+  summarize(
+    percent_composition_max = max(Percent_Composition))%>%
+  #arrange(Sample_Site) %>%
+  arrange(percent_composition_max) #56x4 
+
+write_csv(CDPH_Al_2018_07_max, "CDPH_Data/Alexandria/CDPH_Al_2018_07_max.csv")
 
 ```
 
+```{r August 2018 CDPH data}
+
+Pn_2018_08_wk1 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_08_week_1_Pn.csv") #29x11 
+Pn_2018_08_wk2 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_08_week_2_Pn.csv") #
+Pn_2018_08_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_08_week_3_Pn.csv") #
+Pn_2018_08_wk4 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_08_week_4_Pn.csv") #
+
+CDPH_2018_08 = dplyr::bind_rows(Pn_2018_08_wk1, Pn_2018_08_wk2) #
+CDPH_2018_08 = dplyr::bind_rows(CDPH_2018_08, Pn_2018_08_wk3) #
+CDPH_2018_08 = dplyr::bind_rows(CDPH_2018_08, Pn_2018_08_wk4) #
+
+CDPH_Pn_2018_08 = CDPH_2018_08 %>%
+  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
+
+write_csv(CDPH_Pn_2018_08, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_08_wk_1-4.csv")
+
+```
