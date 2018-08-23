@@ -141,6 +141,7 @@ CDPH_Pn_2018_07 = CDPH_2018_07 %>%
 #   Longitude = col_double()
 
 write_csv(CDPH_Pn_2018_07, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07.csv")
+CDPH_Pn_2018_07= read_csv("CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07.csv")
 
 CDPH_Pn_2018_07_max = CDPH_Pn_2018_07 %>%
   group_by(Sample_Site,Latitude,Longitude) %>%
@@ -174,6 +175,7 @@ CDPH_Al_2018_07 = CDPH_Al_2018_07 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
 write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07.csv")
+CDPH_Al_2018_07 = read_csv("CDPH_Data/Alexandria/CDPH_Al_2018_07.csv")
 
 CDPH_Al_2018_07_max = CDPH_Al_2018_07 %>%
   group_by(Sample_Site,Latitude,Longitude) %>%
@@ -201,5 +203,46 @@ CDPH_Pn_2018_08 = CDPH_2018_08 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
 write_csv(CDPH_Pn_2018_08, "CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_08_wk_1-4.csv")
+
+```
+
+```{r Augsut 2018 TMMC data}
+
+TMMC_2018_08 = read.csv("TMMC_Data/TMMC_2018_08_15.csv")
+
+TMMC_2018_monthly_count = TMMC_2018_08 %>%
+  select(Animal_Name,Common_Name,Age_Class,Sex,Occurrence,Strand_Date,Strand_Date_Month,County,City, Admit_Date,  Status, Disposition_Date) %>%
+  group_by(Strand_Date_Month)%>%
+  summarize(
+    Monthly_Count = sum(Occurrence))
+
+write_csv(TMMC_2018_monthly_count, "/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_monthly_count.csv")
+
+TMMC_Monthly_Plot = ggplot(TMMC_2018_monthly_count, aes(x=Strand_Date_Month, y=Monthly_Count))+
+  geom_line(aes(y=Monthly_Count),color ="blue", lwd = 2)+
+  geom_point(size=3, color="blue")+
+  labs(title= "The Marine Mammal Center California Sea Lion Strandings", x="2018", y="Number of Strandings")+ #\n
+  #scale_color_manual(values =  c("blue","red"),breaks = c("1", "0"), labels=c("Protected","Not Protected"))+
+  scale_x_continuous(
+    limits = c(1, 8), 
+    breaks = c(1,2,3,4,5,6,7,8), 
+    labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"))+
+   scale_y_continuous(
+    limits = c(0, 30), 
+    breaks = c(0,5,10,15,20,25,30), 
+    labels=c("0","5","10","15","20","25","30"))+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=16),
+    axis.title.y=element_text(size=16),
+    axis.text.x = element_text(size=16),
+    axis.text.y = element_text(size=16),
+    title=element_text(size=18),
+    plot.title=element_text(hjust=0.5))
+
+ggsave(file="TMMC_Monthly_Counts_2018_08.pdf", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
 
 ```

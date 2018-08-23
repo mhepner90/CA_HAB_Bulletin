@@ -1,0 +1,82 @@
+Animal_Name,Common_Name,Age_Class,Sex,Occurrence,Strand_Date,Strand_Date_Month,County,City,Locality,Locality_Details,Latitude,Longitude,Admit_Date,Status,Status_2,Disposition_Date,COD_List_Side,Diagnosis_List _Side
+Shuyu,California Sea Lion,Adult,Male,1,8/8/18,8,Mendocino,Fort Bragg,Ward Ave (MacKerricher State Park),at water's edge at foot of Ward Avenue ramp. North from parking area on old logging road 100-200 yards. ,39.5002,-123.79,8/9/18,Died,Euthanasia,8/12/18,,
+Fisherman,California Sea Lion,Adult,Female,1,8/3/18,8,San Luis Obispo,Avila Beach,Fishermans Beach,Large CSL acting disoriented on beach.,35.1743,-120.7553,8/3/18,Died,Euthanasia,8/9/18,"euthanasia, osteomyelitis, domoic acid toxicity, ","osteomyelitis, domoic acid toxicity, malnutrition, "
+Chuva,California Sea Lion,Adult,Female,2,8/2/18,8,Santa Cruz,Santa Cruz,Santa Cruz Wharf,beach next to pier on boardwalk side. ,36.9576,-122.0175,8/2/18,Died,Euthanasia,8/4/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Leadbelly,California Sea Lion,Adult,Female,2,8/2/18,8,Marin,Stinson Beach,Stinson Beach - Walla Vista to Calle del Embarcadero,"Near Joaquin Street, Closest access is Francisco Patio Sead drift- north end of Beach-
+with public path to beach. 
+At the ends of the beach near Bolinas, where the lagoon meets the ocean.",37.9015,-122.6505,8/3/18,On-Site,,,,
+Firstcall,California Sea Lion,Adult,Female,1,8/2/18,8,San Luis Obispo,Oceano,Oceano Dunes,,35.1137,-120.6339,8/2/18,On-Site,,,,"trauma, unknown, domoic acid toxicity, "
+Sandyray,California Sea Lion,Subadult,Male,1,7/29/18,7,Monterey,Pacific Grove,Asilomar State Beach (Arena Ave),Tide pools,36.6269,-121.939,7/29/18,On-Site,,,,"leptospirosis, domoic acid toxicity, "
+Fizzy,California Sea Lion,Juvenile,Male,1,7/25/18,7,San Mateo,Princeton-by-the-Sea,Pillar Point Harbor (Romeo Packing Pier),,37.502158,-122.490596,7/25/18,On-Site,,,,"domoic acid toxicity, leptospirosis, abscess, "
+Dogdayze,California Sea Lion,Subadult,Female,1,7/20/18,7,San Luis Obispo,Avila Beach,Dog Beach (Olde Port Beach),may be one of the other SLO animals,35.1779,-120.7416,7/21/18,Died,Died in Treatment,7/23/18,"septicemia, nephropathy, ",
+Cecelia,California Sea Lion,Adult,Female,1,7/19/18,7,San Luis Obispo,Los Osos,Spooners Cove (Montana de Oro State Park),in the alcove. 1/2 a pking lot's length up the beach from the water,35.2778,-120.8898,7/19/18,Died,Died in Treatment,7/19/18,"domoic acid toxicity, ",
+Avocet,California Sea Lion,Juvenile,Male,1,7/13/18,7,Monterey,Moss Landing,Moss Landing State Beach (Middle Jetty Road),,36.8107,-121.7904,7/13/18,Died,Died in Treatment,7/13/18,"euthanasia, domoic acid toxicity, pneumonia, ",
+Baro,California Sea Lion,Adult,Female,1,7/11/18,7,Monterey,,Salinas River State Beach (Salinas River),NOTIFY PALKOVIC IF A RESCUE HAPPENS,36.75,-121.805,7/11/18,Died,Died in Treatment,7/12/18,"domoic acid toxicity, ",
+Jacksand,California Sea Lion,Subadult,Male,1,7/10/18,7,San Luis Obispo,Pismo Beach,Pismo State Beach Pier,North of pier near Lifeguard stand,35.1394,-120.6448,7/10/18,Died,Died in Treatment,7/10/18,"domoic acid toxicity, ",
+Sizenine,California Sea Lion,Adult,Female,1,7/7/18,7,San Luis Obispo,Morro Bay,Morro Bay Sandspit - South Jetty,"northern end of sand spit, just south (~300ft) of the jetty.  This may be same as *2348",35.359317,-120.862014,7/7/18,Died,Euthanasia,7/14/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Sparkler,California Sea Lion,Adult,Female,1,7/4/18,7,San Luis Obispo,Morro Bay,Morro Bay Sand Spit - South (Montana de Oro State Park),,35.306944,-120.874167,7/4/18,Died,Euthanasia,7/23/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Baron,California Sea Lion,Adult,Female,1,7/3/18,7,San Luis Obispo,Avila Beach,Avila Beach,Dog Beach very far left (when looking at water) against the rocks on the sand near 2 SO carcasses,35.1771,-120.7291,7/3/18,Died,Euthanasia,7/4/18,"euthanasia, carcinoma, ",
+Innertube,California Sea Lion,Adult,Female,1,7/2/18,7,San Luis Obispo,Oceano,Oceano Dunes Entrance Station (Grand Ave),,35.123696,-120.636178,7/2/18,Died,Euthanasia,7/4/18,"euthanasia, domoic acid toxicity, ",
+Swimsuit,California Sea Lion,Adult,Female,1,7/2/18,7,San Luis Obispo,Pismo Beach,Pismo State Beach (Cottage Inn By the Sea),"Animal is under the bridge between 2 hotels - SeaCrest OceanFront Hotel & Cottage Inn By the Sea.
+Just north of stairs from SeaCrest.",35.147391,-120.650218,7/2/18,Released,,7/17/18,,"domoic acid toxicity, "
+Dowop,California Sea Lion,Adult,Female,1,7/1/18,7,San Luis Obispo,Morro Bay,Morro Bay Harbor,"south of morro rock, near harbor",35.3678,-120.864,7/1/18,Died,Euthanasia,7/1/18,"euthanasia, domoic acid toxicity, ",
+Cloister,California Sea Lion,Adult,Female,1,7/1/18,7,San Luis Obispo,Morro Bay,Morro Strand State Beach (South) - Cloisters,"About 500 yards up beach from tide line; between Hatteras St and ""Cloisters""",35.3874,-120.8662,7/1/18,Released,,7/18/18,,"domoic acid toxicity, abscess, "
+Lost,California Sea Lion,Adult,Female,1,6/30/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach (South) - Morro Dunes RV Park,"on the beach, near high school.  Approximately a half mile north of life guard tower 2.",35.377905,-120.864476,6/30/18,Released,,7/20/18,,"domoic acid toxicity, keratopathy, "
+Megladon,California Sea Lion,Adult,Female,1,6/29/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach,"N of rock city property and barricade
+Atascadero Road = best access point
+several 100 yds N of Morro Rock; N of 3rd lifeguard tower by several hundred yards
+S part of state park/beach area
+may be same as *2230 but seem to be farther North than *2230",35.4008,-120.8695,6/29/18,Died,Died in Treatment,6/29/18,"domoic acid toxicity, ",
+Zeta,California Sea Lion,Adult,Female,1,6/28/18,6,San Luis Obispo,Oceano,Oceano Dunes (Between Post 7 & 8),"South of post 8, Dunes Plover Habitat Shoreline south of cable fence~2000 ft south of post 8",35.0436,-120.6323,6/28/18,Died,Euthanasia,7/6/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Lex,California Sea Lion,Adult,Female,1,6/28/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach - South,,35.3827,-120.8644,6/28/18,Died,Euthanasia,7/18/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Messi,California Sea Lion,Adult,Female,1,6/28/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach - South,,35.383188,-120.864751,6/28/18,Died,Euthanasia,6/30/18,"euthanasia, domoic acid toxicity, ",
+Sandblaster,California Sea Lion,Adult,Female,1,6/28/18,6,San Luis Obispo,Oceano,Oceano Dunes SVRA (Post 1),,35.1005,-120.6314,6/28/18,Released,,7/13/18,,"domoic acid toxicity, "
+Beal,California Sea Lion,Adult,Female,1,6/27/18,6,San Luis Obispo,Morro Bay,Morro Bay Museum of Natural History (Morro Bay State Park),North of Morro Bay museum,35.3467,-120.8436,6/27/18,Died,Died in Treatment,6/29/18,"domoic acid toxicity, ","domoic acid toxicity, "
+Rock,California Sea Lion,Yearling,Male,1,6/27/18,6,San Luis Obispo,Morro Bay,Target Rock,Target rock beach,35.369,-120.8646,6/27/18,Released,,7/17/18,,"domoic acid toxicity, malnutrition, pneumonia, "
+Mysqueeze,California Sea Lion,Adult,Female,1,6/27/18,6,San Luis Obispo,Morro Bay,Coleman Beach,By the power plant with the 2 pillars--seal unable to move. Same as *2168?,35.3721,-120.8598,6/27/18,Released,,8/2/18,,"domoic acid toxicity, abscess, "
+Grom,California Sea Lion,Adult,Female,1,6/27/18,6,San Luis Obispo,Morro Bay,Morro Bay Sand Spit - North End (Montana de Oro State Park),"to the right of the #1 mile marker. by a sign that says ""no horses."" ",35.3474,-120.8632,6/27/18,Released,,7/19/18,,"domoic acid toxicity, "
+Leadbelly,California Sea Lion,Adult,Female,1,6/27/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach - South,North of Morro Rock by the lifeguard tower,35.3825,-120.8647,6/27/18,Released,,7/26/18,,"domoic acid toxicity, arthritis, "
+Conflict,California Sea Lion,Adult,Female,1,6/26/18,6,San Luis Obispo,Los Osos,Corallina Cove (Montana De Oro State Park),"drove up to first parking lot through ""huge"" eucalyptus forest, there was a large bright orange flower patch next to parking lot, had to walk down trail to get to beach",35.2615,-120.8955,6/26/18,Died,Euthanasia,7/3/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, abscess, "
+Gumdrop,California Sea Lion,Adult,Female,1,6/26/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach,150'  from Morro Bay State beach,35.4008,-120.8695,6/26/18,Released,,7/19/18,,"domoic acid toxicity, "
+Yerbab,California Sea Lion,Adult,Female,1,6/26/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach,RP said animal is between campground and north point.,35.4034,-120.87,6/26/18,Released,,7/17/18,,"domoic acid toxicity, "
+Eclair,California Sea Lion,Adult,Female,1,6/26/18,6,San Luis Obispo,Oceano,Oceano Dunes (Pier Avenue),will be left behind ranger station brand V89 yellow tag ,35.1054,-120.6322,6/26/18,Released,,7/20/18,,"domoic acid toxicity, arthritis, "
+Trey,California Sea Lion,Subadult,Male,1,6/26/18,6,San Luis Obispo,Morro Bay,Morro Rock Beach,1 mi N of Morro Rock; could be same * as 2152,35.3734,-120.8652,6/26/18,Released,,7/11/18,,"domoic acid toxicity, "
+Mystery,California Sea Lion,Adult,Female,1,6/25/18,6,San Luis Obispo,Oceano,Oceano Dunes Entrance Station (Grand Ave),,35.1226,-120.6365,6/25/18,Died,Euthanasia,6/27/18,"domoic acid toxicity, ",
+DOA,California Sea Lion,Subadult,Male,1,6/25/18,6,San Luis Obispo,Oceano,Oceano Dunes (Between Post 5 & 6),,35.0609,-120.6303,6/25/18,Died,DOA,6/25/18,"domoic acid toxicity, ",
+Glory,California Sea Lion,Adult,Female,1,6/25/18,6,San Luis Obispo,Oceano,Oceano Dunes (Post 2),,35.0924,-120.6306,6/25/18,Died,Euthanasia,7/7/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Waverider,California Sea Lion,Adult,Female,1,6/25/18,6,San Luis Obispo,Morro Bay,Morro Strand State Beach (South) - Morro Dunes RV Park,"north of Morro Creek
+in front of Morro Bay High School
+N. Creek parking lot",35.377659,-120.864864,6/25/18,Released,,7/18/18,,"domoic acid toxicity, "
+Calexico,California Sea Lion,Adult,Female,1,6/25/18,6,San Luis Obispo,Oceano,Oceano Dunes SVRA (Post 1),50 yards north of post one,35.1005,-120.6314,6/25/18,Released,,7/18/18,,"domoic acid toxicity, abscess, "
+Odie,California Sea Lion,Adult,Female,1,6/25/18,6,San Luis Obispo,Oceano,Oceano Dunes (Post 5),,35.0659,-120.63,6/25/18,Released,,7/13/18,,"domoic acid toxicity, "
+Inyo,California Sea Lion,Adult,Female,1,6/25/18,6,San Luis Obispo,Oceano,Oceano Dunes (Between Post 5 & 6),Animal between post 4 & 5.,35.0609,-120.6303,6/25/18,Released,,7/18/18,,"domoic acid toxicity, "
+Sweetsprings,California Sea Lion,Juvenile,Male,1,6/23/18,6,San Luis Obispo,Los Osos,Los Osos,Sweet Springs Nature Preserve,35.323021,-120.841132,6/24/18,Died,Euthanasia,7/5/18,"euthanasia, domoic acid toxicity, ","malnutrition, domoic acid toxicity, "
+Fortaleza,California Sea Lion,Adult,Female,1,6/23/18,6,San Luis Obispo,Pismo Beach,Pismo State Beach (Cottage Inn By the Sea),N of pier,35.147,-120.6503,6/23/18,Released,,7/17/18,,"domoic acid toxicity, "
+Constable,California Sea Lion,Adult,Female,1,6/22/18,6,Santa Barbara,,Vandenberg Air Force Base,"Surf line, down from public access area, end of Ocean Avenue",34.7026,-120.6011,6/22/18,Died,Died in Treatment,6/22/18,"domoic acid toxicity, ",
+Grady,California Sea Lion,Adult,Female,1,6/17/18,6,San Luis Obispo,Oceano,Oceano Dunes (Post 2),,35.0924,-120.6306,6/17/18,Died,Died in Treatment,6/17/18,"domoic acid toxicity, ",
+Seagypsy,California Sea Lion,Adult,Female,1,6/15/18,6,San Luis Obispo,Pismo Beach,Pismo State Beach (North),Across from Kon tiki Inn. Pismo beach North of pier. ,35.144518,-120.647787,6/15/18,Released,,7/6/18,,"malnutrition, domoic acid toxicity, "
+Kettlecorn,California Sea Lion,Juvenile,Male,1,6/14/18,6,San Luis Obispo,Morro Bay,Morro Bay Sand Spit - South (Montana de Oro State Park),North of trailhead at hazards canyon. Montana de Oro,35.3095,-120.8716,6/14/18,Died,Died in Treatment,6/17/18,"domoic acid toxicity, ","trauma, HI, malnutrition, "
+Samfive ,California Sea Lion,Adult,Female,2,4/7/18,4,San Francisco,San Francisco,Crissy Field Beach,East of warming hut,37.805,-122.4628,4/7/18,Released,,4/18/18,,"domoic acid toxicity, "
+Chuva,California Sea Lion,Adult,Female,1,4/7/18,4,San Luis Obispo,Oceano,Oceano Dunes,between Pier and Grand. 1000ft North of Pier. By the vehicle trail. ,35.11383,-120.632948,4/7/18,Released,,4/14/18,,"domoic acid toxicity, "
+Lemonade,California Sea Lion,Adult,Female,1,3/8/18,3,Marin,Bolinas,Bolinas Beach - Mid (Ocean & Terrace Ave),Quarter mile from Brighton Beach access point,37.9038,-122.6881,3/8/18,Released,,4/9/18,,"domoic acid toxicity, "
+Sienna,California Sea Lion,Yearling,Female,1,3/8/18,3,San Francisco,San Francisco,Pier 39 Marina,"On ""I"" dock alone. ",37.8097,-122.4109,3/8/18,Released,,4/18/18,,"pneumonia, domoic acid toxicity, blind, "
+Danbog,California Sea Lion,Subadult,Male,1,2/27/18,2,Monterey,Moss Landing,Salinas River State Beach (Sandholt Lot),"pre-notified per protocol, rescuing in non-snowy plover nesting area ",36.803488,-121.788448,2/27/18,Released,,3/14/18,,"domoic acid toxicity, "
+Ginja,California Sea Lion,Adult,Female,1,2/25/18,2,Santa Cruz,Davenport,Davenport Landing Beach,,37.024274,-122.216358,2/25/18,Released,,3/14/18,,"domoic acid toxicity, "
+Foglifter,California Sea Lion,Adult,Female,2,2/17/18,2,Marin,Point Reyes,North Beach - Schooner Bay (Point Reyes National Seashore),"In Parking lot Johnsons Oysters Farm PRNS, Scooners cove p. lot",38.0821,-122.9323,2/17/18,Died,Euthanasia,2/18/18,"euthanasia, domoic acid toxicity, ",
+Sergio,California Sea Lion,Juvenile,Male,2,2/13/18,2,Santa Cruz,Live Oak,Corcoran Lagoon Beach (26th Ave),Animal on beach at water line and has tags. ,36.9598,-121.9837,2/13/18,Released,,3/5/18,,"domoic acid toxicity, "
+Mopey,California Sea Lion,Adult,Female,1,2/11/18,2,San Mateo,Pescadero,Fiddlers Cove,,37.2472,-122.4187,2/12/18,Released,,4/9/18,,"domoic acid toxicity, trauma, unknown, open, "
+Samfive ,California Sea Lion,Adult,Female,1,2/8/18,2,Santa Cruz,Davenport,Bonny Doon Beach,"Animal lying on side on left side of beach, 50-75 ft up from the ocean.",37.0005,-122.1819,2/8/18,Released,,3/23/18,,"pneumonia, domoic acid toxicity, "
+Zircon,California Sea Lion,Yearling,Female,1,1/13/18,1,San Luis Obispo,San Simeon,San Simeon Pier (Hearst Memorial State Beach),"North of parking area, but south of old castle warehouse buildings, animal up against bluff
+",35.6432,-121.1887,1/13/18,Died,Euthanasia,2/7/18,"euthanasia, blind, ","blind, domoic acid toxicity, "
+Turkey,California Sea Lion,Subadult,Female,2,1/11/18,1,San Luis Obispo,Oceano,Pismo State Beach (Park Ave),"300 yards S. of Sea Venture Beach Hotel, just North of the Pismo River on the sand
+Permission to rescue: 0855",35.1353,-120.6423,1/11/18,Released,,1/26/18,,"domoic acid toxicity, malnutrition, "
+Hickory,California Sea Lion,Subadult,Male,1,1/11/18,1,Monterey,Monterey,Custom House Beach (Monterey Harbor),"Del Monte Beach, Municipal Beach 
+Animal is located North of the municipal wharf, across from the London Bridge pub",36.6016,-121.889,1/11/18,Released,,2/2/18,,"malnutrition, "
+Cronutt,California Sea Lion,Juvenile,Male,3,1/8/18,1,Sonoma,Bodega Bay,Doran Beach Regional Park (Day Use),"Doran Beach Regional Park (Day Use)
+coords per Phil Warren",38.3137,-123.0422,1/8/18,Placed,,6/8/18,,"domoic acid toxicity, abnormal behavior, "
+Gemma,California Sea Lion,Juvenile,Male,1,1/5/18,1,Monterey,Sand City,Seaside Beach (Seaside High School),"Seaside Beach (Seaside High School)
+Across from Orchard Supply, head north on beach, animal is near the culvert on the beach
+",36.6239,-121.8465,1/5/18,Died,Euthanasia,1/10/18,"euthanasia, domoic acid toxicity, ","domoic acid toxicity, "
+Foglifter,California Sea Lion,Adult,Female,1,1/5/18,1,San Luis Obispo,Avila Beach,Avila Beach,"South of Avila Beach Pier
+South of Avila Beach Hotel as well 
+",35.1771,-120.7291,1/7/18,Released,,1/24/18,,"domoic acid toxicity, "
