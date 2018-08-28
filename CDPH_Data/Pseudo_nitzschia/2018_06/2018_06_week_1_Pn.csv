@@ -1,0 +1,20 @@
+Parent #,ID #,Date -Sampled-,NtoS -code-,Sample Site,Species -code-,Percent Composition,Density -code-,RA_Rank,RA Index,Latitude,Longitude
+UA-6504-00,UA-6504-01,6/3/2018,5,"Tomales Bay, Lease #M430-15",B-Pseu_Sum,2,P,2,0.20,38.22,-122.94
+UA-6530-00,UA-6530-01,6/4/2018,2,"Humboldt Bay, Indian Is. Ch.",B-Pseu_Sum,0.5,R,1,0.02,40.81,-124.16
+UA-6535-00,UA-6535-01,6/4/2018,4,"Bodega Harbor, USCG Dock",No tox sp,0,X,0,0.00,38.31,-123.05
+UA-6541-00,UA-6541-01,6/4/2018,13,"Morro Bay, Boat Launch",B-Pseu_Sum,1,P,2,0.01,35.36,-120.85
+UA-6560-00,UA-6560-01,6/1/2018,17,Bolsa Chica,B-Pseu_Sum,6,P,2,0.00,33.68,-118.03
+UA-6561-00,UA-6561-01,6/4/2018,11,"Santa Cruz, Capitola Pier",No tox sp,0,X,0,0.00,36.97,-121.95
+UA-6562-00,UA-6562-01,6/5/2018,12,"CDFG Trawl Block 508, Aptos",B-Pseu_Sum,3,P,2,0.03,36.89,-121.92
+UA-6563-00,UA-6563-01,6/4/2018,5,Bolinas Lagoon,No tox sp,0,X,0,0.00,37.91,-122.68
+UA-6564-00,UA-6564-01,6/5/2018,18,Agua Hedionda Lagoon,No tox sp,0,X,0,0.00,33.14,-117.34
+UA-6565-00,UA-6565-01,6/6/2018,11,Santa Cruz Pier,B-Pseu_Sum,2,P,2,0.00,36.96,-122.02
+UA-6566-00,UA-6566-01,6/7/2018,10,Bean Hollow State Beach,No tox sp,0,X,0,0.00,37.22,-122.41
+UA-6566-00,UA-6566-02,6/7/2018,10,Pillar Point Harbor,No tox sp,0,X,0,0.00,37.5,-122.49
+UA-6567-00,UA-6567-01,6/6/2018,16,"Palos Verdes, OFFSHORE",B-Pseu_Sum,2,P,2,0.02,33.72,-118.35
+UA-6568-00,UA-6568-01,6/7/2018,15,Ventura Pier,B-Pseu_Sum,5,P,2,0.01,34.27,-119.29
+UA-6569-00,UA-6569-01,6/6/2018,14,Goleta Pier,B-Pseu_Sum,1,P,2,0.01,34.41,-119.83
+UA-6570-00,UA-6570-01,6/5/2018,18,Imperial Beach Pier,No tox sp,0,X,0,0.00,32.58,-117.14
+UA-6572-00,UA-6572-01,6/3/2018,10,Pacifica Pier,B-Pseu_Sum,8,P,2,0.11,37.63,-122.5
+UA-6573-00,UA-6573-01,6/5/2018,2,Trinidad Pier,B-Pseu_Sum,0.5,R,1,0.01,41.06,-124.15
+UA-6574-00,UA-6574-01,6/6/2018,4,"Stillwater Cove, Sonoma",B-Pseu_Sum,0.5,R,1,0.00,38.55,-123.3
