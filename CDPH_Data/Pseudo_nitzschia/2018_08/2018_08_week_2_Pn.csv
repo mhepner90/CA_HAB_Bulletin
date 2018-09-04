@@ -1,25 +1,25 @@
 ID #,Date -Sampled-,NtoS -code-,Sample Site,Species -code-,Percent Composition,Density -code-,RA_Rank,RA Index,Latitude,Longitude
-UA-6811-01,8/14/2018,18,Imperial Beach Pier,No tox sp,0,X,0,0.00,32.58,-117.14
+UA-6811-01,8/14/2018,18,Imperial Beach Pier,No tox sp,0,X,0,0,32.58,-117.14
 UA-6845-01,8/8/2018,11,"Santa Cruz, Seacliff Pier",B-Pseu_Sum,1,P,2,0.02,36.97,-121.91
-UA-6855-01,8/12/2018,5,"Tomales Bay, Lease #M430-15",B-Pseu_Sum,0.5,R,1,0.00,38.22,-122.94
-UA-6856-01,8/9/2018,17,"Newport Bay, Back Bay",No tox sp,0,X,0,0.00,33.62,-117.89
+UA-6855-01,8/12/2018,5,"Tomales Bay, Lease #M430-15",B-Pseu_Sum,0.5,R,1,0,38.22,-122.94
+UA-6856-01,8/9/2018,17,"Newport Bay, Back Bay",No tox sp,0,X,0,0,33.62,-117.89
 UA-6858-01,8/9/2018,2,Trinidad Pier,B-Pseu_Sum,12,C,3,0.53,41.06,-124.15
 UA-6859-01,8/8/2018,12,"Monterey, Stillwater Cove",B-Pseu_Sum,0.5,R,1,0.01,36.57,-121.94
-UA-6860-01,8/11/2018,8,"San Francisco, Presidio Pier",No tox sp,0,X,0,0.00,37.81,-122.47
-UA-6861-01,8/14/2018,15,"Ventura, Port Hueneme Pier",B-Pseu_Sum,0.5,R,1,0.00,34.14,-119.2
-UA-6862-01,8/9/2018,10,Ano Nuevo Beach,No tox sp,0,X,0,0.00,37.11,-122.33
-UA-6864-01,8/9/2018,15,Ventura Pier,No tox sp,0,X,0,0.00,34.27,-119.29
-UA-6865-01,8/8/2018,14,Goleta Pier,No tox sp,0,X,0,0.00,34.41,-119.83
-UA-6866-01,8/8/2018,11,Santa Cruz Pier,B-Pseu_Sum,0.5,R,1,0.00,36.96,-122.02
-UA-6867-01,8/13/2018,13,"Morro Bay, Boat Launch",No tox sp,0,X,0,0.00,35.36,-120.85
+UA-6860-01,8/11/2018,8,"San Francisco, Presidio Pier",No tox sp,0,X,0,0,37.81,-122.47
+UA-6861-01,8/14/2018,15,"Ventura, Port Hueneme Pier",B-Pseu_Sum,0.5,R,1,0,34.14,-119.2
+UA-6862-01,8/9/2018,10,Ano Nuevo Beach,No tox sp,0,X,0,0,37.11,-122.33
+UA-6864-01,8/9/2018,15,Ventura Pier,No tox sp,0,X,0,0,34.27,-119.29
+UA-6865-01,8/8/2018,14,Goleta Pier,No tox sp,0,X,0,0,34.41,-119.83
+UA-6866-01,8/8/2018,11,Santa Cruz Pier,B-Pseu_Sum,0.5,R,1,0,36.96,-122.02
+UA-6867-01,8/13/2018,13,"Morro Bay, Boat Launch",No tox sp,0,X,0,0,35.36,-120.85
 UA-6868-01,8/13/2018,2,"Humboldt Bay, Indian Is. Ch.",B-Pseu_Sum,8,P,2,0.05,40.81,-124.16
-UA-6869-01,8/9/2018,3,Point Arena Pier,No tox sp,0,X,0,0.00,38.91,-123.71
-UA-6870-01,8/10/2018,17,Bolsa Chica,B-Pseu_Sum,0.5,R,1,0.00,33.68,-118.03
+UA-6869-01,8/9/2018,3,Point Arena Pier,No tox sp,0,X,0,0,38.91,-123.71
+UA-6870-01,8/10/2018,17,Bolsa Chica,B-Pseu_Sum,0.5,R,1,0,33.68,-118.03
 UA-6876-01,8/9/2018,13,"Port San Luis, Diablo Cove",B-Pseu_Sum,0.5,R,1,0.02,35.14,-120.82
 UA-6878-01,8/12/2018,13,Cayucos Pier,B-Pseu_Sum,2,P,2,0.08,35.45,-120.91
-UA-6879-01,8/10/2018,16,Hermosa Beach Pier,B-Pseu_Sum,0.5,R,1,0.01,35.85,-118.41
-UA-6880-01,8/12/2018,16,"Long Beach, Belmont Pier",B-Pseu_Sum,3.5,P,2,0.00,33.76,-118.15
-UA-6881-01,8/12/2018,11,"Santa Cruz, Capitola Pier",B-Pseu_Sum,1,P,2,0.00,36.97,-121.95
-UA-6882-01,8/12/2018,10,Pacifica Pier,B-Pseu_Sum,60,A,4,0.40,37.63,-122.5
-UA-6884-01,8/10/2018,18,San Diego Bay,No tox sp,0,X,0,0.00,32.68,-117.23
-UA-6895-01,8/9/2018,16,"Santa Monica Bay, A2",B-Pseu_Sum,0.5,R,1,0.00,33.94,-118.58
+UA-6879-01,8/10/2018,16,Hermosa Beach Pier,B-Pseu_Sum,0.5,R,1,0.01,33.861273,-118.405292
+UA-6880-01,8/12/2018,16,"Long Beach, Belmont Pier",B-Pseu_Sum,3.5,P,2,0,33.76,-118.15
+UA-6881-01,8/12/2018,11,"Santa Cruz, Capitola Pier",B-Pseu_Sum,1,P,2,0,36.97,-121.95
+UA-6882-01,8/12/2018,10,Pacifica Pier,B-Pseu_Sum,60,A,4,0.4,37.63,-122.5
+UA-6884-01,8/10/2018,18,San Diego Bay,No tox sp,0,X,0,0,32.68,-117.23
+UA-6895-01,8/9/2018,16,"Santa Monica Bay, A2",B-Pseu_Sum,0.5,R,1,0,33.94,-118.58

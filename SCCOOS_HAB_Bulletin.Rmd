@@ -107,7 +107,7 @@ sass_temp_plot_year = ggplot(ass_temp_year, aes(x=year, y=temperature_mean, colo
 
 ```
 
-## California Department of Public Health Dara
+## California Department of Public Health Data
 
 California Department of Public Health weekly observations for *Pseudo-nitzschia spp* and *Alexandrium spp.* 
 
@@ -149,8 +149,17 @@ CDPH_Pn_2018_06 = CDPH_2018_06 %>%
 #   `RA Index` = col_double(),
 #   Latitude = col_double(),
 #   Longitude = col_double()
-
 write_csv(CDPH_Pn_2018_06, "CDPH_Data/Pseudo_nitzschia/2018_06/CDPH_Pn_2018_06.csv")
+
+CDPH_Pn_2018_06_max = CDPH_Pn_2018_06 %>%
+  group_by(`Sample Site`, Latitude, Longitude) %>%
+  summarize(
+    percent_composition_max = max(`Percent Composition`))%>%
+  #arrange(Sample_Site) %>%
+  arrange(percent_composition_max)
+
+write_csv(CDPH_Pn_2018_06_max, "CDPH_Data/Pseudo_nitzschia/2018_06/CDPH_Pn_2018_06_max.csv")
+
 ```
 
 ### June 2018 CDPH Alexandria data
@@ -171,17 +180,18 @@ CDPH_Al_2018_06 = dplyr::bind_rows(CDPH_Al_2018_06, Al_2018_06_wk4)
 CDPH_Al_2018_06 = CDPH_Al_2018_06 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Al_2018_06, "CDPH_Data/Alexandria/2018_06/CDPH_Al_2018_06.csv")
+write_csv(CDPH_Al_2018_06, "CDPH_Data/Alexandria/2018_06/CDPH_Al_2018_06.csv") #62x7
 #CDPH_Al_2018_06 = read_csv("CDPH_Data/Alexandria/CDPH_Al_2018_06.csv")
 
-# CDPH_Al_2018_06_max = CDPH_Al_2018_06 %>%
-#   group_by(Sample_Site,Latitude,Longitude) %>%
-#   summarize(
-#     percent_composition_max = max(Percent_Composition))%>%
-#   #arrange(Sample_Site) %>%
-#   arrange(percent_composition_max) #56x4 
-# 
-# write_csv(CDPH_Al_2018_06_max, "CDPH_Data/Alexandria/CDPH_Al_2018_06_max.csv")
+
+CDPH_Al_2018_06_max = CDPH_Al_2018_06 %>%
+  group_by(`Sample Site`, Latitude, Longitude) %>%
+  summarize(
+    percent_composition_max = max(`Percent Composition`))%>%
+  #arrange(Sample_Site) %>%
+  arrange(percent_composition_max)
+
+write_csv(CDPH_Al_2018_06_max, "CDPH_Data/Alexandria/2018_06/CDPH_Al_2018_06_max.csv") #36x7
 ```
 
 ### July 2018 CDPH Pseudo nitzschia data
@@ -346,7 +356,7 @@ ggsave(file="TMMC_Monthly_Counts_2018_08.pdf", width=10, height =6 , path="/Volu
 
 ```{r Marine Mammal Strandings 1990 - 2018}
 
-marine_mammal = read_csv('TMMC_data.csv')
+marine_mammal = read_csv('TMMC_Data/TMMC_data.csv')
 
 marine_mammal_test = marine_mammal %>%
   select(Age_Class, Sex, Common_Name, Strand_Date, Stranding_City, Stranding_County,Stranding_Locality,Latitude, Longitude, Disposition) %>%
@@ -441,5 +451,65 @@ dygraph(don2, main = "Sea Lion Strandings", xlab = "", ylab= "Sea Lion Stranding
   #dyCrosshair(direction = "vertical") %>%
   #dyHighlight(highlightCircleSize = 5, highlightSeriesBackgroundAlpha = 0.2, hideOnMouseOut = FALSE)  %>%
   #dyRoller(rollPeriod = 1)
+
+```
+
+###TMMC Stranding Data 1990 to present. Monthly mean 1990 to present with s/e 
+```{r TMMC Monthly Mean}
+
+marine_mammal = read_csv('TMMC_Data/TMMC_data_1990_present.csv')
+
+TMMC_Monthly_Occurence = marine_mammal %>%
+  select(Strand_Date,Occurrence) %>%
+  mutate(Strand_Date = as.Date(Strand_Date, format ="%m/%d/%Y")) %>%
+  mutate(Year = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%Y")) %>% 
+  mutate(Month = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%m")) %>%
+  #mutate(Month_name = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%B")) %>%
+  filter(!is.na(Month)) %>% 
+  group_by(Year, Month) %>%  #253x3
+  summarise(
+    Occurence_YM = length(Occurrence))
+
+TMMC_Monthly_Mean = TMMC_Monthly_Occurence %>% 
+  group_by(Month) %>%
+  summarise(
+    Monthly_mean = mean(Occurence_YM),
+    Monthly_n = length(Occurence_YM),
+    Monthly_sd = sd(Occurence_YM),
+    Monthly_se = Monthly_sd / sqrt(Monthly_n),
+    Monthly_min = min(Occurence_YM),
+    Monthly_max = max(Occurence_YM))
+
+#write_csv(TMMC_Monthly_Mean, "TMMC_Data/TMMC_monthly_mean.csv")
+
+TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
+  geom_line(aes(y=Monthly_mean),color ="blue", lwd = 2)+
+  geom_point(aes(y=Monthly_mean),size=3, color="blue")+
+  geom_line(aes(y=`2018_counts`),color ="red", lwd = 2)+
+  geom_point(aes(y=`2018_counts`),size=3, color="red")+
+  geom_errorbar(aes(ymax=Monthly_mean+Monthly_se, ymin=Monthly_mean-Monthly_se), width=0.1)+
+  labs(title= "The Marine Mammal Center California Sea Lion Strandings", x="", y="Number of Strandings (± SE)", color = "") + #\n
+  scale_color_manual(labels=c("Mean Strandings","2018 Strandings"), values =  c("blue","red"))+
+  scale_x_continuous(
+    limits = c(1, 12), 
+    breaks = c(1,2,3,4,5,6,7,8,9,10,11,12), 
+    labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"))+
+   scale_y_continuous(
+    limits = c(0, 30), 
+    breaks = c(0,5,10,15,20,25,30), 
+    labels=c("0","5","10","15","20","25","30"))+
+  theme_bw()+
+  theme(
+    legend.position="bottom",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=16),
+    axis.title.y=element_text(size=16),
+    axis.text.x = element_text(size=16),
+    axis.text.y = element_text(size=16),
+    title=element_text(size=18),
+    plot.title=element_text(hjust=0.5))
+
+ggsave(file="TMMC_Monthly_Average.pdf", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
 
 ```
