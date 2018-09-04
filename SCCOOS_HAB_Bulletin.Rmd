@@ -287,7 +287,7 @@ CDPH_2018_08 = dplyr::bind_rows(CDPH_2018_08, Pn_2018_08_wk4) #
 CDPH_Pn_2018_08 = CDPH_2018_08 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Pn_2018_08, "CDPH_Data/Pseudo_nitzschia/2018_08/CDPH_Pn_2018_08_wk_1-4.csv")
+write_csv(CDPH_Pn_2018_08, "CDPH_Data/Pseudo_nitzschia/2018_08/CDPH_Pn_2018_08_wk_1-2.csv")
 
 ```
 
@@ -306,7 +306,7 @@ CDPH_2018_08 = dplyr::bind_rows(CDPH_2018_08, Al_2018_08_wk4) #
 CDPH_Al_2018_08 = CDPH_2018_08 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Al_2018_08, "CDPH_Data/Alexandria/2018_08/CDPH_Al_2018_08_wk_1-4.csv")
+write_csv(CDPH_Al_2018_08, "CDPH_Data/Alexandria/2018_08/CDPH_Al_2018_08_wk_1-2.csv")
 
 ```
 
@@ -457,18 +457,17 @@ dygraph(don2, main = "Sea Lion Strandings", xlab = "", ylab= "Sea Lion Stranding
 ###TMMC Stranding Data 1990 to present. Monthly mean 1990 to present with s/e 
 ```{r TMMC Monthly Mean}
 
-marine_mammal = read_csv('TMMC_Data/TMMC_data_1990_present.csv')
+marine_mammal = read_csv('TMMC_Data/TMMC_data_1990_2017.csv') 
 
 TMMC_Monthly_Occurence = marine_mammal %>%
-  select(Strand_Date,Occurrence) %>%
+  select(Strand_Date, Occurrence) %>%
   mutate(Strand_Date = as.Date(Strand_Date, format ="%m/%d/%Y")) %>%
   mutate(Year = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%Y")) %>% 
   mutate(Month = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%m")) %>%
   #mutate(Month_name = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%B")) %>%
   filter(!is.na(Month)) %>% 
   group_by(Year, Month) %>%  #253x3
-  summarise(
-    Occurence_YM = length(Occurrence))
+  summarise(Occurence_YM = length(Occurrence)) #2321 observations from 1990 to 2017 
 
 TMMC_Monthly_Mean = TMMC_Monthly_Occurence %>% 
   group_by(Month) %>%
@@ -481,6 +480,7 @@ TMMC_Monthly_Mean = TMMC_Monthly_Occurence %>%
     Monthly_max = max(Occurence_YM))
 
 #write_csv(TMMC_Monthly_Mean, "TMMC_Data/TMMC_monthly_mean.csv")
+TMMC_Monthly_Mean = read_csv("TMMC_Data/TMMC_monthly_mean.csv")
 
 TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
   geom_line(aes(y=Monthly_mean),color ="blue", lwd = 2)+
