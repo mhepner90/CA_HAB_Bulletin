@@ -70,8 +70,6 @@ sass_temp_year = sass_temp_date %>%
 #sass_temp_date$time = ymd(sass_temp_date$time)  
 ```
 
-##  Plots
-
 ```{r SASS Plots}
 
 sass_temp_plot = ggplot(ass_temp_date, aes(x=year_month, y=temperature_mean, color=station, group=station))+
@@ -108,7 +106,7 @@ sass_temp_plot_year = ggplot(ass_temp_year, aes(x=year, y=temperature_mean, colo
 
 ```
 
-## California Department of Public Health Data
+## California Department of Public Health (CDPH) Data
 
 California Department of Public Health weekly observations for *Pseudo-nitzschia spp* and *Alexandrium spp.* 
 
@@ -120,7 +118,6 @@ A = Abundant (4)
 
 The RAI is based on the sampling effort (total tow length), percent composition, and settled cell mass (in milliliters).
 
-### June 2018 CDPH data
 ```{r June 2018 CDPH data}
 
 CDPH_2018_06 = list.files(path="CDPH_Data/Pseudo_nitzschia/2018_06", pattern = "*.csv")
@@ -189,7 +186,7 @@ CDPH_Al_2018_06_max = CDPH_Al_2018_06 %>%
 
 write_csv(CDPH_Al_2018_06_max, "CDPH_Data/Alexandria/2018_06/CDPH_Al_2018_06_max.csv") #36x7
 ```
-### July 2018 CDPH data
+
 ```{r July 2018 CDPH data}
 
 CDPH_2018 = list.files(path="CDPH_Data/Pseudo_nitzschia/", pattern = "*.csv")
@@ -250,7 +247,7 @@ CDPH_Al_2018_07_max = CDPH_Al_2018_07 %>%
 write_csv(CDPH_Al_2018_07_max, "CDPH_Data/Alexandria/CDPH_Al_2018_07_max.csv")
 
 ```
-### August 2018 CDPH data
+
 ```{r August 2018 CDPH data}
 
 Pn_2018_09_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_1_Pn.csv") #29x11 
@@ -300,7 +297,7 @@ CDPH_Al_2018_09_max = CDPH_Al_2018_09 %>% #32x7
 write_csv(CDPH_Al_2018_09_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/CDPH_Al_2018_09_max.csv")
 
 ```
-### September 2018 CDPH Pdata
+
 ```{r September 2018 CDPH data}
 
 Pn_2018_09_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_1_Pn.csv") #29x11 
@@ -349,7 +346,7 @@ CDPH_Al_2018_09_max = CDPH_Al_2018_09 %>% #32x7
 
 write_csv(CDPH_Al_2018_09_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/CDPH_Al_2018_09_max.csv")
 ```
-### October 2018
+
 ```{r October 2018 CDPH data}
 
 Pn_2018_10_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_10/2018_10_week_1_Pn.csv") #23x11 
@@ -400,8 +397,7 @@ write_csv(CDPH_Al_2018_10_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_D
 
 ```
 
-### November 2018
-```{r October 2018 CDPH data}
+```{r November 2018 CDPH data}
 
 Pn_2018_11_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_11/2018_11_week_1_Pn.csv") #23x11 
 Pn_2018_11_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_11/2018_11_week_2_Pn.csv") #29x11
@@ -493,8 +489,8 @@ TMMC_Monthly_Plot = ggplot(TMMC_2018_monthly_count, aes(x=Strand_Date_Month, y=M
 ggsave(file="TMMC_Monthly_Counts_2018_10.pdf", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
 
 ```
-### Marine Mammal Stranding Data 1990 - Present 
-```{r Marine Mammal Strandings 1990 - 2018}
+
+```{r Marine Mammal Strandings 1990 - Present}
 
 marine_mammal = read_csv('TMMC_Data/TMMC_data.csv')
 
@@ -534,7 +530,7 @@ marine_mammal_year_ageclass = marine_mammal %>%
   summarize(Counts = length(Year))
 
 ```
-### Marine Mammal Stranding Plots 1990 - Present
+## The Marine Mammal Center (TMMC) Stranding Plots 1990 - Present
 ```{r TMMC plots 1990 - 2018}
 
 mms_year_month = ggplot(marine_mammal_test, aes(Year_Month, y=Counts)) +
@@ -553,7 +549,7 @@ mms_year = ggplot(marine_mammal_year, aes(x=as.numeric(Year))) +
   scale_x_continuous(limits = c(1990, 2018), breaks = c(1990, 1992, 1994, 1996, 1998,2000,2002,2004,2006,2009,2010,2012,2014,2016,2018)) 
 
 ```
-### Marine Mammal Strandings Dygraph 1990 - Present
+
 ```{r TMMC dygraph}
 
 marine_mammal = read_csv('TMMC_data.csv')
@@ -590,8 +586,10 @@ dygraph(don2, main = "Sea Lion Strandings", xlab = "", ylab= "Sea Lion Stranding
   #dyRoller(rollPeriod = 1)
 
 ```
-###TMMC Stranding Data 1990 to present. Monthly mean 1990 to present with s/e 
-```{r TMMC Monthly Mean}
+
+```{r TMMC Monthly Mean 1990 to Present}
+
+#TMMC Stranding Data 1990 to present. Monthly mean 1990 to present with s/e 
 
 # marine_mammal = read_csv('/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_data_1990_2017.csv') 
 # 
@@ -652,7 +650,7 @@ TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
 ggsave(file="TMMC_Monthly_Average_2018_10.pdf", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
 ```
 
-## SCCOOS Manual Shore Station Data 
+# SCCOOS Manual Shore Station Nutrient and HAB Data 
 Locations:
   "Santa Monica Pier"
   "Newport Pier"
@@ -812,9 +810,7 @@ ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Sterns_Wharf_Nutrient_Plot, w
 
 ```
 
-## SCCOOS Manual Shore Stations HAB data 
-
-```{r SCCOOS HAB data}
+```{r SCCOOS Manual Shore Stations HAB data}
 
 SCCOOS_HAB_data= read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018_Hepner.csv")
 
@@ -857,9 +853,13 @@ Stearns_Wharf_HAB_Plot =
   labs(title= "Stearns Wharf", x="Date", y="", color = NULL) +
   scale_color_manual(labels=c("Domoic Acid (ng/mL)", "Pseudo-nitzschia delicatissima (cells/L)", "Pseudo-nitzschia seriata (cells/L)"),
                      values=c("magenta","orangered","dodgerblue","purple"))+
+  scale_y_continuous(
+    limits=c(0,300000),
+    breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
+    labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
   theme_bw()+
   theme(
-    legend.position="right",
+    legend.position="bottom",
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
