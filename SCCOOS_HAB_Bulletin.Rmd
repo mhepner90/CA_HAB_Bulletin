@@ -688,7 +688,7 @@ SCCOOS_Nutrient_Data = SCCOOS_Manual_Shore_Stations %>%
 write_csv(HABMAP_Oct_2018, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018.csv")
 
 #Cal Poly Pier Plots - 1/1/18-8/28/18
-Cal_Poly_Nutrient = HABMAP_Oct_2018 %>%
+Cal_Poly_Nutrient = SCCOOS_Nutrient_Data %>%
   filter(location == "Cal Poly Pier") %>% #39x14
   select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
   gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
@@ -712,7 +712,7 @@ Cal_Poly_Nutrient_Plot =
 ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
 
 #Newport Pier Plots - 1/1/18 - 10/29-18
-Newport = HABMAP_Oct_2018 %>%
+Newport = SCCOOS_Nutrient_Data %>%
   filter(location == "Newport Pier")%>%  #44x14
   select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
   gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
@@ -737,7 +737,7 @@ Newport_Plot =
 ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Plot, width=14, height=6) #path="2018_10/plots"
 
 #Santa Cruz Municipal Wharf Plots - 1/1/18 - 8/28/18
-Santa_Cruz_Nutrients = HABMAP_Oct_2018 %>%
+Santa_Cruz_Nutrients = SCCOOS_Nutrient_Data %>%
   filter(location == "Santa Cruz Wharf")%>% #41x14
   select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
   gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
@@ -761,7 +761,7 @@ Santa_Cruz_Nutrient_Plot =
 ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
 
 #Santa Monica Pier Plots - No Nutrient data. All NA's 
-Santa_Monica = HABMAP_Oct_2018 %>%
+Santa_Monica = SCCOOS_Nutrient_Data %>%
   filter(location == "Santa Monica Pier") %>%
   select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
   gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
@@ -785,7 +785,7 @@ Santa_Monica_Plot =
 ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Plot, width=14, height=6) #path="2018_10/plots"
 
 #Stearns Wharf Plots - 1/1/18-8/28/18
-Sterns_Wharf_Nutrient = HABMAP_Oct_2018 %>% #35x14
+Stearns_Wharf_Nutrient = SCCOOS_Nutrient_Data %>% #35x14
   filter(location == "Stearns Wharf")%>%
   select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
   gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
@@ -806,7 +806,7 @@ Stearns_Wharf_Nutrient_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Sterns_Wharf_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
 
 ```
 
@@ -859,7 +859,7 @@ Stearns_Wharf_HAB_Plot =
     labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
   theme_bw()+
   theme(
-    legend.position="bottom",
+    legend.position="right",
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -867,6 +867,6 @@ Stearns_Wharf_HAB_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_HAB_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Stearns_Wharf_HAB_Plot.png", plot=Stearns_Wharf_HAB_Plot, width=14, height=6) #path="2018_10/plots"
 
 ```
