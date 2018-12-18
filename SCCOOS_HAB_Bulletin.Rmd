@@ -21,7 +21,7 @@ library(xts)
 library(lubridate) 
 library(zoo) #as.yearmon
 library(shiny)
-library(grid) #grid.layout
+library(grid) #unit.pmax
 library(gridExtra)#grid.arrange 
 library(gtable) #ggplotGrob #rbind 
 
@@ -880,8 +880,13 @@ Newport_HAB_Pot =
   labs(title= "New Port Pier", x="Date", y="cells/L", color = "")+
   theme_bw()+
   theme(
-    legend.position = c(0.85,0.9),
-    legend.text = element_text(size=12),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"), 
+    legend.position = c(0.85,0.8),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -913,8 +918,13 @@ Santa_Cruz_HAB_Plot =
   labs(title= "Santa Cruz Municipal Wharf", x="Date", y="cells/L", color = "")+
   theme_bw()+
   theme(
-    legend.position = c(0.85,0.9),
-    legend.text = element_text(size=12),
+      plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+    legend.position = c(0.85,0.8),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -935,10 +945,8 @@ Santa_Monica_HAB = SCCOOS_HAB_data %>%
 
 Santa_Monica_HAB_Plot = 
   ggplot(Santa_Monica_HAB, aes(x=date))+
-  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
-  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
-  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
-  #scale_y_continuous(sec.axis = sec_axis(~., name = "ng/mL"))+
+  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3, color="dodgerblue")+
+  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3, color="hotpink")+
   scale_y_continuous(
     limits=c(0,300000),
     breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
@@ -946,8 +954,13 @@ Santa_Monica_HAB_Plot =
   labs(title= "Santa Monica Pier", x="Date", y="cells/L", color = "")+
   theme_bw()+
   theme(
-    legend.position = c(0.85,0.9),
-    legend.text = element_text(size=12),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+    legend.position = c(0.85,0.8),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -955,10 +968,31 @@ Santa_Monica_HAB_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Monica_HAB_Plot.png", plot=Santa_Monica_HAB_Plot, width=14, height=6) #path="2018_10/plots"
 
-#   scale_color_manual(labels=c("Domoic Acid (ng/mL)", "Pseudo-nitzschia delicatissima (cells/L)", "Pseudo-nitzschia seriata (cells/L)"),
-#                      values=c("magenta","orangered","dodgerblue","purple"))+
+Santa_Monica_DA_Plot = 
+  ggplot(Santa_Monica_HAB, aes(x=date))+
+  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3,color="limegreen")+
+  labs(title= "", x="Date", y="ng/mL", color = "")+
+  scale_y_continuous(limits=c(0,1))+
+  theme_bw()+
+  theme(
+    plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+    legend.position = c(0.85,0.8),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=12),
+    axis.title.y=element_text(size=12),
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust=0.5),
+    title=element_text(size=12))
+
+Santa_Monica_Combo_Plot = plot_grid(Santa_Monica_HAB_Plot,Santa_Monica_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
+save_plot("Santa_Monica_Combo_Plot.png",Santa_Monica_Combo_Plot, base_width = 10, base_height = 6)
 
 #Stearns Wharf  
 Stearns_Wharf_HAB = SCCOOS_HAB_data %>% #35x8
@@ -971,17 +1005,25 @@ Stearns_Wharf_HAB = SCCOOS_HAB_data %>% #35x8
 
 Stearns_Wharf_HAB_Plot = 
   ggplot(Stearns_Wharf_HAB, aes(x=date))+
-  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3, color="dodgerblue")+
-  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3, color="hotpink")+
+  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
+  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
   scale_y_continuous(
     limits=c(0,300000),
     breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
     labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
+  scale_color_manual(
+    labels =c("Pseudo-nitzschia 'delicatissima' size class (cells/L)","Pseudo-nitzschia 'seriata' size class (cells/L)"), 
+    values =c("hotpink","dodgerblue"))+
   labs(title= "Stearns Wharf", x="", y="cells/L", color = "")+
   theme_bw()+
   theme(
-    legend.position = c(0.85,0.9),
-    legend.text = element_text(size=12),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.position = c(0.75,0.8), #c(0.85,0.9)
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -990,15 +1032,23 @@ Stearns_Wharf_HAB_Plot =
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
 
-Stearns_Wharf_DA_Plot = 
+ Stearns_Wharf_DA_Plot = 
   ggplot(Stearns_Wharf_HAB, aes(x=date))+
-  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3,color="limegreen")+
-  labs(title= "Stearns Wharf", x="Date", y="ng/mL", color = "")+
+  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
+  labs(title= "", x="Date", y="ng/mL", color = "")+
   scale_y_continuous(limits=c(0,1))+
+  scale_color_manual(
+    labels =c("Domic Acid (ng/mL)"), 
+    values =c("limegreen"))+
   theme_bw()+
   theme(
-    legend.position = c(0.85,0.9),
-    legend.text = element_text(size=12),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+    legend.position = c(0.85,0.8),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -1007,17 +1057,18 @@ Stearns_Wharf_DA_Plot =
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
 
-plot2 = grid.arrange(Stearns_Wharf_HAB_Plot, Stearns_Wharf_DA_Plot, nrow=2)
+Stearns_Wharf_Combo_Plot = plot_grid(Stearns_Wharf_HAB_Plot,Stearns_Wharf_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
+save_plot("stearns_wharf_combo_plot.png",Stearns_Wharf_Combo_Plot, base_width = 10, base_height = 6)
 
-g2 = ggplotGrob(Stearns_Wharf_HAB_Plot)
-g3 = ggplotGrob(Stearns_Wharf_DA_Plot)
-g = rbind(g2, g3, size="first")
-g$widths = unit.pmax(g2$widths, g3$widths)
-grid.newpage()
-grid.draw(g)
-
-
-ggsave(file="Stearns_Wharf_HAB_Plot.png", plot=Stearns_Wharf_HAB_Plot, width=14, height=6) #path="2018_10/plots"
+#stearns_wharf_combo = grid.arrange(Stearns_Wharf_HAB_Plot, Stearns_Wharf_DA_Plot, nrow=2, ncol=1)
+#ggsave(file="test.png", width=10, height=6)
+# g2 = ggplotGrob(Stearns_Wharf_HAB_Plot)
+# g3 = ggplotGrob(Stearns_Wharf_DA_Plot)
+# g = rbind(g2, g3, size="first")
+# g$widths = unit.pmax(g2$widths, g3$widths)
+# grid.newpage()
+# grid.draw(g)
+# png("stearns_wharf_combo_plot.png"); plot(g); dev.off()
 
 
 ```
