@@ -704,7 +704,10 @@ Cal_Poly_Nutrient_Plot =
   scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
   theme_bw()+
   theme(
-    legend.position="right",
+    legend.position=c(0.9,0.85),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -712,7 +715,7 @@ Cal_Poly_Nutrient_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=10, height=6) #path="2018_10/plots"
 
 #Newport Pier Plots - 1/1/18 - 10/29-18
 Newport = SCCOOS_Nutrient_Data %>%
@@ -729,7 +732,10 @@ Newport_Plot =
   scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
   theme_bw()+
   theme(
-    legend.position="right",
+    legend.position=c(0.9,0.85),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -737,7 +743,7 @@ Newport_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Plot, width=10, height=6) #path="2018_10/plots"
 
 #Santa Cruz Municipal Wharf Plots - 1/1/18 - 8/28/18
 Santa_Cruz_Nutrients = SCCOOS_Nutrient_Data %>%
@@ -753,7 +759,10 @@ Santa_Cruz_Nutrient_Plot =
   scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
   theme_bw()+
   theme(
-    legend.position="right",
+    legend.position=c(0.9,0.85),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -761,7 +770,7 @@ Santa_Cruz_Nutrient_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=10, height=6) #path="2018_10/plots"
 
 #Santa Monica Pier Plots - No Nutrient data. All NA's 
 Santa_Monica = SCCOOS_Nutrient_Data %>%
@@ -777,7 +786,10 @@ Santa_Monica_Plot =
   scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
   theme_bw()+
   theme(
-    legend.position="right",
+    legend.position=c(0.9,0.85),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -785,7 +797,7 @@ Santa_Monica_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Plot, width=10, height=6) #path="2018_10/plots"
 
 #Stearns Wharf Plots - 1/1/18-8/28/18
 Stearns_Wharf_Nutrient = SCCOOS_Nutrient_Data %>% #35x14
@@ -801,7 +813,10 @@ Stearns_Wharf_Nutrient_Plot =
   scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
   theme_bw()+
   theme(
-    legend.position="right",
+    legend.position=c(0.9,0.85),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
@@ -809,7 +824,7 @@ Stearns_Wharf_Nutrient_Plot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, width=14, height=6) #path="2018_10/plots"
+ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, width=10, height=6) #path="2018_10/plots"
 
 ```
 
@@ -827,7 +842,6 @@ SCCOOS_HAB_data = SCCOOS_HAB_data %>%
 Cal_Poly_HAB = SCCOOS_HAB_data %>% #39x8
   filter(location == "Cal Poly Pier") %>%
   select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
- #gather(key= HAB_data, value = Units , `Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
 
 #max(Cal_Poly_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #25055
 #max(Cal_Poly_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #13860
@@ -837,47 +851,39 @@ Cal_Poly_HAB_Plot =
   ggplot(Cal_Poly_HAB, aes(x=date))+
   geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
   geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
-  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
-  #scale_y_continuous(sec.axis = sec_axis(~., name = "ng/mL"))+
   scale_y_continuous(
     limits=c(0,300000),
     breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
     labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
+  scale_color_manual(
+    labels =c("Pseudo-nitzschia 'delicatissima' size class (cells/L)","Pseudo-nitzschia 'seriata' size class (cells/L)"), 
+    values =c("hotpink","dodgerblue"))+
   labs(title= "New Port Pier", x="Date", y="cells/L", color = "")+
   theme_bw()+
   theme(
-    legend.position = c(0.85,0.9),
-    legend.background = element_rect(color="white"),
-    legend.text = element_text(size=12),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.position = c(0.75,0.8), #c(0.85,0.9)
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
     axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text.x = element_blank(),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Cal_Poly_HAB_Plot.png", plot=Cal_Poly_HAB_Plot, width=14, height=6) #path="2018_10/plots"
 
-#Newport Pier
-Newport_HAB = SCCOOS_HAB_data %>% #44x8
-  filter(location == "Newport Pier") %>%
-  select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
-
-#max(Newport_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #335242
-#max(Newport_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #259877
-#max(Newport_HAB$`Domoic_Acid_ng/mL`) #0.14
-
-Newport_HAB_Pot = 
-  ggplot(Newport_HAB, aes(x=date))+
-  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
-  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
+Cal_Poly_DA_Plot = 
+  ggplot(Cal_Poly_HAB, aes(x=date))+
   geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
-  #scale_y_continuous(sec.axis = sec_axis(~., name = "ng/mL"))+
-  scale_y_continuous(
-    limits=c(0,300000),
-    breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
-    labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
-  labs(title= "New Port Pier", x="Date", y="cells/L", color = "")+
+  labs(title= "", x="Date", y="ng/mL", color = "")+
+  scale_y_continuous(limits=c(0,1))+
+  scale_color_manual(
+    labels =c("Domic Acid (ng/mL)"), 
+    values =c("limegreen"))+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"), 
@@ -894,64 +900,56 @@ Newport_HAB_Pot =
     axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Newport_HAB_Pot.png", plot=Newport_HAB_Pot, width=14, height=6) #path="2018_10/plots"
 
-#Santa Cruz Municipal Wharf 
-Santa_Cruz_HAB = SCCOOS_HAB_data %>% #41x8
-  filter(location == "Santa Cruz Wharf") %>%
+Cal_Poly_Combo_Plot = plot_grid(Cal_Poly_HAB_Plot,Cal_Poly_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
+save_plot("Cal_Poly_Combo_Plot.png",Cal_Poly_Combo_Plot, base_width = 10, base_height = 6)
+
+#Newport Pier
+Newport_HAB = SCCOOS_HAB_data %>% #44x8
+  filter(location == "Newport Pier") %>%
   select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
 
-#max(Santa_Cruz_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #209692
-#max(Santa_Cruz_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #39600
-#max(Santa_Cruz_HAB$`Domoic_Acid_ng/mL`) #0.83
+#max(Newport_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #335242
+#max(Newport_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #259877
+#max(Newport_HAB$`Domoic_Acid_ng/mL`) #0.14
 
-Santa_Cruz_HAB_Plot = 
-  ggplot(Santa_Cruz_HAB, aes(x=date))+
-  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
+Newport_HAB_Pot = 
+  ggplot(Newport_HAB, aes(x=date))+
+   geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
   geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
-  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
-  #scale_y_continuous(sec.axis = sec_axis(~., name = "ng/mL"))+
   scale_y_continuous(
     limits=c(0,300000),
     breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
     labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
-  labs(title= "Santa Cruz Municipal Wharf", x="Date", y="cells/L", color = "")+
+  scale_color_manual(
+    labels =c("Pseudo-nitzschia 'delicatissima' size class (cells/L)","Pseudo-nitzschia 'seriata' size class (cells/L)"), 
+    values =c("hotpink","dodgerblue"))+
+  labs(title= "Newport Pier", x="", y="cells/L", color = "")+
   theme_bw()+
   theme(
-      plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
-    legend.position = c(0.85,0.8),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.position = c(0.75,0.8), #c(0.85,0.9)
     legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
     legend.title = element_blank(),
     legend.justification = "center",
     legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
-    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
+    legend.text = element_text(size=12), #hjust = 0, vjust = 0
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
     axis.title.x=element_text(size=12),
     axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text.x = element_blank(),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Cruz_HAB_Plot.png", plot=Santa_Cruz_HAB_Plot, width=14, height=6) #path="2018_10/plots"
 
-#Santa Monica Pier 
-Santa_Monica_HAB = SCCOOS_HAB_data %>%
-  filter(location == "Santa Monica Pier")%>% #12x8
-  select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
-
-#max(Santa_Monica_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #3740
-#max(Santa_Monica_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #28050
-#max(Santa_Monica_HAB$`Domoic_Acid_ng/mL`) #Nan
-
-Santa_Monica_HAB_Plot = 
-  ggplot(Santa_Monica_HAB, aes(x=date))+
-  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3, color="dodgerblue")+
-  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3, color="hotpink")+
-  scale_y_continuous(
-    limits=c(0,300000),
-    breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
-    labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
-  labs(title= "Santa Monica Pier", x="Date", y="cells/L", color = "")+
+Newport_DA_Pot = 
+  ggplot(Newport_HAB, aes(x=date))+
+  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
+  labs(title= "", x="Date", y="ng/mL", color = "")+
+  scale_y_continuous(limits=c(0,1))+
+  scale_color_manual(
+    labels =c("Domic Acid (ng/mL)"), 
+    values =c("limegreen"))+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
@@ -969,11 +967,122 @@ Santa_Monica_HAB_Plot =
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
 
-Santa_Monica_DA_Plot = 
-  ggplot(Santa_Monica_HAB, aes(x=date))+
-  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3,color="limegreen")+
+Newport_Combo_Plot = plot_grid(Newport_HAB_Pot,Newport_DA_Pot, align="v",nrow=2, rel_heights = c(1, 4/5))
+save_plot("Newport_Combo_Plot.png",Newport_Combo_Plot, base_width = 10, base_height = 6)
+
+#Santa Cruz Municipal Wharf 
+Santa_Cruz_HAB = SCCOOS_HAB_data %>% #41x8
+  filter(location == "Santa Cruz Wharf") %>%
+  select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
+
+#max(Santa_Cruz_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #NaN 
+#max(Santa_Cruz_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #39600
+#max(Santa_Cruz_HAB$`Domoic_Acid_ng/mL`) #0.83
+
+Santa_Cruz_HAB_Plot = 
+  ggplot(Santa_Cruz_HAB, aes(x=date))+
+  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
+  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
+  scale_y_continuous(
+    limits=c(0,300000),
+    breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
+    labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
+  scale_color_manual(
+    labels =c("Pseudo-nitzschia 'delicatissima' size class (cells/L)","Pseudo-nitzschia 'seriata' size class (cells/L)"), 
+    values =c("hotpink","dodgerblue"))+
+  labs(title= "Santa Cruz Municipal Wharf", x="", y="cells/L", color = "")+
+  theme_bw()+
+  theme(
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.position = c(0.75,0.8), #c(0.85,0.9)
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12), #hjust = 0, vjust = 0
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=12),
+    axis.title.y=element_text(size=12),
+    axis.text.x = element_blank(),
+    plot.title = element_text(hjust=0.5),
+    title=element_text(size=12))
+  
+Santa_Cruz_DA_Plot = 
+  ggplot(Santa_Cruz_HAB, aes(x=date))+
+    geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
   labs(title= "", x="Date", y="ng/mL", color = "")+
   scale_y_continuous(limits=c(0,1))+
+  scale_color_manual(
+    labels =c("Domic Acid (ng/mL)"), 
+    values =c("limegreen"))+
+  theme_bw()+
+  theme(
+    plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+    legend.position = c(0.85,0.8),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12, vjust=0.5, hjust=0.5), #hjust = 0, vjust = 0
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=12),
+    axis.title.y=element_text(size=12),
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust=0.5),
+    title=element_text(size=12))
+  
+Santa_Cruz_Combo_Plot = plot_grid(Santa_Cruz_HAB_Plot,Santa_Cruz_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
+save_plot("Santa_Cruz_Combo_Plot.png",Santa_Cruz_Combo_Plot, base_width = 10, base_height = 6)
+  
+ #Santa Monica Pier 
+Santa_Monica_HAB = SCCOOS_HAB_data %>%
+  filter(location == "Santa Monica Pier")%>% #12x8
+  select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/mL`)
+
+#max(Santa_Monica_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #3740
+#max(Santa_Monica_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #28050
+#max(Santa_Monica_HAB$`Domoic_Acid_ng/mL`) #Nan
+#length(Santa_Monica_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #12
+
+Santa_Monica_HAB_Plot = 
+  ggplot(Santa_Monica_HAB, aes(x=date))+
+  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
+  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
+  scale_y_continuous(
+    limits=c(0,300000),
+    breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
+    labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
+  scale_color_manual(
+    labels =c("Pseudo-nitzschia 'delicatissima' size class (cells/L)","Pseudo-nitzschia 'seriata' size class (cells/L)"), 
+    values =c("hotpink","dodgerblue"))+
+  labs(title= "Santa Monica Pier", x="", y="cells/L", color = "")+
+  theme_bw()+
+  theme(
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    legend.position = c(0.75,0.8), #c(0.85,0.9)
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12), #hjust = 0, vjust = 0
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=12),
+    axis.title.y=element_text(size=12),
+    axis.text.x = element_blank(),
+    plot.title = element_text(hjust=0.5),
+    title=element_text(size=12))
+
+Santa_Monica_DA_Plot = 
+  ggplot(Santa_Monica_HAB, aes(x=date))+
+  geom_point(aes(y=`Domoic_Acid_ng/mL`, color="Domic Acid (ng/mL)"),size=3)+
+  labs(title= "", x="Date", y="ng/mL", color = "")+
+  scale_y_continuous(limits=c(0,1))+
+  scale_color_manual(
+    labels =c("Domic Acid (ng/mL)"), 
+    values =c("limegreen"))+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"), #margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
@@ -1002,6 +1111,7 @@ Stearns_Wharf_HAB = SCCOOS_HAB_data %>% #35x8
 #max(Stearns_Wharf_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #209692
 #max(Stearns_Wharf_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #69897
 #max(Stearns_Wharf_HAB$`Domoic_Acid_ng/mL`) #Nan
+#length(Stearns_Wharf_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #35
 
 Stearns_Wharf_HAB_Plot = 
   ggplot(Stearns_Wharf_HAB, aes(x=date))+
