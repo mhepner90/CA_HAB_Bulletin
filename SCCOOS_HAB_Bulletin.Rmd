@@ -24,6 +24,7 @@ library(shiny)
 library(grid) #unit.pmax
 library(gridExtra)#grid.arrange 
 library(gtable) #ggplotGrob #rbind 
+library(scales) #scale_x_date
 
 #Conflicts: 
 #dplyr::filter()   masks stats::filter()
@@ -34,6 +35,7 @@ select = dplyr::select #override MASS::select
 group_by =  dplyr::group_by #override plotly::group_by
 summarise = dplyr::summarise #override plotly::summarise
 filter = dplyr::filter
+
 ```
 
 ## SCCOOS Automated Shore Station Data (SASS)
@@ -677,181 +679,326 @@ Locations:
     `Pseudo-nitzschia_seriata_group_cells/L` = col_double(),
     Silicate_uM = col_double(),
    `Domoic_Acid_ng/L` = col_double()
+   
+```{r Clean up Data}
+
+#Cal Poly
+Cal_Poly_Org = read_csv("HABMAP_Data/Cal_Poly.csv") #orignial Stearn Wharf HABMAP data from google drive 
+
+Cal_Poly = Cal_Poly_Org %>%
+  mutate(Location = `Location Code`,
+         Date = `Date Collected`,
+         Temperature = `Temp (C)`,
+         Chlorophyll =`Avg Chloro (mg/m3)`,
+         Silicate= `Silicate (uM)`,
+         Phosphate = `Phosphate (uM)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Alexandrium = `Alexandrium spp. (cells/L)`,
+         Domoic_Acid = `Domoic Acic (ng/mL)`,
+         Nitrate = `Nitrite + Nitrate (uM)` -`Nitrite (uM)`)%>%
+  select(Location, Date, Temperature, Chlorophyll,Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
+  mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
+write_csv(Cal_Poly,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Newport.csv")
+
+#Newport  
+Newport_Org = read_csv("HABMAP_Data/Cal_Poly.csv") #orignial Stearn Wharf HABMAP data from google drive 
+
+Newport = Newport_Org %>%
+  mutate(Location = `Location Code`,
+         Date = `Date Collected`,
+         Temperature = `Temp (C)`,
+         Chlorophyll =`Avg Chloro (mg/m3)`,
+         #Nitrate = `Nitrate (uM)`,
+         Silicate= `Silicate (uM)`,
+         Phosphate = `Phosphate (uM)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Alexandrium = `Alexandrium spp. (cells/L)`,
+         Domoic_Acid = `Domoic Acic (ng/mL)`,
+         Nitrate = `Nitrite + Nitrate (uM)` -`Nitrite (uM)`)%>%
+  select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
+  mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
+write_csv(Newport,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Newport.csv")
+
+#Santa Cruz 
+Santa_Cruz_Org = read_csv("HABMAP_Data/Santa_Cruz.csv") #orignial Santa Cruz HABMAP data from google drive 
+
+Santa_Cruz = Santa_Cruz_Org %>% #353x10
+  mutate(Location = `Location Code`,
+         Date = `Date Collected`,
+         Temperature = `Temp (°C)`,
+         Chlorophyll =`Avg Chloro (mg/m3)`,
+         Nitrate = `Nitrate (uM)`,
+         Silicate= `Silicate (uM)`,
+         Phosphate = `Phosphate (uM)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Alexandrium = `Alexandrium spp. (cells/L)`,
+         Domoic_Acid = `Domoic Acid (ng/mL)`) %>%
+  select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
+  mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
+write_csv(Santa_Cruz,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Cruz.csv")
+
+#Santa Monica  - No Silicate, listed as 'Dissolved Silicon'
+Santa_Monica_Org = read_csv("HABMAP_Data/Santa_Monica.csv") #orignial Santa Cruz HABMAP data from google drive 
+
+Santa_Monica = Santa_Monica_Org %>% #353x10
+  mutate(Location = `Location Code`,
+         Date = `Date Collected`,
+         Temperature = `Temp (C)`,
+         Chlorophyll =`Avg Chloro (mg/m3)`,
+         Nitrate = `Nitrate (uM)`,
+         Silicate= `Dissolved Silicon`,
+         Phosphate = `Phosphate (uM)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Alexandrium = `Alexandrium spp. (cells/L)`,
+         Domoic_Acid = `Domoic Acid (ng/mL)`) %>%
+  select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
+  mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
+write_csv(Santa_Monica,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
+
+#Stearns Wharf 
+Stearn_Wharf_Org = read_csv("HABMAP_Data/Stearn_Wharf.csv") #orignial Stearn Wharf HABMAP data from google drive 
+
+Stearn_Wharf = Stearn_Wharf_Org %>%
+  mutate(Location = `Location Code`,
+         Date = `Date Collected`,
+         Temperature = `Temp (C)`,
+         Chlorophyll =`Avg Chla (mg/m3)`,
+         Nitrate = `Nitrate (uM)`,
+         Silicate= `Silicate (uM)`,
+         Phosphate = `Phosphate (uM)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Alexandrium = `Alexandrium spp. (cells/L)`,
+         Domoic_Acid = `Domoic Acid (ng/mL)`) %>%
+  select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
+  mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
+write_csv(Stearn_Wharf,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Stearn_Wharf.csv")
+
+```
   
-```{r SCCOOS Manual Shore Stations Nutrient Data}
+```{r Nutrient Data Plots}
 
-SCCOOS_Manual_Shore_Stations= read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018_Hepner.csv")
+# SCCOOS_Manual_Shore_Stations= read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018_Hepner.csv")
+# SCCOOS_Nutrient_Data = SCCOOS_Manual_Shore_Stations %>%
+#   mutate(date = as.Date(paste(year, month, day, sep="-"))) %>% 
+#   mutate(date = format(as.Date(date, format ="%Y-%m-%d"),"%m-%d-%Y")) %>%
+#   #mutate(ymd = make_datetime(year,month,day))
+#   select(location, date,`Pseudo-nitzschia_delicatissima_group_cells/L`,`Pseudo-nitzschia_seriata_group_cells/L`,`Chlorophyll_mg/m3`,`Domoic_Acid_ng/L`, Nitrate_uM, Phosphate_uM, Silicate_uM, latitude, longitude, year, month, day)
+# write_csv(HABMAP_Oct_2018, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018.csv")
 
-SCCOOS_Nutrient_Data = SCCOOS_Manual_Shore_Stations %>%
-  mutate(date = as.Date(paste(year, month, day, sep="-"))) %>% 
-  mutate(date = format(as.Date(date, format ="%Y-%m-%d"),"%m-%d-%Y")) %>%
-  #mutate(ymd = make_datetime(year,month,day))
-  select(location, date,`Pseudo-nitzschia_delicatissima_group_cells/L`,`Pseudo-nitzschia_seriata_group_cells/L`,`Chlorophyll_mg/m3`,`Domoic_Acid_ng/L`, Nitrate_uM, Phosphate_uM, Silicate_uM, latitude, longitude, year, month, day)
+#Cal Poly Pier Plots 
+Cal_Poly = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Cal_Poly.csv")
 
-write_csv(HABMAP_Oct_2018, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018.csv")
-
-#Cal Poly Pier Plots - 1/1/18-8/28/18
-Cal_Poly_Nutrient = SCCOOS_Nutrient_Data %>%
-  filter(location == "Cal Poly Pier") %>% #39x14
-  select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
-  gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
+Cal_Poly_Nutrient = Cal_Poly %>%
+  filter(Year == "2018") %>% 
+  select(Date,Chlorophyll, Nitrate, Phosphate, Silicate) %>%
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
 
 Cal_Poly_Nutrient_Plot = 
-  ggplot(Cal_Poly_Nutrient, aes(x=date))+
+  ggplot(Cal_Poly_Nutrient, aes(x=Date))+
   geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
-  labs(title= "Cal Poly Pier", x="Date", y="", color = NULL) +
-  scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
+  labs(title= "Cal Poly Pier Nutrient Data", x="", y="", color = NULL) +
+  scale_color_manual(
+    labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
+    values=c("darkgreen","red","blue","purple"))+
+  scale_x_date(
+    #limits = c(),
+    labels= date_format("%b %y"),
+    date_breaks = "months")+
   theme_bw()+
   theme(
-    legend.position=c(0.9,0.85),
+    legend.position=c(0.85,0.85),
     legend.title = element_blank(),
     legend.justification = "center",
     legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.text = element_text(size=14),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
-    axis.title.x=element_text(size=12),
-    axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text = element_text(size=14),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    #axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=10, height=6) #path="2018_10/plots"
+ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=10, height=6) 
 
-#Newport Pier Plots - 1/1/18 - 10/29-18
-Newport = SCCOOS_Nutrient_Data %>%
-  filter(location == "Newport Pier")%>%  #44x14
-  select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
-  gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
-  #filter(Nitrate_uM != 'NaN')
+#Newport Pier Plots 
+Newport = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Newport.csv")
 
-Newport_Plot = 
-  ggplot(Newport, aes(x=Newport$date)) +
+Newport = Newport %>%
+  filter(Year == "2018") %>% 
+  select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
+
+Newport_Nutrient_Plot = 
+  ggplot(Newport, aes(x=Date)) +
   geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
-  labs(title= "Newport Pier", x="Date", y="", color = NULL) +
-  scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
+  labs(title= "Newport Pier Nutrient Data", x="", y="", color = NULL) +
+  scale_color_manual(
+    labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
+    values=c("darkgreen","red","blue","purple"))+
+  scale_x_date(
+    #limits = c(),
+    labels= date_format("%b %y"),
+    date_breaks = "months")+
   theme_bw()+
   theme(
-    legend.position=c(0.9,0.85),
+    legend.position=c(0.85,0.85),
     legend.title = element_blank(),
     legend.justification = "center",
     legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.text = element_text(size=14),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
-    axis.title.x=element_text(size=12),
-    axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text = element_text(size=14),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    #axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Plot, width=10, height=6) #path="2018_10/plots"
+ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Nutrient_Plot, width=10, height=6) 
 
-#Santa Cruz Municipal Wharf Plots - 1/1/18 - 8/28/18
-Santa_Cruz_Nutrients = SCCOOS_Nutrient_Data %>%
-  filter(location == "Santa Cruz Wharf")%>% #41x14
-  select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
-  gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
+#Santa Cruz Municipal Wharf Plots
+Santa_Cruz = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Cruz.csv")
+
+Santa_Cruz_Nutrients = Santa_Cruz %>%
+  filter(Year == "2018") %>% 
+  select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
 
 Santa_Cruz_Nutrient_Plot = 
-  ggplot(Cal_Poly_Nutrient, aes(x=date))+
+  ggplot(Santa_Cruz_Nutrients, aes(x=Date))+
   geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
-  labs(title= "Santa Cruz Municipal Wharf", x="Date", y="", color = NULL) + #μm
-  scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
+  labs(title= "Santa Cruz Municipal Wharf Nutrient Data", x="", y="", color = NULL) +
+  scale_color_manual(
+    labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
+    values=c("darkgreen","red","blue","purple"))+
+  scale_x_date(
+    labels= date_format("%b %y"),
+    date_breaks = "months")+
   theme_bw()+
   theme(
-    legend.position=c(0.9,0.85),
+    legend.position=c(0.85,0.85),
     legend.title = element_blank(),
     legend.justification = "center",
     legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.text = element_text(size=14),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
-    axis.title.x=element_text(size=12),
-    axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text = element_text(size=14),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=10, height=6) #path="2018_10/plots"
+ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=10, height=6)
 
-#Santa Monica Pier Plots - No Nutrient data. All NA's 
-Santa_Monica = SCCOOS_Nutrient_Data %>%
-  filter(location == "Santa Monica Pier") %>%
-  select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
-  gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
+#Santa Monica Pier Plots 
+Santa_Monica = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
 
-Santa_Monica_Plot = 
-  ggplot(Santa_Monica, aes(x=Santa_Monica$date)) +
+Santa_Monica_Nutrient_Data = Santa_Monica %>%
+  filter(Year == "2018") %>% 
+  select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
+
+Santa_Monica_Nutrient_Plot = 
+  ggplot(Santa_Monica_Nutrient_Data, aes(x=Date)) +
   geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
-  labs(title= "Santa Monica Pier", x="Date", y="", color = NULL) +
-  scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
+  labs(title= "Santa Monica Pier Nutrient Data", x="", y="", color = NULL) +
+  scale_color_manual(
+    labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
+    values=c("darkgreen","red","blue","purple"))+
+  scale_x_date(
+    labels= date_format("%b %y"),
+    date_breaks = "months")+
   theme_bw()+
   theme(
-    legend.position=c(0.9,0.85),
+    legend.position=c(0.85,0.85),
     legend.title = element_blank(),
     legend.justification = "center",
     legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.text = element_text(size=14),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
-    axis.title.x=element_text(size=12),
-    axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text = element_text(size=14),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Plot, width=10, height=6) #path="2018_10/plots"
+ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, width=10, height=6)
 
-#Stearns Wharf Plots - 1/1/18-8/28/18
-Stearns_Wharf_Nutrient = SCCOOS_Nutrient_Data %>% #35x14
-  filter(location == "Stearns Wharf")%>%
-  select(date, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`) %>%
-  gather(key= Nutrients, value = uM, Nitrate_uM, Phosphate_uM, Silicate_uM, `Chlorophyll_mg/m3`)
+#Stearns Wharf Plots
+Stearn_Wharf = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Stearns_Wharf.csv")
+
+Stearn_Wharf_Nutrient_Data = Stearn_Wharf %>% 
+  filter(Year == "2018") %>% 
+  select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
 
 Stearns_Wharf_Nutrient_Plot = 
-  ggplot(Cal_Poly_Nutrient, aes(x=date))+
+  ggplot(Stearn_Wharf_Nutrient_Data, aes(x=Date))+
   geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
-  labs(title= "Stearns Wharf", x="Date", y="", color = NULL) +
-  scale_color_manual(labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),values=c("darkgreen","red","blue","purple"))+
+  labs(title= "Stearns Wharf Nutrient Data", x="", y="", color = NULL) +
+  scale_color_manual(
+    labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
+    values=c("darkgreen","red","blue","purple"))+
+  scale_x_date(
+    labels= date_format("%b %y"),
+    date_breaks = "months")+
   theme_bw()+
   theme(
-    legend.position=c(0.9,0.85),
+    legend.position=c(0.85,0.85),
     legend.title = element_blank(),
     legend.justification = "center",
     legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.text = element_text(size=14),
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
-    axis.title.x=element_text(size=12),
-    axis.title.y=element_text(size=12),
-    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.text = element_text(size=14),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
 ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, width=10, height=6) #path="2018_10/plots"
 
 ```
 
-```{r SCCOOS Manual Shore Stations HAB data}
-
-SCCOOS_HAB_data= read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/HAB_Jan-Oct_2018_Hepner.csv")
-
-SCCOOS_HAB_data = SCCOOS_HAB_data %>%
-  mutate(date = as.Date(paste(year, month, day, sep="-"))) %>% 
-  mutate(date = format(as.Date(date, format ="%Y-%m-%d"),"%m-%d-%Y")) %>%
-  mutate(`Domoic_Acid_ng/L` = (`Domoic_Acid_ng/mL`*1000)) %>% 
-  #mutate(ymd = make_datetime(year,month,day))
-  select(location, date,`Pseudo-nitzschia_delicatissima_group_cells/L`,`Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/L`, year, month, day)
+```{r HAB and DA Data and Plots}
 
 #Cal Poly Pier
-Cal_Poly_HAB = SCCOOS_HAB_data %>% #39x8
-  filter(location == "Cal Poly Pier") %>%
-  select(location,date,`Pseudo-nitzschia_delicatissima_group_cells/L`, `Pseudo-nitzschia_seriata_group_cells/L`,`Domoic_Acid_ng/L`)
+Cal_Poly = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Cal_Poly.csv")
 
-#max(Cal_Poly_HAB$`Pseudo-nitzschia_delicatissima_group_cells/L`) #25055
-#max(Cal_Poly_HAB$`Pseudo-nitzschia_seriata_group_cells/L`) #13860
-#max(Cal_Poly_HAB$`Domoic_Acid_ng/L`) #NaN 
+Cal_Poly_HAB = Cal_Poly %>% 
+  filter(Year == "2018") %>% 
+  select(Date,Pn_delicatissima,Pn_seriata,Alexandrium,Domoic_Acid)
+
+#max(Cal_Poly_HAB$Pn_delicatissima) #25054.61
+#max(Cal_Poly_HAB$Pn_seriata) #13859.99
+#max(Cal_Poly_HAB$Alexandrium) # 31451.53
+#max(Cal_Poly_HAB$Domoic_Acid) #NA
 
 Cal_Poly_HAB_Plot = 
-  ggplot(Cal_Poly_HAB, aes(x=date))+
-  geom_point(aes(y=`Pseudo-nitzschia_delicatissima_group_cells/L`, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"),size=3)+
-  geom_point(aes(y=`Pseudo-nitzschia_seriata_group_cells/L`,color="Pseudo-nitzschia 'seriata' size class (cells/L)"),size=3)+
+  ggplot(Cal_Poly_HAB, aes(x=Date))+
+  geom_point(aes(y=Pn_delicatissima, color=Pn_delicatissima),size=3)+
+  geom_point(aes(y=Pn_seriata,color=Pn_seriata),size=3)+
   scale_y_continuous(
     limits=c(0,300000),
     breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
@@ -1180,6 +1327,5 @@ save_plot("Stearns_Wharf_Combo_Plot.png",Stearns_Wharf_Combo_Plot, base_width = 
 # grid.newpage()
 # grid.draw(g)
 # png("stearns_wharf_combo_plot.png"); plot(g); dev.off()
-
 
 ```
