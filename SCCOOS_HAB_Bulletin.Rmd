@@ -881,7 +881,9 @@ Santa_Cruz = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018
 Santa_Cruz_Nutrients = Santa_Cruz %>%
   filter(Year == "2018") %>% 
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
-  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
+  mutate(uM=(as.numeric(uM)))%>%
+  mutate(uM=round(uM, digits=2))
 
 Santa_Cruz_Nutrient_Plot = 
   ggplot(Santa_Cruz_Nutrients, aes(x=Date))+
@@ -911,19 +913,22 @@ Santa_Cruz_Nutrient_Plot =
 ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=10, height=6)
 ```
 
-```{Santa Monica Nutrient Plot}
+```{r Santa Monica Nutrient Plot}
 
-#Santa Monica Pier Plots 
+#Santa Monica Pier Plots
+
 Santa_Monica = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
 
 Santa_Monica_Nutrient_Data = Santa_Monica %>%
   filter(Year == "2018") %>% 
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
-  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate) 
+  #mutate(uM=(as.numeric(uM)))%>%
+  #mutate(uM=round(uM, digits=2))
 
 Santa_Monica_Nutrient_Plot = 
   ggplot(Santa_Monica_Nutrient_Data, aes(x=Date)) +
-  geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
+    geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
   labs(title= "Santa Monica Pier Nutrient Data", x="", y="", color = NULL) +
   scale_color_manual(
@@ -946,7 +951,8 @@ Santa_Monica_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, width=10, height=6)
+
+ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, width=11, height=6)
 ```
 
 ```{r Stearn Wharf Nutrient Plot}
@@ -1039,7 +1045,6 @@ Cal_Poly_DA_Plot =
   ggplot(Cal_Poly_HAB, aes(x=Date))+
   geom_point(aes(y=Domoic_Acid, color="Domoic Acid (ng/L)"),size=3)+
   labs(title= "", x="", y="ng/L", color = "")+
-  #scale_y_continuous(limits=c(0,1))+
   scale_color_manual(
     labels =c("Domoic Acid (ng/L)"), 
     values =c("darkorange"))+
@@ -1115,7 +1120,6 @@ Newport_DA_Pot =
   ggplot(Newport_HAB, aes(x=Date))+
   geom_point(aes(y=Domoic_Acid, color="Domoic Acid (ng/L)"),size=3)+
   labs(title= "", x="", y="ng/L", color = "")+
-  #scale_y_continuous(limits=c(0,1))+
   scale_color_manual(
     labels =c("Domoic Acid (ng/L)"), 
     values =c("darkorange"))+
@@ -1172,7 +1176,7 @@ Santa_Cruz_HAB_Plot =
   scale_x_date(
     labels= date_format("%b %y"),
     date_breaks = "months")+
-  labs(title= "New Port Pier HAB and DA Data", x="", y="cells/L", color = "")+
+  labs(title= "Santa Cruz Municipal Wharf HAB and DA Data", x="", y="cells/L", color = "")+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"),
@@ -1226,6 +1230,8 @@ save_plot("Santa_Cruz_Combo_Plot.png",Santa_Cruz_Combo_Plot, base_width = 10, ba
 ```{r Santa Monica}
 
 #Santa Monica Pier 
+Santa_Monica = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
+
 Santa_Monica_HAB = Santa_Monica %>%
   filter(Year == "2018") %>% 
   select(Date, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid) %>%
@@ -1249,7 +1255,7 @@ Santa_Monica_HAB_Plot =
   scale_x_date(
     labels= date_format("%b %y"),
     date_breaks = "months")+
-  labs(title= "Cal Poly Pier HAB and DA Data", x="", y="cells/L", color = "")+
+  labs(title= "Santa Monica Pier HAB and DA Data", x="", y="cells/L", color = "")+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"),
@@ -1323,7 +1329,7 @@ Stearns_Wharf_HAB_Plot =
   scale_x_date(
     labels= date_format("%b %y"),
     date_breaks = "months")+
-  labs(title= "Cal Poly Pier HAB and DA Data", x="", y="cells/L", color = "")+
+  labs(title= "Stearns Wharf HAB and DA Data", x="", y="cells/L", color = "")+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"),
