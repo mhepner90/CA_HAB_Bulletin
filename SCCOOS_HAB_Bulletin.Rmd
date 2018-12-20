@@ -617,21 +617,19 @@ dygraph(don2, main = "Sea Lion Strandings", xlab = "", ylab= "Sea Lion Stranding
 #     Monthly_se = Monthly_sd / sqrt(Monthly_n),
 #     Monthly_min = min(Occurence_YM),
 #     Monthly_max = max(Occurence_YM))
-
 #write_csv(TMMC_Monthly_Mean, "TMMC_Data/TMMC_monthly_mean.csv")
-
 #edit TMMC monthly mean '2018_counts' to refelct latest strandings 
 
 TMMC_Monthly_Mean = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_monthly_mean.csv")
 
 TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
-  geom_line(aes(y=Monthly_mean),color ="blue", lwd = 2)+
-  geom_point(aes(y=Monthly_mean),size=3, color="blue")+
-  geom_line(aes(y=`2018_counts`),color ="red", lwd = 2)+
-  geom_point(aes(y=`2018_counts`),size=3, color="red")+
+  geom_line(aes(y=Monthly_mean,color ="blue"), lwd = 1)+
+  geom_point(aes(y=Monthly_mean, color="blue"),size=3)+
+  geom_line(aes(y=`2018_counts`, color ="red"), lwd = 1)+
+  geom_point(aes(y=`2018_counts`, color ="red"),size=3)+
   geom_errorbar(aes(ymax=Monthly_mean+Monthly_se, ymin=Monthly_mean-Monthly_se), width=0.1)+
   labs(title= "The Marine Mammal Center California Sea Lion Strandings", x="", y="Number of Strandings (± SE)", color = "") + #\n
-  scale_color_manual(labels=c("Mean Strandings","2018 Strandings"), values =  c("blue","red"))+
+  scale_color_manual(labels=c("Mean Strandings since 1990","2018 Strandings"), values =  c("blue","red"))+
   scale_x_continuous(
     limits = c(1, 12), 
     breaks = c(1,2,3,4,5,6,7,8,9,10,11,12), 
@@ -642,17 +640,22 @@ TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
     labels=c("0","5","10","15","20","25","30"))+
   theme_bw()+
   theme(
-    legend.position="bottom",
+    legend.position = c(0.8,0.9),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    #legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=16, vjust=0.5, hjust=0.5), 
     panel.grid.major=element_blank(),
     panel.grid.minor=element_blank(),
-    axis.title.x=element_text(size=16),
-    axis.title.y=element_text(size=16),
-    axis.text.x = element_text(size=16),
-    axis.text.y = element_text(size=16),
+    axis.title.x=element_text(size=16, color="black"),
+    axis.title.y=element_text(size=16, color="black"),
+    axis.text.x = element_text(size=16, color="black"),
+    axis.text.y = element_text(size=16, color="black"),
     title=element_text(size=18),
     plot.title=element_text(hjust=0.5))
 
-ggsave(file="TMMC_Monthly_Average_2018_10.pdf", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
+ggsave(file="TMMC_Monthly_Average_2018_11.png", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
 ```
 
 # SCCOOS Manual Shore Station Nutrient and HAB Data 
@@ -799,6 +802,8 @@ Cal_Poly = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_1
 
 Cal_Poly_Nutrient = Cal_Poly %>%
   filter(Year == "2018") %>% 
+  filter(Month != "11") %>% #removed month of Nov 
+  filter(Month != "12") %>% #removed month of Dec 
   select(Date,Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
 
@@ -828,7 +833,7 @@ Cal_Poly_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     #axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
-    title=element_text(size=12))
+    title=element_text(size=14))
 ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=10, height=6) 
 ```
 
@@ -869,7 +874,7 @@ Newport_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     #axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
-    title=element_text(size=12))
+    title=element_text(size=14))
 ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Nutrient_Plot, width=10, height=6) 
 ```
 
@@ -1003,6 +1008,8 @@ Cal_Poly = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_1
 
 Cal_Poly_HAB = Cal_Poly %>% 
   filter(Year == "2018") %>% 
+  filter(Month != "11") %>% 
+  filter(Month != "12") %>%     
   select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
   mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
 
@@ -1011,19 +1018,21 @@ Cal_Poly_HAB_Plot =
   geom_point(aes(y=Pn_delicatissima, color="Pseudo-nitzschia 'delicatissima' size class (cells/L)"), size=3) +
   geom_point(aes(y=Pn_seriata,color="Pseudo-nitzschia 'seriata' size class (cells/L)"), size=3)+
   geom_point(aes(y=Alexandrium, color="Alexandrium spp. (cells/L)"), size=3)+
-  #scale_y_continuous(
-    #limits=c(0,300000),
-    #breaks=c(0,25000,50000,75000,100000,125000,150000,175000,200000,225000,250000,275000,300000),
-    #labels=c("0","","50,000","","100,000","","150,000","","200,000","","250,000","","300,000"))+
+  geom_hline(yintercept = 10000, linetype="dashed", color ="black")+ #add horizontal line at 10,000 cells/L 
+  scale_y_continuous(name=expression(paste(italic("Pseudo-nitzschia"), "spp. (cells/L)")), 
+                     sec.axis = sec_axis(~./100, name=expression(paste(italic("Alexandrium")," spp. (cells/L)"))))+ #add second axis 
   scale_color_manual(
     labels =c(expression(paste(italic("Pseudo-nitzschia")," 'delicatissima' size class (cells/L)")),
               expression(paste(italic("Pseudo-nitzschia")," 'seriata' size class (cells/L)")),
               expression(paste(italic("Alexandrium")," spp. (cells/L)"))), 
-    values =c("hotpink","dodgerblue","limegreen"))+
+    values =c("dodgerblue","limegreen","goldenrod"))+
+  labs(title= "Cal Poly Pier HAB and DA Data", 
+       x="", 
+       color = "")+
   scale_x_date(
+    limits = as.Date(c("2018-01-01","2018-10-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
-  labs(title= "Cal Poly Pier HAB and DA Data", x="", y="cells/L", color = "")+
   theme_bw()+
   theme(
     plot.margin = unit(c(0, 0, 0, 0), "cm"),
@@ -1070,6 +1079,7 @@ Cal_Poly_DA_Plot =
 
 Cal_Poly_Combo_Plot = plot_grid(Cal_Poly_HAB_Plot, Cal_Poly_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
 save_plot("Cal_Poly_Combo_Plot.png", Cal_Poly_Combo_Plot, base_width = 10, base_height = 6)
+
 ```
 
 ```{r Newport Pier}
