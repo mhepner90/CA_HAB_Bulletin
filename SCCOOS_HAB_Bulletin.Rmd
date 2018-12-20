@@ -1019,8 +1019,8 @@ Cal_Poly_HAB_Plot =
   geom_point(aes(y=Pn_seriata,color="Pseudo-nitzschia 'seriata' size class (cells/L)"), size=3)+
   geom_point(aes(y=Alexandrium, color="Alexandrium spp. (cells/L)"), size=3)+
   geom_hline(yintercept = 10000, linetype="dashed", color ="black")+ #add horizontal line at 10,000 cells/L 
-  scale_y_continuous(name=expression(paste(italic("Pseudo-nitzschia"), " spp. (cells/L)")), 
-                     sec.axis = sec_axis(~./100, name=expression(paste(italic("Alexandrium")," spp. (cells/L)"))))+ #add second axis 
+  #scale_y_continuous(name=expression(paste(italic("Pseudo-nitzschia"), " spp. (cells/L)")), 
+                     #sec.axis = sec_axis(~./100, name=expression(paste(italic("Alexandrium")," spp. (cells/L)"))))+ #add second axis 
   scale_color_manual(
     labels =c(expression(paste(italic("Pseudo-nitzschia")," 'delicatissima' size class (cells/L)")),
               expression(paste(italic("Pseudo-nitzschia")," 'seriata' size class (cells/L)")),
