@@ -750,22 +750,22 @@ write_csv(Santa_Cruz,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_
 Santa_Monica_Org = read_csv("HABMAP_Data/Santa_Monica.csv") #orignial Santa Cruz HABMAP data from google drive 
 
 Santa_Monica = Santa_Monica_Org %>% #353x10
-  mutate(Location = `Location Code`,
+    mutate(Location = `Location Code`,
          Date = `Date Collected`,
          Temperature = `Temp (C)`,
          Chlorophyll =`Avg Chloro (mg/m3)`,
-         Nitrate = `Nitrate (uM)`,
+         #Nitrate = `Nitrate (uM)`,
          Silicate= `Dissolved Silicon`,
          Phosphate = `Phosphate (uM)`,
          Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
          Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
          Alexandrium = `Alexandrium spp. (cells/L)`,
-         Domoic_Acid = `Domoic Acid (ng/mL)`) %>%
-  select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
+         Domoic_Acid = `Domoic Acid (ng/mL)`,
+         Nitrate = `Nitrate (uM)`)%>%
+  select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Santa_Monica,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
 
 #Stearns Wharf 
 Stearn_Wharf_Org = read_csv("HABMAP_Data/Stearn_Wharf.csv") #orignial Stearn Wharf HABMAP data from google drive 
@@ -917,18 +917,18 @@ ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width
 
 #Santa Monica Pier Plots
 
-Santa_Monica = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
+Santa_Monica2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Santa_Monica.csv")
 
 Santa_Monica_Nutrient_Data = Santa_Monica %>%
   filter(Year == "2018") %>% 
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
-  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate) 
-  #mutate(uM=(as.numeric(uM)))%>%
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
+  mutate(uM=(as.numeric(uM))) #this removes all CHL-A AND NAS!! UGH!! 
   #mutate(uM=round(uM, digits=2))
 
 Santa_Monica_Nutrient_Plot = 
   ggplot(Santa_Monica_Nutrient_Data, aes(x=Date)) +
-    geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
+  geom_point(aes(y=uM,color=Nutrients, group=Nutrients),size=3)+
   geom_line(aes(y=uM,color=Nutrients, group=Nutrients))+
   labs(title= "Santa Monica Pier Nutrient Data", x="", y="", color = NULL) +
   scale_color_manual(
@@ -951,8 +951,8 @@ Santa_Monica_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-
 ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, width=11, height=6)
+
 ```
 
 ```{r Stearn Wharf Nutrient Plot}
