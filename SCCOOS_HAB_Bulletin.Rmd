@@ -707,7 +707,7 @@ Cal_Poly = Cal_Poly_Org %>%
 write_csv(Cal_Poly,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Cal_Poly.csv")
 
 #Newport  
-Newport_Org = read_csv("HABMAP_Data/Cal_Poly.csv") #orignial Stearn Wharf HABMAP data from google drive 
+Newport_Org = read_csv("HABMAP_Data/Newport.csv") #orignial Stearn Wharf HABMAP data from google drive 
 
 Newport = Newport_Org %>%
   mutate(Location = `Location Code`,
@@ -720,8 +720,8 @@ Newport = Newport_Org %>%
          Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
          Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
          Alexandrium = `Alexandrium spp. (cells/L)`,
-         Domoic_Acid = `Domoic Acic (ng/mL)`,
-         Nitrate = `Nitrite + Nitrate (uM)` -`Nitrite (uM)`)%>%
+         Domoic_Acid = `Domoic Acid (ng/mL)`,
+         Nitrate = `Nitrate (uM)`)%>%
   select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
@@ -1019,8 +1019,8 @@ Cal_Poly_HAB_Plot =
   geom_point(aes(y=Pn_seriata,color="Pseudo-nitzschia 'seriata' size class (cells/L)"), size=3)+
   geom_point(aes(y=Alexandrium, color="Alexandrium spp. (cells/L)"), size=3)+
   geom_hline(yintercept = 10000, linetype="dashed", color ="black")+ #add horizontal line at 10,000 cells/L 
-  #scale_y_continuous(name=expression(paste(italic("Pseudo-nitzschia"), " spp. (cells/L)")), 
-                     #sec.axis = sec_axis(~./100, name=expression(paste(italic("Alexandrium")," spp. (cells/L)"))))+ #add second axis 
+  scale_y_continuous(name=expression(paste(italic("Pseudo-nitzschia"), " spp. (cells/L)")), 
+                     sec.axis = sec_axis(~./100, name=expression(paste(italic("Alexandrium")," spp. (cells/L)"))))+ #add second axis 
   scale_color_manual(
     labels =c(expression(paste(italic("Pseudo-nitzschia")," 'delicatissima' size class (cells/L)")),
               expression(paste(italic("Pseudo-nitzschia")," 'seriata' size class (cells/L)")),
@@ -1078,7 +1078,39 @@ Cal_Poly_DA_Plot =
     title=element_text(size=14))
 
 Cal_Poly_Combo_Plot = plot_grid(Cal_Poly_HAB_Plot, Cal_Poly_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
+
 save_plot("Cal_Poly_Combo_Plot.png", Cal_Poly_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_10/plots")
+
+##test idea of overlaying plots 
+Cal_Poly_Al = 
+  ggplot(Cal_Poly_HAB, aes(x=Date))+
+  geom_point(aes(y=Alexandrium, color="Alexandrium spp. (cells/L)"), size=3)+
+  scale_color_manual(
+    labels =c(expression(paste(italic("Alexandrium")," spp. (cells/L)"))), 
+    values =c("goldenrod"))+
+  labs(title= "", 
+       x="", 
+       color = "")+
+  scale_x_date(
+    limits = as.Date(c("2018-01-01","2018-10-31")),
+    labels= date_format("%b %y"),
+    date_breaks = "months")+
+  theme_bw()+
+  theme(
+    plot.margin = unit(c(1, 1, 0, 1), "cm"), #trbl
+    legend.position = c(0.7,0.8), #c(0.85,0.9)
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=12), #hjust = 0, vjust = 0
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    #axis.text.x = element_blank(),
+    plot.title = element_text(hjust=0.5),
+    title=element_text(size=14))
 
 ```
 
@@ -1090,6 +1122,7 @@ Newport_HAB = Newport %>%
   filter(Month != "11") %>% 
   filter(Month != "12") %>%     
   select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
+  mutate(Domoic_Acid = as.integer(Domoic_Acid)) %>% 
   mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
 
 #max(Newport_HAB$Pn_delicatissima) #25054.61
