@@ -736,7 +736,7 @@ Locations:
 ```{r Clean up Data}
 
 #Cal Poly
-#Cal_Poly_Org = read_csv("HABMAP_Data/Cal_Poly.csv") #orignial Stearn Wharf HABMAP data from google drive 
+#Cal_Poly_Org = read_csv("HABMAP_Data/Cal_Poly.csv") 
 Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/CalPoly_Pier_2018_12.csv") 
 
 Cal_Poly = Cal_Poly_Org %>%
@@ -758,29 +758,28 @@ Cal_Poly = Cal_Poly_Org %>%
 write_csv(Cal_Poly,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Cal_Poly_cleanedup.csv")
 
 #Newport  
-Newport_Org = read_csv("HABMAP_Data/Newport.csv") #orignial Stearn Wharf HABMAP data from google drive 
+Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Newport_2018_12.csv") 
 
 Newport = Newport_Org %>%
-  mutate(Location = `Location Code`,
-         Date = `Date Collected`,
+  mutate(Location = `Location`,
+         Date = `Date`,
          Temperature = `Temp (C)`,
-         Chlorophyll =`Avg Chloro (mg/m3)`,
+         Chlorophyll =`Avg Chloro`,
          #Nitrate = `Nitrate (uM)`,
-         Silicate= `Silicate (uM)`,
-         Phosphate = `Phosphate (uM)`,
-         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
-         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
-         Alexandrium = `Alexandrium spp. (cells/L)`,
-         Domoic_Acid = `Domoic Acid (ng/mL)`,
-         Nitrate = `Nitrate (uM)`)%>%
+         Silicate= `Silicate`,
+         Phosphate = `Phosphate`,
+         Pn_delicatissima = `Pseudo-nitzschia deli`,
+         Pn_seriata = `Pseudo-nitzschia seriata`,
+         Alexandrium = `Alexandrium spp.`,
+         Domoic_Acid = `Domoic Acid`,
+         Nitrate = `Nitrate`)%>%
   select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Newport,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_11/Newport.csv")
+write_csv(Newport,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Newport_cleanedup.csv")
 
 #Santa Cruz 
-#Santa_Cruz_Org = read_csv("HABMAP_Data/Santa_Cruz.csv") #orignial Santa Cruz HABMAP data from google drive 
 Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Cruz_2018_12.csv") 
 
 Santa_Cruz = Santa_Cruz_Org %>% #353x10
@@ -802,20 +801,18 @@ Santa_Cruz = Santa_Cruz_Org %>% #353x10
 write_csv(Santa_Cruz,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Cruz_cleanedup.csv")
 
 #Santa Monica  - No Silicate, listed as 'Dissolved Silicon'
-#Santa_Monica_Org = read_csv("HABMAP_Data/Santa_Monica.csv") #orignial Santa Cruz HABMAP data from google drive 
 Santa_Monica_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Monica_2018_12.csv")
-##need to remove tbd from Cholorophyll and 
 
-Santa_Monica = Santa_Monica_Org %>% #353x10
+Santa_Monica = Santa_Monica_Org %>% 
     mutate(Location = `Location Code`,
          Date = `Date Collected`,
-         Temperature = `Temp (°C)`,
+         Temperature = `Temp (C)`,
          Chlorophyll =`Avg Chloro (mg/m3)`,
          #Nitrate = `Nitrate (uM)`,
          Silicate= `Dissolved Silicon`,
          Phosphate = `Phosphate (uM)`,
-         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
-         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima`,
+         Pn_seriata = `Pseudo-nitzschia seriata`,
          Alexandrium = `Alexandrium spp. (cells/L)`,
          Domoic_Acid = `Domoic Acid (ng/mL)`,
          Nitrate = `Nitrate (uM)`)%>%
@@ -826,14 +823,13 @@ Santa_Monica = Santa_Monica_Org %>% #353x10
 write_csv(Santa_Monica,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Monica_cleanedup.csv")
 
 #Stearns Wharf 
-#Stearn_Wharf_Org = read_csv("HABMAP_Data/Stearn_Wharf.csv") #orignial Stearn Wharf HABMAP data from google drive
 Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Stearns_Wharf_2018_12.csv")
 
 Stearn_Wharf = Stearn_Wharf_Org %>%
   mutate(Location = `Location Code`,
          Date = `Date Collected`,
-         Temperature = `Temp (C)`,
-         Chlorophyll =`Avg Chla (mg/m3)`,
+         Temperature = `Temp (deg C)`,
+         Chlorophyll =`Avg Chloro (mg/m3)`,
          Nitrate = `Nitrate (uM)`,
          Silicate= `Silicate (uM)`,
          Phosphate = `Phosphate (uM)`,
@@ -853,7 +849,7 @@ Scripps_Pier_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulleti
 Scripps_Pier = Scripps_Pier_Org %>%
   mutate(Location = `Location Code`,
          Date = `Date Collected`,
-         Temperature = `Temp (C)`,
+         Temperature = `Temp (°C)`,
          Chlorophyll =`Avg Chloro (mg/m3)`,
          Nitrate = `Nitrate (uM)`,
          Silicate= `Silicate (uM)`,
@@ -1044,7 +1040,9 @@ Stearn_Wharf_Nutrient_Data = Stearn_Wharf %>%
   filter(Year == "2018") %>% 
   #filter(Month != "12") %>% #removed month of Dec 
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
-  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
+  gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
+  mutate(uM=(as.numeric(uM))) #this removes all CHL-A AND NAS!! UGH!! 
+  #mutate(uM=round(uM, digits=2))
 
 Stearns_Wharf_Nutrient_Plot = 
   ggplot(Stearn_Wharf_Nutrient_Data, aes(x=Date))+
