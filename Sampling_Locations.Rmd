@@ -1,0 +1,120 @@
+---
+title: "Prop1_IFCB_Map"
+author: "Megan Hepner"
+date: "2/11/2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r library, include=FALSE}
+
+library(plotly)
+#devtools::install_github("rstudio/leaflet#346")
+library(leaflet)
+library(crosstalk)
+library(htmltools)
+library(rjson)
+library(jsonlite)
+library(RCurl)
+library(tidyverse)
+library(dplyr)
+library(rnaturalearth) 
+library(ggplot2)
+library(ggspatial)
+devtools::install_github("rstudio/rsconnect")
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE)
+
+```
+
+
+```{r read in data, echo=FALSE}
+
+Prop1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/Prop1_Lat_Long.csv") #User/mhepner
+
+Prop1 = Prop1 %>% #221x3, 10 groups 
+  select(Program, Latitude, Longitude) %>%
+  group_by(Program)
+         
+```
+
+```{r create base map, echo=FALSE}
+
+states <- ne_states(
+  country = c("Canada",
+              "United States of America",
+              "Mexico"),
+  returnclass = 'sf') %>% 
+  filter(name %in% c("California","Oregon",
+                     "Washington","Nevada",
+                     "British Columbia",
+                     "Baja California",
+                     "Baja California Sur"))
+
+#test1 
+# test = ggplot() + 
+#   geom_sf(data=states)+
+#   geom_point(data = Prop1,
+#             aes(Longitude, Latitude,
+#                 colour=Program))+
+#   xlab("Longitude")+
+#   ylab("Latitude")+ 
+#   ggtitle("Sampling Locations")+
+#   coord_map()
+# test
+
+## test2
+wc.lat  <- range(Prop1$Latitude, na.rm=T) #29.84637 41.06110
+wc.long <- range(Prop1$Longitude, na.rm=T) #-126.4856 -117.1008
+
+#Create base map
+test2 = base.map <- ggplot() +
+  geom_sf(data=states)+
+  geom_point(data = Prop1,
+             aes(Longitude, Latitude,  
+                 color=Program), #shape=Program # The shape palette can deal with a maximum of 6 discrete values
+             size=2.5) + 
+  xlab("Longitude") +
+  ylab("Latitude") + 
+  ggtitle("Sampling Locations")+
+  annotation_scale(location = "bl", 
+                   width_hint = 0.5) +
+  coord_sf(xlim = wc.long,
+           ylim = wc.lat) +
+  theme_bw()
+test2
+
+```
+
+```{r leaflet, echo=FALSE}
+
+Prop1.df = as.data.frame(Prop1)
+l <- leaflet() %>%
+  addProviderTiles(providers$Esri.OceanBasemap)
+
+# test3 = leaflet() %>% 
+#       addProviderTiles(providers$Esri.OceanBasemap) %>%
+#       addAwesomeMarkers(data=Prop1.df, 
+#                  lng=~Longitude, 
+#                  lat=~Latitude,
+#                  label=~as.character(Program), 
+#                  popup=~Program,
+#                  #group = df,
+#                  clusterOptions = markerClusterOptions()) #addMarkers
+# test3
+
+pal <- colorFactor(c("navy", "red", "green"),
+                   domain = unique(Prop1.df$Program))
+
+test4 = leaflet() %>% 
+      addProviderTiles(providers$Esri.OceanBasemap) %>%
+      addCircleMarkers(data=Prop1.df, 
+                       color=~pal(Program),
+                       stroke= FALSE, fillOpacity = 0.5,
+                       lng=~Longitude, 
+                       lat=~Latitude,
+                       label=~as.character(Program)) #, 
+test4
+
+```
