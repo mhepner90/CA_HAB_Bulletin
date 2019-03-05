@@ -123,235 +123,6 @@ A = Abundant (4)
 
 The RAI is based on the sampling effort (total tow length), percent composition, and settled cell mass (in milliliters).
 
-```{r June 2018 CDPH data}
-
-CDPH_2018_06 = list.files(path="CDPH_Data/Pseudo_nitzschia/2018_06", pattern = "*.csv")
-#"2018_06_week_1_Pn.csv" "2018_06_week_2_Pn.csv" "2018_06_week_3_Pn.csv" "2018_06_week_4_Pn.csv"
-
-Pn_2018_06_wk1 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06/2018_06_week_1_Pn.csv") #19x12 
-Pn_2018_06_wk2 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06/2018_06_week_2_Pn.csv") #21x11
-Pn_2018_06_wk3 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06/2018_06_week_3_Pn.csv") #32x12
-Pn_2018_06_wk4 = read_csv("CDPH_Data/Pseudo_nitzschia/2018_06/2018_06_week_4_Pn.csv") #24x11
-
-CDPH_2018_06 = dplyr::bind_rows(Pn_2018_06_wk1, Pn_2018_06_wk2) #40x12
-CDPH_2018_06 = dplyr::bind_rows(CDPH_2018_06, Pn_2018_06_wk3) #72x12
-CDPH_2018_06 = dplyr::bind_rows(CDPH_2018_06, Pn_2018_06_wk4) #96x12
-
-CDPH_Pn_2018_06 = CDPH_2018_06 %>%
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-# Parsed with column specification:
-#   `ID #` = col_character(),
-#   `Date -Sampled-` = col_character(),
-#   `NtoS -code-` = col_integer(),
-#   `Sample Site` = col_character(),
-#   `Species -code-` = col_character(),
-#   `Percent Composition` = col_double(),
-#   `Density -code-` = col_character(),
-#   RA_Rank = col_integer(),
-#   `RA Index` = col_double(),
-#   Latitude = col_double(),
-#   Longitude = col_double()
-write_csv(CDPH_Pn_2018_06, "CDPH_Data/Pseudo_nitzschia/2018_06/CDPH_Pn_2018_06.csv")
-
-CDPH_Pn_2018_06_max = CDPH_Pn_2018_06 %>%
-  group_by(`Sample Site`, Latitude, Longitude) %>%
-  summarize(
-    percent_composition_max = max(`Percent Composition`))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max)
-
-write_csv(CDPH_Pn_2018_06_max, "CDPH_Data/Pseudo_nitzschia/2018_06/CDPH_Pn_2018_06_max.csv")
-
-CDPH_2018_06 = list.files(path="CDPH_Data/Alexandria/2018_06", pattern = "*.csv")
-#"2018_06_week_1_Al.csv" "2018_06_week_2_Al.csv" "2018_06_week_3_Al.csv" "2018_06_week_4_Al.csv"
-
-Al_2018_06_wk1 = read_csv("CDPH_Data/Alexandria/2018_06/2018_06_week_1_Al.csv") 
-Al_2018_06_wk2 = read_csv("CDPH_Data/Alexandria/2018_06/2018_06_week_2_Al.csv") 
-Al_2018_06_wk3 = read_csv("CDPH_Data/Alexandria/2018_06/2018_06_week_3_Al.csv") 
-Al_2018_06_wk4 = read_csv("CDPH_Data/Alexandria/2018_06/2018_06_week_4_Al.csv") 
-
-CDPH_Al_2018_06 = dplyr::bind_rows(Al_2018_06_wk1, Al_2018_06_wk2) 
-CDPH_Al_2018_06 = dplyr::bind_rows(CDPH_Al_2018_06, Al_2018_06_wk3) 
-CDPH_Al_2018_06 = dplyr::bind_rows(CDPH_Al_2018_06, Al_2018_06_wk4)  
-
-CDPH_Al_2018_06 = CDPH_Al_2018_06 %>%
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Al_2018_06, "CDPH_Data/Alexandria/2018_06/CDPH_Al_2018_06.csv") #62x7
-#CDPH_Al_2018_06 = read_csv("CDPH_Data/Alexandria/CDPH_Al_2018_06.csv")
-
-
-CDPH_Al_2018_06_max = CDPH_Al_2018_06 %>%
-  group_by(`Sample Site`, Latitude, Longitude) %>%
-  summarize(
-    percent_composition_max = max(`Percent Composition`))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max)
-
-write_csv(CDPH_Al_2018_06_max, "CDPH_Data/Alexandria/2018_06/CDPH_Al_2018_06_max.csv") #36x7
-```
-
-```{r July 2018 CDPH data}
-
-CDPH_2018 = list.files(path="CDPH_Data/Pseudo_nitzschia/", pattern = "*.csv")
-#"2018_06_week_3_Pn.csv" "2018_06_week_4_Pn.csv" "2018_07_week_1_Pn.csv" "2018_07_week_2_Pn.csv" "2018_07_week_3_Pn.csv"
-
-Pn_2018_07_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_07_week_1_Pn.csv") #36x11 
-Pn_2018_07_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_07_week_2_Pn.csv") #38x11
-Pn_2018_07_wk3 = read_csv("C/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_07_week_3_Pn.csv") #32x11
-Pn_2018_07_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_07_week_4_Pn.csv") #32x11
-
-CDPH_2018_07 = dplyr::bind_rows(Pn_2018_07_wk1, Pn_2018_07_wk2) #
-CDPH_2018_07 = dplyr::bind_rows(CDPH_2018_07, Pn_2018_07_wk3) #
-CDPH_2018_07 = dplyr::bind_rows(CDPH_2018_07, Pn_2018_07_wk4) #
-
-CDPH_Pn_2018_07 = CDPH_2018_07 %>%
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Pn_2018_07, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07.csv")
-
-#CDPH_Pn_2018_07= read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07.csv")
-
-CDPH_Pn_2018_07_max = CDPH_Pn_2018_07 %>%
-  group_by(Sample_Site,Latitude,Longitude) %>%
-  summarize(
-    percent_composition_max = max(Percent_Composition))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max)
-
-write_csv(CDPH_Pn_2018_07_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/CDPH_Pn_2018_07_max.csv")
-
-
-CDPH_2018 = list.files(path="CDPH_Data/Alexandria/", pattern = "*.csv")
-#"2018_06_week_3_Al.csv" "2018_06_week_4_Al.csv" "2018_07_week_1_Al.csv" "2018_07_week_2_Al.csv" "2018_07_week_3_Al.csv"
-
-#Al_2018_06_wk4 = read_csv("CDPH_Data/Alexandria/2018_06_week_4_Al.csv")
-Al_2018_07_wk1 = read_csv("CDPH_Data/Alexandria/2018_07_week_1_Al.csv") #26x11 
-Al_2018_07_wk2 = read_csv("CDPH_Data/Alexandria/2018_07_week_2_Al.csv") #22x11
-Al_2018_07_wk3 = read_csv("CDPH_Data/Alexandria/2018_07_week_3_Al.csv") #24x11
-Al_2018_07_wk4 = read_csv("CDPH_Data/Alexandria/2018_07_week_4_Al.csv") #18x11
-
-CDPH_Al_2018_07 = dplyr::bind_rows(Al_2018_07_wk1, Al_2018_07_wk2) #48x11 
-CDPH_Al_2018_07 = dplyr::bind_rows(CDPH_Al_2018_07, Al_2018_07_wk3) #72x11
-CDPH_Al_2018_07 = dplyr::bind_rows(CDPH_Al_2018_07, Al_2018_07_wk4) #90x11 
-
-CDPH_Al_2018_07 = CDPH_Al_2018_07 %>%
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Al_2018_07, "CDPH_Data/Alexandria/CDPH_Al_2018_07.csv")
-CDPH_Al_2018_07 = read_csv("CDPH_Data/Alexandria/CDPH_Al_2018_07.csv")
-
-CDPH_Al_2018_07_max = CDPH_Al_2018_07 %>%
-  group_by(Sample_Site,Latitude,Longitude) %>%
-  summarize(
-    percent_composition_max = max(Percent_Composition))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max) #56x4 
-
-write_csv(CDPH_Al_2018_07_max, "CDPH_Data/Alexandria/CDPH_Al_2018_07_max.csv")
-
-```
-
-```{r August 2018 CDPH data}
-
-Pn_2018_09_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_1_Pn.csv") #29x11 
-Pn_2018_09_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_2_Pn.csv") #24x11
-Pn_2018_09_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_3_Pn.csv") #31x11
-Pn_2018_09_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_4_Pn.csv") #39x11
-
-CDPH_2018_09 = dplyr::bind_rows(Pn_2018_09_wk1, Pn_2018_09_wk2) #
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Pn_2018_09_wk3) #
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Pn_2018_09_wk4) #
-
-CDPH_Pn_2018_09 = CDPH_2018_09 %>% #123x7
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Pn_2018_09, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/CDPH_Pn_2018_09.csv")
-
-CDPH_Pn_2018_09_max = CDPH_Pn_2018_09 %>% 
-  group_by(`Sample Site`,Latitude,Longitude) %>%
-  summarize(
-    percent_composition_max = max(`Percent Composition`))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max) #66x4 
-
-write_csv(CDPH_Pn_2018_09_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/CDPH_Pn_2018_09_max.csv")
-
-Al_2018_09_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_1_Al.csv") #16x11 
-Al_2018_09_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_2_Al.csv") #16x11 
-Al_2018_09_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_3_Al.csv") #12x11 
-Al_2018_09_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_4_Al.csv") #17x11 
-
-CDPH_2018_09 = dplyr::bind_rows(Al_2018_09_wk1, Al_2018_09_wk2) #
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Al_2018_09_wk3) #44x11
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Al_2018_09_wk4) #61x11
-
-CDPH_Al_2018_09 = CDPH_2018_09 %>%
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Al_2018_09, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/CDPH_Al_2018_09.csv")
-
-CDPH_Al_2018_09_max = CDPH_Al_2018_09 %>% #32x7
-  group_by(`Sample Site`,Latitude,Longitude) %>%
-  summarize(
-    percent_composition_max = max(`Percent Composition`))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max) #26x4 
-
-write_csv(CDPH_Al_2018_09_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/CDPH_Al_2018_09_max.csv")
-
-```
-
-```{r September 2018 CDPH data}
-
-Pn_2018_09_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_1_Pn.csv") #29x11 
-Pn_2018_09_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_2_Pn.csv") #24x11
-Pn_2018_09_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_3_Pn.csv") #31x11
-Pn_2018_09_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/2018_09_week_4_Pn.csv") #39x11
-
-CDPH_2018_09 = dplyr::bind_rows(Pn_2018_09_wk1, Pn_2018_09_wk2) #57
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Pn_2018_09_wk3) #80
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Pn_2018_09_wk4) #
-
-CDPH_Pn_2018_09 = CDPH_2018_09 %>% #123x7
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Pn_2018_09, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/CDPH_Pn_2018_09.csv")
-
-CDPH_Pn_2018_09_max = CDPH_Pn_2018_09 %>%  
-  group_by(`Sample Site`,Latitude,Longitude) %>%
-  summarize(
-    percent_composition_max = max(`Percent Composition`))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max) #66x4 
-
-write_csv(CDPH_Pn_2018_09_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_09/CDPH_Pn_2018_09_max.csv")
-
-Al_2018_09_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_1_Al.csv") #16x11 
-Al_2018_09_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_2_Al.csv") #16x11 
-Al_2018_09_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_3_Al.csv") #12x11 
-Al_2018_09_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/2018_09_week_4_Al.csv") #17x11 
-
-CDPH_2018_09 = dplyr::bind_rows(Al_2018_09_wk1, Al_2018_09_wk2) #
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Al_2018_09_wk3) #44x11
-CDPH_2018_09 = dplyr::bind_rows(CDPH_2018_09, Al_2018_09_wk4) #61x11
-
-CDPH_Al_2018_09 = CDPH_2018_09 %>%
-  select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
-
-write_csv(CDPH_Al_2018_09, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/CDPH_Al_2018_09.csv")
-
-CDPH_Al_2018_09_max = CDPH_Al_2018_09 %>% #32x7
-  group_by(`Sample Site`,Latitude,Longitude) %>%
-  summarize(
-    percent_composition_max = max(`Percent Composition`))%>%
-  #arrange(Sample_Site) %>%
-  arrange(percent_composition_max) #26x4 
-
-write_csv(CDPH_Al_2018_09_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_09/CDPH_Al_2018_09_max.csv")
-```
-
 ```{r October 2018 CDPH data}
 
 Pn_2018_10_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_10/2018_10_week_1_Pn.csv") #23x11 
@@ -447,58 +218,55 @@ CDPH_Al_2018_11_max = CDPH_Al_2018_11 %>%
     percent_composition_max = max(`Percent Composition`))%>%
   #arrange(Sample_Site) %>%
   arrange(percent_composition_max) #24x4
-
-12
-
 ```
 
-```{r December 2018 CDPH data}
+```{r Janaury 2019 CDPH data}
 
-Pn_2018_12_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_12/2018_12_week_1_Pn.csv") #27x11  
-Pn_2018_12_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_12/2018_12_week_2_Pn.csv") #21x11
-Pn_2018_12_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_12/2018_12_week_3_Pn.csv") #21x11 
-Pn_2018_12_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_12/2018_12_week_4_Pn.csv") #18x11
+Pn_2019_01_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2019_01/2019_01_week_1_Pn.csv") #27x11  
+Pn_2019_01_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2019_01/2019_01_week_2_Pn.csv") #21x11
+Pn_2019_01_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2019_01/2019_01_week_3_Pn.csv") #21x11 
+Pn_2019_01_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2019_01/2019_01_week_4_Pn.csv") #18x11
 
-CDPH_2018_12 = dplyr::bind_rows(Pn_2018_12_wk1, Pn_2018_12_wk2) 
-CDPH_2018_12 = dplyr::bind_rows(CDPH_2018_12, Pn_2018_12_wk3) #
-CDPH_2018_12 = dplyr::bind_rows(CDPH_2018_12, Pn_2018_12_wk4) #87x11
+CDPH_2019_01 = dplyr::bind_rows(Pn_2019_01_wk1, Pn_2019_01_wk2) 
+CDPH_2019_01 = dplyr::bind_rows(CDPH_2019_01, Pn_2019_01_wk3) #
+CDPH_2019_01 = dplyr::bind_rows(CDPH_2019_01, Pn_2019_01_wk4) #87x11
 
-CDPH_Pn_2018_12 = CDPH_2018_12 %>% #
+CDPH_Pn_2019_01 = CDPH_2019_01 %>% #
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Pn_2018_12, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_12/CDPH_Pn_2018_12.csv")
+write_csv(CDPH_Pn_2019_01, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2019_01/CDPH_Pn_2019_01.csv")
 
-CDPH_Pn_2018_12_max = CDPH_Pn_2018_12 %>%  
+CDPH_Pn_2019_01_max = CDPH_Pn_2019_01 %>%  
   group_by(`Sample Site`,Latitude,Longitude) %>%
   summarize(
     percent_composition_max = max(`Percent Composition`))%>%
   #arrange(Sample_Site) %>%
   arrange(percent_composition_max) 
 
-write_csv(CDPH_Pn_2018_12_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2018_12/CDPH_Pn_2018_12_max.csv")
+write_csv(CDPH_Pn_2019_01_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Pseudo_nitzschia/2019_01/CDPH_Pn_2019_01_max.csv")
 
-Al_2018_12_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_12/2018_12_week_1_Al.csv") #10 
-Al_2018_12_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_12/2018_12_week_2_Al.csv") #11 
-Al_2018_12_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_12/2018_12_week_3_Al.csv") #5
-Al_2018_12_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_12/2018_12_week_4_Al.csv") #5 
+Al_2019_01_wk1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2019_01/2019_01_week_1_Al.csv", col_types=cols(`NtoS -code-` = col_double())) #10 
+Al_2019_01_wk2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2019_01/2019_01_week_2_Al.csv") #11 
+Al_2019_01_wk3 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2019_01/2019_01_week_3_Al.csv") #5
+Al_2019_01_wk4 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2019_01/2019_01_week_4_Al.csv") #5 
 
-CDPH_2018_12 = dplyr::bind_rows(Al_2018_12_wk1, Al_2018_12_wk2) #23x12
-CDPH_2018_12 = dplyr::bind_rows(CDPH_2018_12, Al_2018_12_wk3) #29x12
-CDPH_2018_12 = dplyr::bind_rows(CDPH_2018_12, Al_2018_12_wk4) #38x12
+CDPH_2019_01 = dplyr::bind_rows(Al_2019_01_wk1, Al_2019_01_wk2) 
+CDPH_2019_01 = dplyr::bind_rows(CDPH_2019_01, Al_2019_01_wk3) 
+CDPH_2019_01 = dplyr::bind_rows(CDPH_2019_01, Al_2019_01_wk4) 
 
-CDPH_Al_2018_12 = CDPH_2018_12 %>%
+CDPH_Al_2019_01 = CDPH_2019_01 %>%
   select(`Date -Sampled-`,`Sample Site`,`Percent Composition`,`Density -code-`,`RA Index`,Latitude,Longitude)
 
-write_csv(CDPH_Al_2018_12, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_12/CDPH_Al_2018_12.csv")
+write_csv(CDPH_Al_2019_01, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2019_01/CDPH_Al_2019_01.csv")
 
-CDPH_Al_2018_12_max = CDPH_Al_2018_12 %>% 
+CDPH_Al_2019_01_max = CDPH_Al_2019_01 %>% 
   group_by(`Sample Site`,Latitude,Longitude) %>%
   summarize(
     percent_composition_max = max(`Percent Composition`))%>%
   #arrange(Sample_Site) %>%
   arrange(percent_composition_max) #24x4
 
-write_csv(CDPH_Al_2018_12_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2018_12/CDPH_Al_2018_12_max.csv")
+write_csv(CDPH_Al_2019_01_max, "/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/CDPH_Data/Alexandria/2019_01/CDPH_Al_2019_01_max.csv")
 
 ```
 ## The Marine Mammal Center Data 
@@ -642,44 +410,56 @@ dygraph(don2, main = "Sea Lion Strandings", xlab = "", ylab= "Sea Lion Stranding
 
 ```
 
+```{r Stranding Data}
+
+TMMC_marine_mammal = read_csv('/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/1998-2019_TMMC_DA.csv')
+
+All_Strandings_2019 = TMMC_marine_mammal %>%
+  mutate(Year = format(as.Date(Strand_Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Strand_Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Strand_Date, format ="%Y-%m-%d"),"%d")) %>%
+    filter(Year == "2019")
+  
+write_csv(All_Strandings_2019, "/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/All_Strandings_2019.csv")
+
+```
+
 ```{r TMMC Monthly Mean 1990 to Present}
 
-#TMMC Stranding Data 1990 to present. Monthly mean 1990 to present with s/e 
+#TMMC Stranding Data 1998 to 2018. 
 
-# marine_mammal = read_csv('/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_data_1990_2017.csv') 
-# 
-# TMMC_Monthly_Occurence = marine_mammal %>%
-#   select(Strand_Date, Occurrence) %>%
-#   mutate(Strand_Date = as.Date(Strand_Date, format ="%m/%d/%Y")) %>%
-#   mutate(Year = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%Y")) %>% 
-#   mutate(Month = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%m")) %>%
-#   #mutate(Month_name = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%B")) %>%
-#   filter(!is.na(Month)) %>% 
-#   group_by(Year, Month) %>%  #253x3
-#   summarise(Occurence_YM = length(Occurrence)) #2321 observations from 1990 to 2017 
+TMMC_marine_mammal = read_csv('/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/1998-2019_TMMC_DA.csv') #2024 cases since 1998 
 
-# TMMC_Monthly_Mean = TMMC_Monthly_Occurence %>% 
-#   group_by(Month) %>%
-#   summarise(
-#     Monthly_mean = mean(Occurence_YM),
-#     Monthly_n = length(Occurence_YM),
-#     Monthly_sd = sd(Occurence_YM),
-#     Monthly_se = Monthly_sd / sqrt(Monthly_n),
-#     Monthly_min = min(Occurence_YM),
-#     Monthly_max = max(Occurence_YM))
-#write_csv(TMMC_Monthly_Mean, "TMMC_Data/TMMC_monthly_mean.csv")
-#edit TMMC monthly mean '2018_counts' to refelct latest strandings 
+TMMC_marine_mammal_summarized= TMMC_marine_mammal %>%
+  select(Strand_Date,Occurrence) %>% 
+  mutate(Year = format(as.Date(Strand_Date, format ="%Y-%m-%d"),"%Y"),
+         Month = format(as.Date(Strand_Date, format ="%Y-%m-%d"),"%m"),
+         Day = format(as.Date(Strand_Date, format ="%Y-%m-%d"),"%d"))%>%
+  filter(Year != "2019")%>% 
+  group_by(Year, Month) %>%
+  summarise(Occurence_YM = length(Occurrence))
 
-TMMC_Monthly_Mean = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_monthly_mean.csv")
+TMMC_Monthly_Mean = TMMC_marine_mammal_summarized %>% 
+   group_by(Month) %>%
+   summarise(
+     Monthly_mean = mean(Occurence_YM),
+     Monthly_n = length(Occurence_YM),
+     Monthly_sd = sd(Occurence_YM),
+     Monthly_se = Monthly_sd / sqrt(Monthly_n),
+     Monthly_min = min(Occurence_YM),
+     Monthly_max = max(Occurence_YM))
+write_csv(TMMC_Monthly_Mean, "/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_monthly_mean_1998-2018.csv")
+
+TMMC_Monthly_Mean = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_monthly_mean_1998-2018.csv")
 
 TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
   geom_line(aes(y=Monthly_mean,color ="blue"), lwd = 1)+
   geom_point(aes(y=Monthly_mean, color="blue"),size=3)+
-  geom_line(aes(y=`2018_counts`, color ="red"), lwd = 1)+
-  geom_point(aes(y=`2018_counts`, color ="red"),size=3)+
+  geom_line(aes(y=`2019_counts_total`, color ="red"), lwd = 1)+
+  geom_point(aes(y=`2019_counts_total`, color ="red"),size=3)+
   geom_errorbar(aes(ymax=Monthly_mean+Monthly_se, ymin=Monthly_mean-Monthly_se), width=0.1)+
-  labs(title= "The Marine Mammal Center California Sea Lion Strandings", x="", y="Number of Strandings (± SE)", color = "") + #\n
-  scale_color_manual(labels=c("Mean Strandings since 1990","2018 Strandings"), values =  c("blue","red"))+
+  labs(title= "California Sea Lion Strandings due to Suspected DA Toxicosis", x="", y="Number of Strandings (± SE)", color = "") + #\n
+  scale_color_manual(labels=c("Mean Strandings since 1998","2019 Strandings"), values =  c("blue","red"))+
   scale_x_continuous(
     limits = c(1, 12), 
     breaks = c(1,2,3,4,5,6,7,8,9,10,11,12), 
@@ -705,7 +485,130 @@ TMMC_Monthly_Plot = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
     title=element_text(size=18),
     plot.title=element_text(hjust=0.5))
 
-ggsave(file="TMMC_Monthly_Average_2018_12.png", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
+ggsave(file="TMMC_Monthly_Average_2019_01.png", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
+
+TMMC_Monthly_Mean = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/TMMC_Data/TMMC_monthly_mean_1998-2018.csv")
+
+TMMC_Monthly_Plot2 = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
+  geom_line(aes(y=Monthly_mean), color = "grey0",lwd = 1)+
+  geom_point(aes(y=Monthly_mean), color = "grey0",size=3)+
+  geom_errorbar(aes(ymax=Monthly_mean+Monthly_se, ymin=Monthly_mean-Monthly_se), width=0.1,color = "grey0")+
+  #geom_line(aes(y=`TMMC_2019`, color =""), color= "red", lwd = 1)+
+  geom_point(aes(y=`TMMC_2019`),color= "red", size=5)+
+  #geom_line(aes(y=MMCCLA_2019,), color= "blue", lwd = 1)+
+  geom_point(aes(y=MMCCLA_2019), position=position_jitter(w=0.18, h=0.1), color="blue", size=5)+
+  #geom_line(aes(y=`PMMC_2019`, color =""),color= "orange", lwd = 1)+
+  geom_point(aes(y=`PMMC_2019`), color= "orange", size=5)+
+  #geom_line(aes(y=`SeaWorld_2019`, color =""), color="purple", lwd = 1)+
+  geom_point(aes(y=`SeaWorld_2019`), color="purple", size=5)+
+  labs(title= "California Sea Lion Strandings due to Suspected DA Toxicosis", x="2019", y="Number of Strandings (± SE)", color=NULL) + 
+  scale_x_continuous(
+    limits = c(1, 12), 
+    breaks = c(1,2,3,4,5,6,7,8,9,10,11,12), 
+    labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"))+
+   scale_y_continuous(
+    limits = c(0, 30), 
+    breaks = c(0,5,10,15,20,25,30), 
+    labels=c("0","5","10","15","20","25","30"))+
+  theme_bw()+
+  theme(
+    #legend.position = c(0.8,0.9),
+    #legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    #legend.title = element_blank(),
+    #legend.justification = "center",
+    #legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    #legend.text = element_text(size=16, vjust=0.5, hjust=0), 
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=16, color="black"),
+    axis.title.y=element_text(size=16, color="black"),
+    axis.text.x = element_text(size=16, color="black"),
+    axis.text.y = element_text(size=16, color="black"),
+    title=element_text(size=18),
+    plot.title=element_text(hjust=0.5))
+
+ggsave(file="Stranding_Counts_2019_01.png", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots")
+
+TMMC_Monthly_Plot3 = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=A_Monthly_mean))+
+  geom_line(aes(y=A_Monthly_mean, color=""), color="grey0", lwd = 1)+
+  geom_point(aes(y=A_Monthly_mean, color=""),color="grey0", size=3)+
+  geom_errorbar(aes(ymax=A_Monthly_mean+Monthly_se, ymin=A_Monthly_mean-Monthly_se, color=""), width=0.1, color="grey0")+
+  #geom_line(aes(y=`B_TMMC_2019`), color="red",lwd = 1)+
+  geom_point(aes(y=`B_TMMC_2019`, color=""), color="red", size=5)+
+  #geom_line(aes(y=C_MMCCLA_2019), color="blue", lwd = 1)+
+  geom_point(aes(y=C_MMCCLA_2019, color=""), color="blue", size=5)+
+  #geom_line(aes(y=`D_PMMC_2019`),color="purple", lwd = 1)+
+  geom_point(aes(y=`D_PMMC_2019`, color=""),color="purple", size=5)+
+  #geom_line(aes(y=`E_SeaWorld_2019`), color="orange", lwd = 1)+
+  geom_point(aes(y=`E_SeaWorld_2019`, color=""),color="orange", size=5)+
+  labs(title= "California Sea Lion Strandings due to Suspected DA Toxicosis", x="2019", y="Number of Strandings (± SE)", color = "") + 
+  scale_color_manual(
+    labels=c("Mean Strandings Since 1998","The Marine Mammal Center", "Marine Mammal Care Center LA", "Pacific Marine Mammmal Center", "SeaWorld"), 
+    values =  c("grey0","red","blue", "purple","orange"))+
+  scale_x_continuous(
+    limits = c(1, 12), 
+    breaks = c(1,2,3,4,5,6,7,8,9,10,11,12), 
+    labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"))+
+   scale_y_continuous(
+    limits = c(0, 30), 
+    breaks = c(0,5,10,15,20,25,30), 
+    labels=c("0","5","10","15","20","25","30"))+
+  theme_bw()+
+  theme(
+    legend.position = c(0.8,0.9),
+    legend.background = element_rect(color = "black", size=0.2, linetype="solid"),
+    legend.title = element_blank(),
+    #legend.justification = "center",
+    legend.margin = margin(0.25,0.25,0.25,0.25,unit="cm"),
+    legend.text = element_text(size=16, vjust=0.5, hjust=0), 
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=16, color="black"),
+    axis.title.y=element_text(size=16, color="black"),
+    axis.text.x = element_text(size=16, color="black"),
+    axis.text.y = element_text(size=16, color="black"),
+    title=element_text(size=18),
+    plot.title=element_text(hjust=0.5))
+
+TMMC_Monthly_Plot_Legend = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
+  geom_line(aes(y=Monthly_mean), color = "grey0",lwd = 1)+
+  geom_point(aes(y=Monthly_mean), color = "grey0",size=3)+
+  geom_errorbar(aes(ymax=Monthly_mean+Monthly_se, ymin=Monthly_mean-Monthly_se), width=0.1,color = "grey0")+
+  geom_line(aes(y=`TMMC_2019` ), color= "red", lwd = 1)+
+  geom_point(aes(y=`TMMC_2019`),color= "red", size=5)+
+  geom_line(aes(y=MMCCLA_2019), color= "blue", lwd = 1)+
+  geom_point(aes(y=MMCCLA_2019), color="blue", size=5)+
+  geom_line(aes(y=`PMMC_2019`),color= "orange", lwd = 1)+
+  geom_point(aes(y=`PMMC_2019`), color= "orange", size=5)+
+  geom_line(aes(y=`SeaWorld_2019`), color="purple", lwd = 1)+
+  geom_point(aes(y=`SeaWorld_2019`), color="purple", size=5)+
+  labs(title= "California Sea Lion Strandings due to Suspected DA Toxicosis", x="2019", y="Number of Strandings (± SE)", color = NULL) + 
+  scale_color_manual(
+    labels=c("Mean Strandings Since 1998","The Marine Mammal Center", "Marine Mammal Care Center LA", "Pacific Marine Mammmal Center", "SeaWorld"), 
+    values =  c("grey0","red","blue", "purple","orange"))
+
+
+TMMC_Monthly_Plot_Legend = ggplot(TMMC_Monthly_Mean, aes(x= Month, y=Monthly_mean))+
+  geom_line(aes(y=Monthly_mean, color ="grey0"), lwd = 1)+
+  geom_point(aes(y=Monthly_mean, color ="grey0"), size=3)+
+  geom_errorbar(aes(ymax=Monthly_mean+Monthly_se, ymin=Monthly_mean-Monthly_se), width=0.1, color ="grey0")+
+  geom_line(aes(y=`TMMC_2019`, color="red" ), lwd = 1)+
+  geom_point(aes(y=`TMMC_2019`, color="red"),size=5)+
+  geom_line(aes(y=MMCCLA_2019, color="blue"),  lwd = 1)+
+  geom_point(aes(y=MMCCLA_2019, color="blue"), size=5)+
+  geom_line(aes(y=`PMMC_2019`, color="orange"), lwd = 1)+
+  geom_point(aes(y=`PMMC_2019`, color="orange"), size=5)+
+  geom_line(aes(y=`SeaWorld_2019`, color="purple"),  lwd = 1)+
+  geom_point(aes(y=`SeaWorld_2019`, color="purple"), size=5)+
+  labs(title= "California Sea Lion Strandings due to Suspected DA Toxicosis", x="2019", y="Number of Strandings (± SE)", color = NULL) + 
+  scale_color_manual(
+    labels=c("Mean Strandings since 1998","The Marine Mammal Center", "Marine Mammal Care Center LA", "Pacific Marine Mammmal Center", "SeaWorld"), 
+    values =  c("grey0","red","blue", "orange","purple"))
+
+t= get_legend(TMMC_Monthly_Plot_Legend)
+ggsave(t, file="legend.png", width=10, height =6 , path="/Volumes/GoogleDrive/My Drive/SCCOOS/TMMC/Plots" )
+
+
 ```
 
 # SCCOOS Manual Shore Station Nutrient and HAB Data 
@@ -737,7 +640,7 @@ Locations:
 
 #Cal Poly
 #Cal_Poly_Org = read_csv("HABMAP_Data/Cal_Poly.csv") 
-Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/CalPoly_Pier_2018_12.csv") 
+Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Cal_Poly_Pier_2019_02.csv") 
 
 Cal_Poly = Cal_Poly_Org %>%
   mutate(Location = `Location Code`,
@@ -755,32 +658,31 @@ Cal_Poly = Cal_Poly_Org %>%
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Cal_Poly,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Cal_Poly_cleanedup.csv")
+write_csv(Cal_Poly,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Cal_Poly_cleanedup.csv")
 
 #Newport  
-Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Newport_2018_12.csv") 
+Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Newport_Pier_2019_01.csv") 
 
 Newport = Newport_Org %>%
-  mutate(Location = `Location`,
-         Date = `Date`,
+  mutate(Location = `Location Code`,
+         Date = `Date Collected`,
          Temperature = `Temp (C)`,
-         Chlorophyll =`Avg Chloro`,
-         #Nitrate = `Nitrate (uM)`,
-         Silicate= `Silicate`,
-         Phosphate = `Phosphate`,
-         Pn_delicatissima = `Pseudo-nitzschia deli`,
-         Pn_seriata = `Pseudo-nitzschia seriata`,
-         Alexandrium = `Alexandrium spp.`,
-         Domoic_Acid = `Domoic Acid`,
-         Nitrate = `Nitrate`)%>%
+         Chlorophyll =`Avg Chloro (mg/m3)`,
+         Nitrate = `Nitrate (uM)`,
+         Silicate= `Silicate (uM)`,
+         Phosphate = `Phosphate (uM)`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
+         Alexandrium = `Alexandrium spp. (cells/L)`,
+         Domoic_Acid = `Domoic Acid (ng/mL)`)%>%
   select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Newport,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Newport_cleanedup.csv")
+write_csv(Newport,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Newport_cleanedup.csv")
 
 #Santa Cruz 
-Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Cruz_2018_12.csv") 
+Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Santa_Cruz_2019_01.csv") 
 
 Santa_Cruz = Santa_Cruz_Org %>% #353x10
   mutate(Location = `Location Code`,
@@ -798,32 +700,32 @@ Santa_Cruz = Santa_Cruz_Org %>% #353x10
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Santa_Cruz,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Cruz_cleanedup.csv")
+write_csv(Santa_Cruz,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Santa_Cruz_cleanedup.csv")
 
 #Santa Monica  - No Silicate, listed as 'Dissolved Silicon'
-Santa_Monica_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Monica_2018_12.csv")
+Santa_Monica_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Santa_Monica.csv")
 
 Santa_Monica = Santa_Monica_Org %>% 
     mutate(Location = `Location Code`,
          Date = `Date Collected`,
          Temperature = `Temp (C)`,
          Chlorophyll =`Avg Chloro (mg/m3)`,
-         #Nitrate = `Nitrate (uM)`,
-         Silicate= `Dissolved Silicon`,
+         Nitrate = `Nitrate (uM)`,
+         Silicate= `Dissolved Silicon`, #dissolved silicon?? 
          Phosphate = `Phosphate (uM)`,
-         Pn_delicatissima = `Pseudo-nitzschia delicatissima`,
-         Pn_seriata = `Pseudo-nitzschia seriata`,
+         Pn_delicatissima = `Pseudo-nitzschia delicatissima group (cells/L)`,
+         Pn_seriata = `Pseudo-nitzschia seriata group (cells/L)`,
          Alexandrium = `Alexandrium spp. (cells/L)`,
-         Domoic_Acid = `Domoic Acid (ng/mL)`,
-         Nitrate = `Nitrate (uM)`)%>%
+         Domoic_Acid = `Domoic Acid (ng/mL)`) %>% 
   select(Location, Date, Temperature, Chlorophyll, Nitrate, Phosphate, Silicate, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>% 
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Santa_Monica,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Santa_Monica_cleanedup.csv")
+
+write_csv(Santa_Monica,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Santa_Monica_cleanedup.csv")
 
 #Stearns Wharf 
-Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Stearns_Wharf_2018_12.csv")
+Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Stearns_Wharf_2019_01.csv")
 
 Stearn_Wharf = Stearn_Wharf_Org %>%
   mutate(Location = `Location Code`,
@@ -841,10 +743,10 @@ Stearn_Wharf = Stearn_Wharf_Org %>%
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Stearn_Wharf,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Stearn_Wharf_cleanedup.csv")
+write_csv(Stearn_Wharf,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Stearn_Wharf_cleanedup.csv")
 
 #Scripps Pier
-Scripps_Pier_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Scripps_Pier_2018_12.csv")
+Scripps_Pier_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Scripps_Pier_2019_01.csv")
 
 Scripps_Pier = Scripps_Pier_Org %>%
   mutate(Location = `Location Code`,
@@ -862,7 +764,7 @@ Scripps_Pier = Scripps_Pier_Org %>%
   mutate(Year = format(as.Date(Date, format ="%Y-%m-%d"),"%Y"),
          Month = format(as.Date(Date, format ="%Y-%m-%d"),"%m"),
          Day = format(as.Date(Date, format ="%Y-%m-%d"),"%d"))
-write_csv(Scripps_Pier,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/data/Scripps_Pier_cleanedup.csv")
+write_csv(Scripps_Pier,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Scripps_Pier_cleanedup.csv")
 
 ```
 
@@ -873,8 +775,8 @@ write_csv(Scripps_Pier,"/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/201
 #Cal Poly Pier Plots 
 
 Cal_Poly_Nutrient = Cal_Poly %>%
-  filter(Year == "2018") %>% 
-  #filter(Month != "12") %>% #removed month of Dec 
+  filter(Year == "2018" | Year == "2019") %>% 
+  filter(!(Month == "01" & Year == "2018")) %>%
   select(Date,Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)
 
@@ -906,15 +808,16 @@ Cal_Poly_Nutrient_Plot =
     plot.title = element_text(hjust=0.5),
     title=element_text(size=14))
 
-ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/Nutrient_plots") 
+ggsave(file="Cal_Poly_Nutrient_Plot.png", plot=Cal_Poly_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/Nutrient_plots") 
 ```
 
 ```{r Newport Pier Nutrient Plots}
 #Newport Pier Plots 
 
 Newport_Nutrient = Newport %>%
-  filter(Year == "2018") %>% 
-  #filter(Month != "12") %>% #removed month of Dec 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
   mutate(uM=(as.numeric(uM)))%>%
@@ -929,7 +832,7 @@ Newport_Nutrient_Plot =
     labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
     values=c("darkgreen","red","blue","purple"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -947,7 +850,7 @@ Newport_Nutrient_Plot =
     #axis.text.x = element_text(angle = 90, hjust = 1),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=14))
-ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/Nutrient_plots") 
+ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/Nutrient_plots") 
 
 ```
 
@@ -956,8 +859,9 @@ ggsave(file="Newport_Pier_Nutrient_Plot.png", plot=Newport_Nutrient_Plot, width=
 #Santa Cruz Municipal Wharf Plots
 
 Santa_Cruz_Nutrients = Santa_Cruz %>%
-  filter(Year == "2018") %>% 
-  #filter(Month != "12") %>% #removed month of Dec 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
   mutate(uM=(as.numeric(uM)))%>%
@@ -972,7 +876,7 @@ Santa_Cruz_Nutrient_Plot =
     labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
     values=c("darkgreen","red","blue","purple"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -989,14 +893,15 @@ Santa_Cruz_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=20, height=8,path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/Nutrient_plots")
+ggsave(file="Santa_Cruz_Nutrient_Plot.png", plot=Santa_Cruz_Nutrient_Plot, width=20, height=8,path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/Nutrient_plots")
 ```
 
 ```{r Santa Monica Nutrient Plot}
 
 Santa_Monica_Nutrient_Data = Santa_Monica %>%
-  filter(Year == "2018") %>% 
-  #filter(Month != "12") %>% #removed month of Dec 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
   mutate(uM=(as.numeric(uM))) #this removes all CHL-A AND NAS!! UGH!! 
@@ -1028,7 +933,7 @@ Santa_Monica_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/Nutrient_plots")
+ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/Nutrient_plots")
 
 ```
 
@@ -1037,8 +942,9 @@ ggsave(file="Santa_Monica_Nutrient_Plot.png", plot=Santa_Monica_Nutrient_Plot, w
 #Stearns Wharf Plots
 
 Stearn_Wharf_Nutrient_Data = Stearn_Wharf %>% 
-  filter(Year == "2018") %>% 
-  #filter(Month != "12") %>% #removed month of Dec 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
   mutate(uM=(as.numeric(uM))) #this removes all CHL-A AND NAS!! UGH!! 
@@ -1053,7 +959,7 @@ Stearns_Wharf_Nutrient_Plot =
     labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
     values=c("darkgreen","red","blue","purple"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1070,7 +976,7 @@ Stearns_Wharf_Nutrient_Plot =
     axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/Nutrient_plots") 
+ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/Nutrient_plots") 
 
 ```
 
@@ -1079,8 +985,9 @@ ggsave(file="Sterns_Wharf_Nutrient_Plot.png", plot=Stearns_Wharf_Nutrient_Plot, 
 #Stearns Wharf Plots
 
 Scripps_Pier_Nutrient_Data = Scripps_Pier %>% 
-  filter(Year == "2018") %>% 
-  #filter(Month != "12") %>% #removed month of Dec 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date, Chlorophyll, Nitrate, Phosphate, Silicate) %>%
   gather(key= Nutrients, value = uM, Chlorophyll, Nitrate, Phosphate, Silicate)%>%
   mutate(uM=(as.numeric(uM)))
@@ -1094,7 +1001,7 @@ Scripps_Pier_Nutrient_Data =
     labels=c("Chlorophyll (mg/m3)", "Nitrate (μM)", "Phosphate (μM)","Silicic Acid (μM)"),
     values=c("darkgreen","red","blue","purple"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1111,7 +1018,7 @@ Scripps_Pier_Nutrient_Data =
     axis.title.y=element_text(size=14),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=12))
-ggsave(file="Scripps_Pier_Nutrient_Plot.png", plot=Scripps_Pier_Nutrient_Data, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/Nutrient_plots") 
+ggsave(file="Scripps_Pier_Nutrient_Plot.png", plot=Scripps_Pier_Nutrient_Data, width=20, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/Nutrient_plots") 
 
 ```
 
@@ -1121,12 +1028,12 @@ ggsave(file="Scripps_Pier_Nutrient_Plot.png", plot=Scripps_Pier_Nutrient_Data, w
 
 #Cal Poly Pier
 
-Cal_Poly_HAB = Cal_Poly %>% 
-  filter(Year == "2018") %>% 
-  #filter(Month != "11") %>% 
-  #filter(Month != "12") %>%     
-  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
-  mutate(Domoic_Acid = Domoic_Acid*1000) #%>% #convert DA to ng/L
+Cal_Poly_HAB = Cal_Poly %>% #537x14
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019 #51x5
+  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)
+  #mutate(Domoic_Acid = Domoic_Acid*1000) #%>% #convert DA to ng/L
 #gather(key= HAB, value = cells, Pn_delicatissima, Pn_seriata, Alexandrium)
 #Cal_Poly_HAB_Plot = 
   #ggplot(Cal_Poly_HAB, aes(x=Date))+
@@ -1153,7 +1060,7 @@ Cal_Poly_HAB_Plot =
        y="cells/L",
        color = "")+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1182,7 +1089,7 @@ Cal_Poly_DA_Plot =
     labels =c("Domoic Acid (ng/L)"), 
     values =c("darkorange"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1202,9 +1109,9 @@ Cal_Poly_DA_Plot =
     plot.title = element_text(hjust=0.5),
     title=element_text(size=14))
 
-Cal_Poly_Combo_Plot = plot_grid(Cal_Poly_HAB_Plot, Cal_Poly_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
+Cal_Poly_Combo_Plot = plot_grid(Cal_Poly_HAB_Plot, Cal_Poly_DA_Plot, align="v", nrow=2, rel_heights = c(1, 4/5))
 
-save_plot("Cal_Poly_Combo_Plot.png", Cal_Poly_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/HAB_plots")
+save_plot("Cal_Poly_Combo_Plot.png", Cal_Poly_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
 
 ```
 
@@ -1305,15 +1212,15 @@ ggsave("test9.png", plot=grid.draw(g))
 
 #Newport Pier
 Newport_HAB = Newport %>% 
-  filter(Year == "2018") %>% 
-  #filter(Month != "11") %>% 
-  #filter(Month != "12") %>%     
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019  
   mutate(Pn_delicatissima = as.integer(Pn_delicatissima),
          Pn_seriata = as.integer(Pn_seriata),
          Alexandrium = as.integer(Alexandrium),
-         Domoic_Acid = as.integer(Domoic_Acid))%>%
-  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
-  mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
+         Domoic_Acid = as.integer(Domoic_Acid))
+  #select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
+  #mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
 
 #max(Newport_HAB$Pn_delicatissima) #25054.61
 #max(Newport_HAB$Pn_seriata) #13859.99
@@ -1341,7 +1248,7 @@ Newport_HAB_Pot =
        y="cells/L",
        color = "")+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1370,7 +1277,7 @@ Newport_DA_Pot =
     labels =c("Domoic Acid (ng/L)"), 
     values =c("darkorange"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   scale_y_continuous(limits=c(0,1))+ ##again IDK why it is plotting funny!! 
@@ -1392,18 +1299,18 @@ Newport_DA_Pot =
     title=element_text(size=14))
 
 Newport_Combo_Plot = plot_grid(Newport_HAB_Pot,Newport_DA_Pot, align="v",nrow=2, rel_heights = c(1, 4/5))
-save_plot("Newport_Combo_Plot.png",Newport_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/HAB_plots")
+save_plot("Newport_Combo_Plot.png",Newport_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
 
 ```
 
 ```{r Santa Cruz}
 
 Santa_Cruz_HAB = Santa_Cruz %>% #41x8
-  filter(Year == "2018") %>% 
-  #filter(Month != "11") %>% 
-  #filter(Month != "12") %>%     
-  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
-  mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019 
+  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)
+  #mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
 
 Santa_Cruz_HAB_Plot = 
   ggplot(Santa_Cruz_HAB, aes(x=Date))+
@@ -1426,7 +1333,7 @@ Santa_Cruz_HAB_Plot =
        y="cells/L",
        color = "")+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1456,7 +1363,7 @@ Santa_Cruz_DA_Plot =
     labels =c("Domoic Acid (ng/L)"), 
     values =c("darkorange"))+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1477,7 +1384,7 @@ Santa_Cruz_DA_Plot =
     title=element_text(size=14))
   
 Santa_Cruz_Combo_Plot = plot_grid(Santa_Cruz_HAB_Plot,Santa_Cruz_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
-save_plot("Santa_Cruz_Combo_Plot.png", Santa_Cruz_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/HAB_plots")
+save_plot("Santa_Cruz_Combo_Plot.png", Santa_Cruz_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
 
 ```
 
@@ -1485,20 +1392,15 @@ save_plot("Santa_Cruz_Combo_Plot.png", Santa_Cruz_Combo_Plot, base_width = 10, b
 #Santa Monica Pier 
 
 Santa_Monica_HAB = Santa_Monica %>%
-  filter(Year == "2018") %>% 
-  #filter(Month != "11") %>% 
-  #filter(Month != "12") %>%     
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019")) %>% #remove Feb 2019  
   mutate(Pn_delicatissima = as.integer(Pn_delicatissima),
          Pn_seriata = as.integer(Pn_seriata),
          Alexandrium = as.integer(Alexandrium),
          Domoic_Acid = as.integer(Domoic_Acid)) %>% 
-  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
-  mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
-
-#max(Santa_Monica_HAB$Pn_delicatissima) #
-#max(Santa_Monica_HAB$Pn_seriata) #
-#max(Santa_Monica_HAB$Alexandrium) # 
-#max(Santa_Monica_HAB$Domoic_Acid) #
+  mutate(Date = as.Date(Date))%>% 
+  select(Date,Pn_delicatissima, Pn_seriata, Alexandrium,Domoic_Acid) 
 
 Santa_Monica_HAB_Plot = 
   ggplot(Santa_Monica_HAB, aes(x=Date))+
@@ -1521,7 +1423,7 @@ Santa_Monica_HAB_Plot =
        y="cells/L",
        color = "")+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-10-30")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1540,6 +1442,8 @@ Santa_Monica_HAB_Plot =
     #axis.text.x = element_blank(),
     plot.title = element_text(hjust=0.5),
     title=element_text(size=14))
+#save_plot("Santa_Monica_Plot.png",Santa_Monica_HAB_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
+
  
 Santa_Monica_DA_Plot = 
   ggplot(Santa_Monica_HAB, aes(x=Date))+
@@ -1551,7 +1455,7 @@ Santa_Monica_DA_Plot =
     values =c("darkorange"))+
   scale_y_continuous(limits=c(0,1))+ ##again IDK why it is plotting funny!! 
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1571,18 +1475,19 @@ Santa_Monica_DA_Plot =
     title=element_text(size=14))
 
 Santa_Monica_Combo_Plot = plot_grid(Santa_Monica_HAB_Plot, Santa_Monica_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
-save_plot("Santa_Monica_Combo_Plot.png",Santa_Monica_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/HAB_plots")
+save_plot("Santa_Monica_Combo_Plot.png",Santa_Monica_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
 
 ```
 
 ```{r Stearns Wharf}
 
 Stearns_Wharf_HAB = Stearn_Wharf %>% 
-  filter(Year == "2018") %>% 
-  #filter(Month != "11") %>% 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date,Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid)%>%
-  mutate(Domoic_Acid= as.numeric(Domoic_Acid))%>%
-  mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
+  mutate(Domoic_Acid= as.numeric(Domoic_Acid))
+  #mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
   
 
 #max(Stearns_Wharf_HAB$Pn_delicatissima) #
@@ -1611,7 +1516,7 @@ Stearns_Wharf_HAB_Plot =
        y="cells/L",
        color = "")+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1642,7 +1547,7 @@ Stearns_Wharf_HAB_Plot =
   #expand_limits(y=0)+
   scale_y_continuous(limits = c(0,1))+ ##NO IDEA WHY IT WONT ACCEPT limits=c(0,NA)
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1662,21 +1567,22 @@ Stearns_Wharf_HAB_Plot =
     title=element_text(size=14))
    
 Stearns_Wharf_Combo_Plot = plot_grid(Stearns_Wharf_HAB_Plot,Stearns_Wharf_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
-save_plot("Stearns_Wharf_Combo_Plot.png",Stearns_Wharf_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/HAB_plots")
+save_plot("Stearns_Wharf_Combo_Plot.png",Stearns_Wharf_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
 
 ```
 
 ```{r Scripps Pier}
 
 Scripps_Pier_HAB = Scripps_Pier %>% 
-  filter(Year == "2018") %>% 
-  #filter(Month != "11") %>% 
+  filter(Year %in% c("2018","2019")) %>% #Keep all 2018 and 2019 data 
+  filter(!(Month == "01" & Year == "2018")) %>% #remove Jan 2018 
+  filter(!(Month =="02" & Year == "2019"))%>% #remove Feb 2019
   select(Date, Pn_delicatissima, Pn_seriata, Alexandrium, Domoic_Acid) %>%
   mutate(Pn_delicatissima= as.numeric(Pn_delicatissima))%>%
   mutate(Pn_seriata= as.numeric(Pn_seriata)) %>%
   mutate(Alexandrium= as.numeric(Alexandrium)) %>%
-  mutate(Domoic_Acid= as.numeric(Domoic_Acid)) %>%
-  mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
+  mutate(Domoic_Acid= as.numeric(Domoic_Acid)) 
+  #mutate(Domoic_Acid = Domoic_Acid*1000) #convert DA to ng/L
   
 Scripps_Pier_HAB_Plot = 
   ggplot(Scripps_Pier_HAB, aes(x=Date))+
@@ -1699,7 +1605,7 @@ Scripps_Pier_HAB_Plot =
        y="cells/L",
        color = "")+
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1730,7 +1636,7 @@ Scripps_Pier_DA_Plot =
   #expand_limits(y=0)+
   scale_y_continuous(limits = c(0,1))+ ##NO IDEA WHY IT WONT ACCEPT limits=c(0,NA)
   scale_x_date(
-    limits = as.Date(c("2018-01-01","2018-12-31")),
+    limits = as.Date(c("2018-02-01","2019-01-31")),
     labels= date_format("%b %y"),
     date_breaks = "months")+
   theme_bw()+
@@ -1750,5 +1656,201 @@ Scripps_Pier_DA_Plot =
     title=element_text(size=14))
    
 Scripps_Pier_Combo_Plot = plot_grid(Scripps_Pier_HAB_Plot,Scripps_Pier_DA_Plot, align="v",nrow=2, rel_heights = c(1, 4/5))
-save_plot("Scripps_Pier_Combo_Plot.png",Scripps_Pier_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2018_12/HAB_plots")
+save_plot("Scripps_Pier_Combo_Plot.png",Scripps_Pier_Combo_Plot, base_width = 10, base_height = 8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HAB_plots")
+```
+
+Parsed with column specification:cols(
+  Location = col_character(),
+  Date = col_date(format = ""),
+  Temperature = col_character(),
+  Chlorophyll = col_character(),
+  Nitrate = col_character(),
+  Phosphate = col_character(),
+  Silicate = col_character(),
+  Pn_delicatissima = col_character(),
+  Pn_seriata = col_character(),
+  Alexandrium = col_character(),
+  Domoic_Acid = col_character(),
+  Year = col_double(),
+  Month = col_character(),
+  Day = col_character())
+
+```{r Shore Station timeseries data}
+
+Cal_Poly = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Cal_Poly_cleanedup.csv") #537x14
+Newport = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Newport_cleanedup.csv") #539x14
+Santa_Cruz = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Santa_Cruz_cleanedup.csv") #363x14
+Santa_Monica = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Santa_Monica_cleanedup.csv") #548x14
+Stearns_Wharf = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Stearn_Wharf_cleanedup.csv") #537x14
+Scripps = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_01/HABMAP_data/Scripps_Pier_cleanedup.csv") #558x14
+
+Cal_Poly_DA = Cal_Poly %>%
+  select(Location, Date, Year, Month, Domoic_Acid) %>%
+  mutate(Year = as.integer(Year),
+         Month = as.integer(Month),
+         year_month = make_datetime(Year, Month))%>% 
+  group_by(year_month) %>% 
+    summarize(
+      Domoic_Acid_mean = mean(Domoic_Acid),
+      Domoic_Acid_n = length(Domoic_Acid),
+      Domoic_Acid_sd = sd(Domoic_Acid),
+      Domoic_Acid_se = Domoic_Acid_sd /sqrt(Domoic_Acid_n)) 
+
+Newport_DA = Newport %>% 
+  select(Location, Date, Year, Month, Domoic_Acid) %>%
+  mutate(Year = as.integer(Year),
+         Month = as.integer(Month),
+         Year_Month = make_datetime(Year, Month))%>% 
+  group_by(Year_Month) %>% 
+    summarize(
+      Domoic_Acid_mean = mean(Domoic_Acid),
+      Domoic_Acid_n = length(Domoic_Acid),
+      Domoic_Acid_sd = sd(Domoic_Acid),
+      Domoic_Acid_se = Domoic_Acid_sd /sqrt(Domoic_Acid_n)) 
+
+Santa_Cruz_DA = Santa_Cruz %>% 
+  select(Location, Date, Year, Month, Domoic_Acid) %>%
+  group_by(Year, Month) %>% 
+    summarize(
+      Domoic_Acid_mean = mean(Domoic_Acid),
+      Domoic_Acid_n = length(Domoic_Acid),
+      Domoic_Acid_sd = sd(Domoic_Acid),
+      Domoic_Acid_se = Domoic_Acid_sd /sqrt(Domoic_Acid_n)) 
+
+Santa_Monica_DA = Santa_Monica %>% 
+  select(Location, Date, Year, Month, Domoic_Acid) %>%
+  group_by(Year, Month) %>% 
+    summarize(
+      Domoic_Acid_mean = mean(Domoic_Acid),
+      Domoic_Acid_n = length(Domoic_Acid),
+      Domoic_Acid_sd = sd(Domoic_Acid),
+      Domoic_Acid_se = Domoic_Acid_sd /sqrt(Domoic_Acid_n)) 
+
+Stearns_Wharf_DA = Stearns_Wharf %>%
+  select(Location, Date, Year, Month, Domoic_Acid) %>%
+  group_by(Year, Month) %>% 
+    summarize(
+      Domoic_Acid_mean = mean(Domoic_Acid),
+      Domoic_Acid_n = length(Domoic_Acid),
+      Domoic_Acid_sd = sd(Domoic_Acid),
+      Domoic_Acid_se = Domoic_Acid_sd /sqrt(Domoic_Acid_n)) 
+
+Scripps_DA = Scripps %>% 
+  select(Location, Date, Year, Month, Domoic_Acid) %>%
+  group_by(Year, Month) %>% 
+    summarize(
+      Domoic_Acid_mean = mean(Domoic_Acid),
+      Domoic_Acid_n = length(Domoic_Acid),
+      Domoic_Acid_sd = sd(Domoic_Acid),
+      Domoic_Acid_se = Domoic_Acid_sd /sqrt(Domoic_Acid_n)) 
+
+Santa_Cruz_DA_TS = ggplot(Santa_Cruz)+
+  geom_line(aes(x=Date, y=Domoic_Acid),size=1, color="goldenrod")+
+  scale_x_date(
+    limits = as.Date(c("2008-06-01","2019-01-31")), #min  "2008-08-15"
+    labels= date_format("%Y"),
+    date_breaks = "years")+ #date_minor_breaks = "1 month"
+  labs(title= "Santa Cruz Municipal Wharf Domoic Acid", x="Year", y="Domoic Acid (ng/L)")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    title=element_text(size=16),
+    plot.title=element_text(hjust=0.5))
+ggsave(file="Santa_Cruz_DA_timeseries.png", plot=Santa_Cruz_DA_TS, width=12, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/DA_timeseries_plots/")
+
+Cal_Poly_DA_TS = ggplot(Cal_Poly)+
+  geom_line(aes(x=Date, y=Domoic_Acid),size=1, color="black")+
+  scale_x_date(
+    limits = as.Date(c("2008-06-01","2019-01-31")), #min  "2008-08-15"
+    labels= date_format("%Y"),
+    date_breaks = "years")+ #date_minor_breaks = "1 month"
+  labs(title= "Cal Poly Pier Domoic Acid", x="Year", y="Domoic Acid (ng/L)")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    title=element_text(size=16),
+    plot.title=element_text(hjust=0.5))
+ggsave(file="Cal_Poly_DA_timeseries.png", plot=Cal_Poly_DA_TS, width=12, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/DA_timeseries_plots/") 
+
+Stearns_DA_TS = ggplot(Stearns_Wharf)+
+  geom_line(aes(x=Date, y=Domoic_Acid),size=1, color="orange")+
+  scale_x_date(
+    limits = as.Date(c("2008-06-01","2019-01-31")), #min  "2008-08-15"
+    labels= date_format("%Y"),
+    date_breaks = "years")+ #date_minor_breaks = "1 month"
+  labs(title= "Stearns Wharf Domoic Acid", x="Year", y="Domoic Acid (ng/L)")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    title=element_text(size=16),
+    plot.title=element_text(hjust=0.5))
+ggsave(file="Stearns_DA_timeseries.png", plot=Stearns_DA_TS, width=12, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/DA_timeseries_plots/") 
+
+Santa_Monica_DA_TS = ggplot(Santa_Monica)+
+  geom_line(aes(x=Date, y=Domoic_Acid),size=1, color="red")+
+  scale_x_date(
+    limits = as.Date(c("2008-06-01","2019-01-31")), #min  "2008-08-15"
+    labels= date_format("%Y"),
+    date_breaks = "years")+ #date_minor_breaks = "1 month"
+  labs(title= "Santa Monica Domoic Acid", x="Year", y="Domoic Acid (ng/L)")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    title=element_text(size=16),
+    plot.title=element_text(hjust=0.5))
+ggsave(file="Santa_Monica_DA_timeseries.png", plot=Santa_Monica_DA_TS, width=12, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/DA_timeseries_plots/")
+
+Newpoer_DA_TS = ggplot(Newport)+
+  geom_line(aes(x=Date, y=Domoic_Acid),size=1, color="blue")+
+  scale_x_date(
+    limits = as.Date(c("2008-06-01","2019-01-31")),
+    labels= date_format("%Y"),
+    date_breaks = "years",
+    minor_breaks = "months")+
+  labs(title= "Newport Pier Domoic Acid", x="Year", y="Domoic Acid (ng/L)")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    title=element_text(size=16),
+    plot.title=element_text(hjust=0.5))
+ggsave(file="Newport_DA_timeseries.png", plot=Newpoer_DA_TS, width=12, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/DA_timeseries_plots/")
+
+Scripps_DA_TS = ggplot(Scripps)+
+  geom_line(aes(x=Date, y=Domoic_Acid),size=1, color="purple")+
+  scale_x_date(
+    limits = as.Date(c("2008-06-01","2019-01-31")), #min  "2008-08-15"
+    labels= date_format("%Y"),
+    date_breaks = "years")+ #date_minor_breaks = "1 month"
+  labs(title= "Scripps Domoic Acid", x="Year", y="Domoic Acid (ng/L)")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=14),
+    axis.title.y=element_text(size=14),
+    title=element_text(size=16),
+    plot.title=element_text(hjust=0.5))
+ggsave(file="Scripps_DA_timeseries.png", plot=Scripps_DA_TS, width=12, height=8, path="/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/DA_timeseries_plots/")
+
 ```
