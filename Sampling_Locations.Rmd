@@ -1,7 +1,7 @@
 ---
-title: "Prop1_IFCB_Map"
+title: "Prop1 IFCB"
 author: "Megan Hepner"
-date: "2/11/2019"
+date: "2/27/2019"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -17,6 +17,8 @@ library(htmltools)
 library(rjson)
 library(jsonlite)
 library(RCurl)
+library(rgdal)
+library(sf)
 library(tidyverse)
 library(dplyr)
 library(rnaturalearth) 
@@ -28,18 +30,66 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE)
 
 ```
 
-
 ```{r read in data, echo=FALSE}
 
-Prop1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/Prop1_Lat_Long.csv") #User/mhepner
+Prop2 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/Figures/Program_Locations.csv") #User/mhepner
 
-Prop1 = Prop1 %>% #221x3, 10 groups 
-  select(Program, Latitude, Longitude) %>%
-  group_by(Program)
+Prop2 = Prop2 %>% #221x3, 10 groups 
+  select(Program, Type2, Station_Locations, Latitude, Longitude) %>%
+  group_by(Type2)
          
 ```
 
-```{r create base map, echo=FALSE}
+## IFCB Proposed Sampling Locations
+
+###Ship-Based Sampling
+| CalCOFI (113 stations) – run offline with Scripps Pier IFCB
+| OCSD SCBRWQP (84 stations) – run offline with Newport Pier IFCB 
+| Plumes and Blooms (7 stations) – run offline with **new IFCB #8**
+| SBC-LTER (4 stations) – run offline with **new IFCB #8**
+| Trinidad Head Line (4 stations) – run offline with Trinidad Pier IFCB 
+
+###Shore-Based Sampling (real-time)
+| CeNCOOS Shore Station (2 stations)
+|     1. Trinidad Pier – **new IFCB #1** (shared with THL)
+|     2. Bodega Bay – **new IFCB #5**
+| HABMAP/SCCOOS Shore Stations (4 stations)
+|     1. Santa Cruz Wharf – *current IFCB* 
+|     2. Stearns Wharf – **new IFCB #2**
+|     3. Newport Pier – **new IFCB #3** (shared with OCSD SCBRWQP)
+|     4. Scripps Pier – **new IFCB #4** (shared with CalCOFI)
+
+###Moorings (real-time)
+| Catalina Sea Ranch NOMAD Buoy – *current IFCB* 
+| Del Mar Mooring – **new IFCB #6**
+| MBARI M1 Mooring – **new IFCB #7**
+
+###Interactive Map 
+```{r leaflet Program, echo=FALSE}
+
+Prop1.df = as.data.frame(Prop2)
+l <- leaflet() %>%
+  addProviderTiles(providers$Esri.OceanBasemap)
+
+pal <- colorFactor(c("navy", "red", "green"),
+                   domain = unique(Prop1.df$Program))
+
+test4 = leaflet() %>% 
+      addProviderTiles(providers$Esri.OceanBasemap) %>%
+      addCircleMarkers(data=Prop1.df, 
+                       color=~pal(Program),
+                       stroke= FALSE, fillOpacity = 0.5,
+                       lng=~Longitude, 
+                       lat=~Latitude,
+                       label=paste(
+                         Prop1.df$Program, ",",
+                         Prop1.df$Type2, "," ,
+                         Prop1.df$Station_Locations)) 
+test4
+
+```
+
+```{r Program, include=FALSE, echo=FALSE}
 
 states <- ne_states(
   country = c("Canada",
@@ -52,32 +102,20 @@ states <- ne_states(
                      "Baja California",
                      "Baja California Sur"))
 
-#test1 
-# test = ggplot() + 
-#   geom_sf(data=states)+
-#   geom_point(data = Prop1,
-#             aes(Longitude, Latitude,
-#                 colour=Program))+
-#   xlab("Longitude")+
-#   ylab("Latitude")+ 
-#   ggtitle("Sampling Locations")+
-#   coord_map()
-# test
-
 ## test2
-wc.lat  <- range(Prop1$Latitude, na.rm=T) #29.84637 41.06110
-wc.long <- range(Prop1$Longitude, na.rm=T) #-126.4856 -117.1008
+wc.lat  <- range(Prop2$Latitude, na.rm=T) #29.84637 41.06110
+wc.long <- range(Prop2$Longitude, na.rm=T) #-126.4856 -117.1008
 
 #Create base map
 test2 = base.map <- ggplot() +
   geom_sf(data=states)+
-  geom_point(data = Prop1,
+  geom_point(data = Prop2,
              aes(Longitude, Latitude,  
                  color=Program), #shape=Program # The shape palette can deal with a maximum of 6 discrete values
              size=2.5) + 
   xlab("Longitude") +
   ylab("Latitude") + 
-  ggtitle("Sampling Locations")+
+  #ggtitle("Sampling Locations by Program")+
   annotation_scale(location = "bl", 
                    width_hint = 0.5) +
   coord_sf(xlim = wc.long,
@@ -85,36 +123,113 @@ test2 = base.map <- ggplot() +
   theme_bw()
 test2
 
+ggsave(plot=test2, file="/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/Program_Map.png")
 ```
 
-```{r leaflet, echo=FALSE}
+```{r leaflet Platform, include=FALSE, echo=FALSE, }
 
-Prop1.df = as.data.frame(Prop1)
-l <- leaflet() %>%
-  addProviderTiles(providers$Esri.OceanBasemap)
+#include=FALSE
 
-# test3 = leaflet() %>% 
-#       addProviderTiles(providers$Esri.OceanBasemap) %>%
-#       addAwesomeMarkers(data=Prop1.df, 
-#                  lng=~Longitude, 
-#                  lat=~Latitude,
-#                  label=~as.character(Program), 
-#                  popup=~Program,
-#                  #group = df,
-#                  clusterOptions = markerClusterOptions()) #addMarkers
-# test3
+pal2 <- colorFactor(c("red", "green", "navy"),
+                   domain = unique(Prop1.df$Type2))
 
-pal <- colorFactor(c("navy", "red", "green"),
-                   domain = unique(Prop1.df$Program))
-
-test4 = leaflet() %>% 
+test5 = leaflet() %>% 
       addProviderTiles(providers$Esri.OceanBasemap) %>%
       addCircleMarkers(data=Prop1.df, 
-                       color=~pal(Program),
+                       color=~pal2(Type2),
+                       popup=paste(
+                         "Program:", Prop1.df$Program, "<br>",
+                         "Platform:", Prop1.df$Type2, "<br>"),
                        stroke= FALSE, fillOpacity = 0.5,
                        lng=~Longitude, 
                        lat=~Latitude,
-                       label=~as.character(Program)) #, 
-test4
+                       label=paste(
+                         Prop1.df$Program, ",",
+                         Prop1.df$Type2, "," ,
+                         Prop1.df$Station_Locations)) 
+                         
+test5
 
+```
+
+```{r Platform, include=FALSE, echo=FALSE}
+
+states <- ne_states(
+  country = c("Canada",
+              "United States of America",
+              "Mexico"),
+  returnclass = 'sf') %>% 
+  filter(name %in% c("California","Oregon",
+                     "Washington","Nevada",
+                     "British Columbia",
+                     "Baja California",
+                     "Baja California Sur"))
+
+wc.lat  <- range(Prop2$Latitude, na.rm=T) #29.84637 41.06110
+wc.long <- range(Prop2$Longitude, na.rm=T) #-126.4856 -117.1008
+
+#Create base map
+test3 = base.map <- ggplot() +
+  geom_sf(data=states)+
+  geom_point(data = Prop2,
+             aes(Longitude, Latitude,  
+                 color=Type2), #shape=Program # The shape palette can deal with a maximum of 6 discrete values
+             size=2.5) + 
+  xlab("Longitude") +
+  ylab("Latitude") + 
+  #ggtitle("Sampling Locations by Platform Type")+
+  labs(color="Platform Type")+
+  annotation_scale(location = "bl", 
+                   width_hint = 0.5) +
+  coord_sf(xlim = wc.long,
+           ylim = wc.lat) +
+  theme_bw()
+test3
+
+ggsave(plot=test3, file="/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/figures/Platform_Map.png")
+```
+
+```{r Platform and Program , include=FALSE, echo=FALSE}
+
+Prop1 = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/Figures/Program_Locations.csv") #User/mhepner
+
+MPA_shape = read_sf("/Volumes/GoogleDrive/My Drive/SCCOOS/CDPH/ArcGIS/shapes/CA_MPA_shapefiles/ds582.shp", layer="SHAPEFILE") #ds582_CaliforniaMarineProtectedAreas.lyr
+
+Prop1 = Prop1 %>% #221x3, 10 groups 
+  select(Program, Type2, Station_Locations, Latitude, Longitude) %>%
+  group_by(Type2)
+
+states <- ne_states(
+  country = c("Canada",
+              "United States of America",
+              "Mexico"),
+  returnclass = 'sf') %>% 
+  filter(name %in% c("California","Oregon",
+                     "Washington","Nevada",
+                     "British Columbia",
+                     "Baja California",
+                     "Baja California Sur"))
+
+## test2
+wc.lat  <- range(Prop1$Latitude, na.rm=T) #29.84637 41.06110
+wc.long <- range(Prop1$Longitude, na.rm=T) #-126.4856 -117.1008
+
+#Create base map
+test1 = base.map <- ggplot() +
+  geom_sf(data=states)+
+  geom_point(data = Prop1,
+             aes(Longitude, Latitude,  
+                 color=Type2, shape=Program), #shape=Program # The shape palette can deal with a maximum of 6 discrete values
+             size=2.5) + 
+  xlab("Longitude") +
+  ylab("Latitude") + 
+  #ggtitle("Sampling Locations by Program")+
+  annotation_scale(location = "bl", 
+                   width_hint = 0.5) +
+  coord_sf(xlim = wc.long,
+           ylim = wc.lat) +
+  theme_bw()
+test1
+
+ggsave(plot=test1, file="/Volumes/GoogleDrive/My Drive/SCCOOS/Admin_SCCOOS/FY19/Extramural Proposals/OPC-Prop1-Round3/Figures/Program_Map.png", width=8, height = 8)
 ```
