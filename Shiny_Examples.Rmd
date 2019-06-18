@@ -1,5 +1,5 @@
 ---
-title: "Shiny_App_Trial"
+title: "Shiny App"
 author: "Megan Hepner"
 date: "6/17/2019"
 output: html_document
@@ -7,6 +7,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 
+.libPaths( c( "/home/rstudio/site-library" , .libPaths() ) )
+#getwd() "/home/rstudio/mhepner/SCCOOS Products"
 #rm(list=ls()) 
 library(shiny)
 library(tidyverse)
@@ -36,7 +38,7 @@ cols(
   `Latitude (dec deg N)` = col_double(),
   `Longitude (dec deg E)` = col_double(),
   `Depth (m)` = col_double(),
-  SampleID = col_character(),
+  `SampleID` = col_character(),
   `Location Code` = col_character(),
   `Date Collected (YYYY-MM-DD)` = col_date(format = ""),
   `Time Collected (hh:mm:ss PT)` = col_time(format = ""),
@@ -55,8 +57,8 @@ cols(
   `Ammonium (uM)` = col_double(),
   `DA Volume Filtered (mL)` = col_double(),
   `pDA (ng/mL)` = col_double(),
-    tDA = col_logical(),
-    dDA = col_logical(),
+  `tDA` = col_logical(),
+  `dDA` = col_logical(),
   `Volume Settled for counting (mL)` = col_double(),
   `Akashiwo sanguinea  (cells/L)` = col_double(),
   `Alexandrium spp. (cells/L)` = col_double(),
@@ -72,7 +74,7 @@ cols(
   `Gymnodinium spp. (cells/L)` = col_double(),
   `Total Phytoplankton (cells/L)` = col_double()
   
-```{r Format Data}
+```{r Format Nutrient Data}
 
 Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv") #550x39
 Cal_Poly_Org = Cal_Poly_Org %>%
@@ -97,13 +99,13 @@ Stearn_Wharf_Org = Stearn_Wharf_Org %>%
 #Monterey_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/MW_upload.csv") 
 
 Nutrient_data = dplyr::bind_rows(Cal_Poly_Org, Newport_Org) 
-Nutrient_data = dplyr::bind_rows(HAB_data, Santa_Cruz_Org) 
-Nutrient_data = dplyr::bind_rows(HAB_data, Stearn_Wharf_Org)
+Nutrient_data = dplyr::bind_rows(Nutrient_data, Santa_Cruz_Org) 
+Nutrient_data = dplyr::bind_rows(Nutrient_data, Stearn_Wharf_Org)
 
 write_csv(Nutrient_data, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/Nutrient_data.csv")
 ```
 
-```{r HAB data}
+```{r Format HAB data}
 
 Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv") #550x39
 
@@ -150,6 +152,12 @@ HAB_data = HAB_data %>%
 ```
 
 ```{r trial 1}
+
+hab_data = drive_download(
+   file = as_id(1C66tVQPeFq79GXRT5MEqkMlYrW8WMR6Q),
+   overwrite = TRUE)
+
+HAB_data = read_csv("~/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data.csv")
 
 dataset = HAB_data
 #UI
