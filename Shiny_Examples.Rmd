@@ -1,0 +1,405 @@
+---
+title: "Shiny_App_Trial"
+author: "Megan Hepner"
+date: "6/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+#rm(list=ls()) 
+library(shiny)
+library(tidyverse)
+library(ggplot2) #ggplot
+install.packages('rsconnect')
+rsconnect::setAccountInfo(name='sccoos', token='46A35F225508EFAB929987BC33C4E3AE', secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM') 
+library(rsconnect)
+#rsconnect::deployApp('path/to/your/app')
+
+```
+
+Shiny Gallery 
+https://shiny.rstudio.com/gallery/
+
+shinnyapps.io to share app for free 
+
+```{r Shiny template}
+
+ui = fluidPage() #creates a webpage creating fluidpage function, UI is responsible for appearance of the app
+server = function(input, output) {} #server portion, generates plots 
+shinyApp(ui=ui, server = server)
+runApp()
+
+```
+
+cols(
+  `Latitude (dec deg N)` = col_double(),
+  `Longitude (dec deg E)` = col_double(),
+  `Depth (m)` = col_double(),
+  SampleID = col_character(),
+  `Location Code` = col_character(),
+  `Date Collected (YYYY-MM-DD)` = col_date(format = ""),
+  `Time Collected (hh:mm:ss PT)` = col_time(format = ""),
+  `Temp (deg C)` = col_double(),
+  `Chl Volume Filtered (mL)` = col_double(),
+  `Chl1 (mg/m3)` = col_double(),
+  `Chl2 (mg/m3)` = col_double(),
+  `Avg Chloro (mg/m3)` = col_double(),
+  `Phaeo1 (mg/m3)` = col_double(),
+  `Phaeo2 (mg/m3)` = col_double(),
+  `Avg Phaeo (mg/m3)` = col_double(),
+  `Nitrate (uM)` = col_double(),
+  `Phosphate (uM)` = col_double(),
+  `Silicate (uM)` = col_double(),
+  `Nitrite (uM)` = col_double(),
+  `Ammonium (uM)` = col_double(),
+  `DA Volume Filtered (mL)` = col_double(),
+  `pDA (ng/mL)` = col_double(),
+    tDA = col_logical(),
+    dDA = col_logical(),
+  `Volume Settled for counting (mL)` = col_double(),
+  `Akashiwo sanguinea  (cells/L)` = col_double(),
+  `Alexandrium spp. (cells/L)` = col_double(),
+  `Dinophysis spp.  (cells/L)` = col_double(),
+  `Lingulodinium polyedrum (cells/L)` = col_double(),
+  `Prorocentrum spp.  (cells/L)` = col_double(),
+  `Pseudo-nitzschia delicatissima group (cells/L)` = col_double(),
+  `Pseudo-nitzschia seriata group (cells/L)` = col_double(),
+  `Other Diatoms (cells/L)` = col_double(),
+  `Other Dinoflagellates (cells/L)` = col_double(),
+  `Ceratium spp.(cells/L)` = col_double(),
+  `Cochlodinium (cells/L)` = col_double(),
+  `Gymnodinium spp. (cells/L)` = col_double(),
+  `Total Phytoplankton (cells/L)` = col_double()
+  
+```{r Format Data}
+
+Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv") #550x39
+Cal_Poly_Org = Cal_Poly_Org %>%
+  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`)%>% 
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/NP_upload.csv")  #560x33 missing lat,long,depth,SampleID,year, week
+Newport_Org = Newport_Org %>%
+  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`)%>% 
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+
+Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SCW_upload.csv") #382x27 missing
+Santa_Cruz_Org = Santa_Cruz_Org %>%  
+  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`) %>% 
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+
+Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SW_upload.csv") #552x39
+Stearn_Wharf_Org = Stearn_Wharf_Org %>%
+  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`)%>%
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+#Scripps_Pier_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/SP_upload.csv")
+#Santa_Monica_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SMP_upload.csv")
+#Monterey_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/MW_upload.csv") 
+
+Nutrient_data = dplyr::bind_rows(Cal_Poly_Org, Newport_Org) 
+Nutrient_data = dplyr::bind_rows(HAB_data, Santa_Cruz_Org) 
+Nutrient_data = dplyr::bind_rows(HAB_data, Stearn_Wharf_Org)
+
+write_csv(Nutrient_data, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/Nutrient_data.csv")
+```
+
+```{r HAB data}
+
+Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv") #550x39
+
+Cal_Poly_Org = Cal_Poly_Org %>%
+  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)') %>% 
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+
+Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/NP_upload.csv")  #560x33 missing lat,long,depth,SampleID,year, week
+Newport_Org = Newport_Org %>%
+  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)') %>% 
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+
+Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SCW_upload.csv") #382x27 missing
+Santa_Cruz_Org = Santa_Cruz_Org %>%  
+  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)') %>% 
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
+
+Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SW_upload.csv") #552x39
+Stearn_Wharf_Org = Stearn_Wharf_Org %>%
+  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)')%>%
+  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`),
+         'pDA (ng/mL)' = as.integer('pDA (ng/mL)'))
+
+HAB_data = dplyr::bind_rows(Cal_Poly_Org, Newport_Org) 
+HAB_data = dplyr::bind_rows(HAB_data, Santa_Cruz_Org) 
+HAB_data = dplyr::bind_rows(HAB_data, Stearn_Wharf_Org)
+
+HAB_data = HAB_data %>%
+  mutate(
+    Location =`Location Code`, 
+    Date = `Date Collected (YYYY-MM-DD)`,
+    pDA = `pDA (ng/mL)`,
+    PN_deli = `Pseudo-nitzschia delicatissima group (cells/L)`,
+    PN_seri = `Pseudo-nitzschia seriata group (cells/L)`,
+    Alex = `Alexandrium spp. (cells/L)`) %>%
+  select(Location, Date,pDA,PN_deli,PN_seri,Alex) 
+
+write_csv(HAB_data, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data.csv")
+
+HAB_data = HAB_data %>%   
+  gather(key = "Observations", value = "measurement",pDA, PN_deli, PN_seri, Alex)
+
+
+```
+
+```{r trial 1}
+
+dataset = HAB_data
+#UI
+
+#Inputs
+ui = fluidPage(
+  titlePanel("HAB Monitoring"),
+  sidebarLayout(
+    sidebarPanel(
+             selectInput(inputId = "Location", label = "Location", names(dataset)[[1]]),
+             #c("Scripps Pier",
+              # "Newport Pier",
+              # "Santa Monica Pier",
+              # "Stearns Wharf",
+              # "Cal Poly Pier",
+              # "Monterey Wharf",
+              # "Santa Cruz Municipal Wharf"),
+             selectInput("Observations", "HAB Species", names(dataset)[[3]]),
+             # c("Akashiwo sanguinea",
+             #   "Alexandrium spp.",
+             #   "Ceratium spp.",
+             #   "Cochlodinium spp.",
+             #   "Dinophysis spp.",
+             #   "Gymnodinium spp.",
+             #   "Prorocentrum spp.",
+             #   "Pseudo-nitzschia delicatissima group",
+             #   "Pseudo-nitzschia seriata group")
+    ),
+             sliderInput("Date", "Date Range", 2008, 2019, value= c(2008,2019), sep=""),
+    dateRangeInput('dateRange',
+      label = 'Date range input: yyyy-mm-dd',
+      start = Sys.Date() - 2, end = Sys.Date() + 2
+    ),    
+    #create a spot for the plot
+    mainPanel(
+      plotOutput("HABplot", width=10, height=7)
+      )
+    )
+)
+
+#Server 
+
+#outputs 
+server = function(input, output){
+  
+  dataset = reactive({
+    HAB_data[sample(nrow(HAB_data), input$Locations),]
+    })
+  
+  output$HABplot = renderPlot({ #make plot code
+    ggplot(HAB_data, aes(x=input$Date, y=input$Observations))+
+        geom_point()+
+        geom_line()+
+        labs(x = "Date Range", y = "Cells/L")
+    }, height = 400, width = 600)
+      
+  }
+
+obs = reactive(names(which(observations==input$Observations)))
+output$label = renderText(obs)
+
+output$dateRangeText  <- renderText({
+    paste("input$dateRange is", 
+      paste(as.character(input$dateRange), collapse = " to ")
+    )
+  })
+
+#Code if I want output with tabs 
+#      tabsetPanel(type = "tabs",
+#                 tabPanel("Scripps Pier", plotOutput("plot")),
+#                  tabPanel("Stearns Wharf", vlotOutput("plot")),
+#                  tabPanel("Cal Poly Pier", lotOutput("plot"))
+
+shinyApp(ui = ui, server = server)
+
+```
+
+
+```{r test 2 }
+library(shiny)
+
+# Define UI for app that draws a histogram ----
+ui <- fluidPage(
+
+  # App title ----
+  titlePanel("Hello Shiny!"),
+
+  # Sidebar layout with input and output definitions ----
+  sidebarLayout(
+
+    # Sidebar panel for inputs ----
+    sidebarPanel(
+
+      # Input: Slider for the number of bins ----
+      sliderInput(inputId = "bins",
+                  label = "Number of bins:",
+                  min = 1,
+                  max = 50,
+                  value = 30)
+
+    ),
+
+    # Main panel for displaying outputs ----
+    mainPanel(
+
+      # Output: Histogram ----
+      plotOutput(outputId = "distPlot")
+
+    )
+  )
+)
+
+# Define server logic required to draw a histogram ----
+server <- function(input, output) {
+
+  # Histogram of the Old Faithful Geyser Data ----
+  # with requested number of bins
+  # This expression that generates a histogram is wrapped in a call
+  # to renderPlot to indicate that:
+  #
+  # 1. It is "reactive" and therefore should be automatically
+  #    re-executed when inputs (input$bins) change
+  # 2. Its output type is a plot
+  output$distPlot <- renderPlot({
+
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
+
+    })
+
+}
+
+# Create Shiny app ----
+shinyApp(ui = ui, server = server)
+```
+
+```{r test3}
+
+library(ggplot2) 
+
+ui <- fluidPage(
+  titlePanel("HAB Monitoring"),
+  sidebarLayout(
+    sidebarPanel(
+             selectInput(
+               inputId = "location", 
+               label = "Location",
+               value = 
+                 c("Scripps Pier",
+               "Newport Pier",
+               "Santa Monica Pier",
+               "Stearns Wharf",
+               "Cal Poly Pier",
+               "Monterey Wharf",
+               "Santa Cruz Municipal Wharf"),
+             selectInput(
+               inputId ="observation", 
+               label = "HAB Species",
+               value =
+             c("Akashiwo sanguinea",
+               "Alexandrium spp.",
+               "Ceratium spp.",
+               "Cochlodinium spp.",
+               "Dinophysis spp.",
+               "Gymnodinium spp.",
+               "Prorocentrum spp.",
+               "Pseudo-nitzschia delicatissima group",
+               "Pseudo-nitzschia seriata group"),
+             mainPanel(
+      plotOutput("HAB_plot")
+      )
+    )
+)
+)
+)
+)
+
+
+server = function(input, output){
+  output$HAB_plot = renderPlot({
+    #begin adding ggplot code to make the plots
+  })
+  
+}
+
+shinyApp(ui=ui, server=server)
+
+```
+
+```{r diamonds example}
+
+function(input, output) {
+
+  dataset <- reactive({
+    diamonds[sample(nrow(diamonds), input$sampleSize),]
+  })
+
+  output$plot <- renderPlot({
+    
+    p <- ggplot(dataset(), aes_string(x=input$x, y=input$y)) + geom_point()
+    
+    if (input$color != 'None')
+      p <- p + aes_string(color=input$color)
+    
+    facets <- paste(input$facet_row, '~', input$facet_col)
+    if (facets != '. ~ .')
+      p <- p + facet_grid(facets)
+    
+    if (input$jitter)
+      p <- p + geom_jitter()
+    if (input$smooth)
+      p <- p + geom_smooth()
+    
+    print(p)
+    
+  }, height=700)
+  
+}
+
+dataset <- diamonds
+
+pageWithSidebar(
+
+  headerPanel("Diamonds Explorer"),
+  
+  sidebarPanel(
+
+    sliderInput('sampleSize', 'Sample Size', min=1, max=nrow(dataset),
+                value=min(1000, nrow(dataset)), step=500, round=0),
+    
+    selectInput('x', 'X', names(dataset)),
+    selectInput('y', 'Y', names(dataset), names(dataset)[[2]]),
+    selectInput('color', 'Color', c('None', names(dataset))),
+    
+    checkboxInput('jitter', 'Jitter'),
+    checkboxInput('smooth', 'Smooth'),
+    
+    selectInput('facet_row', 'Facet Row', c(None='.', names(dataset))),
+    selectInput('facet_col', 'Facet Column', c(None='.', names(dataset)))
+  ),
+
+  mainPanel(
+    plotOutput('plot')
+  )
+)
+
+runApp()
+
+```
