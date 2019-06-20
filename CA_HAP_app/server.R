@@ -13,7 +13,8 @@ library(tidyverse)
 #install.packages('rsconnect')
 #rsconnect::setAccountInfo(name='sccoos', token='46A35F225508EFAB929987BC33C4E3AE', secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM') 
 #library(rsconnect)
-HAB_data = read_csv("~/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data.csv")
+#HAB_data = read_csv("~/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data.csv")
+HAB_data_long = read_csv("~/Google Drive File Stream/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data_long.csv")
 
 
 # Define server logic required to draw a plot
@@ -22,14 +23,14 @@ server = (function(input, output) { #shinyServer
     output$HABplot <- renderPlot({
         
         HAB_data %>%
-            filter(Location %in% input$location,
-                   Observations %in% input$observations)
+            filter(Location %in% input$Location,
+                   Observations %in% input$Observations)
         
         #HAB_plot = HAB_data %>%
             #filter(Location == input$Location)%>%
             #filter(Observations == input$Observations)
         
-        ggplot(data=HAB_data, aes(x=input$date, y=input$observations))+
+        ggplot(data=HAB_data, aes(x=input$Date, y=input$Observations))+
             geom_point()+
             geom_line()+
             labs(x = "Date Range", y = "Cells/L")
@@ -46,5 +47,6 @@ server = (function(input, output) { #shinyServer
 })
 
 shinyApp(ui = ui, server = server)
+#rsconnect::deployApp("<path to directory>")
 
 #deployApp()

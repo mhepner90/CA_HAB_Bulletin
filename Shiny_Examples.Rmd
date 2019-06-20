@@ -13,10 +13,13 @@ output: html_document
 library(shiny)
 library(tidyverse)
 library(ggplot2) #ggplot
-install.packages('rsconnect')
-rsconnect::setAccountInfo(name='sccoos', token='46A35F225508EFAB929987BC33C4E3AE', secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM') 
-library(rsconnect)
 #rsconnect::deployApp('path/to/your/app')
+#library(shinyURL) no longer available 
+install.packages('rsconnect')
+rsconnect::setAccountInfo(name='sccoos',
+                          token='46A35F225508EFAB929987BC33C4E3AE',
+                          secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM')
+library(rsconnect)
 
 ```
 
@@ -145,8 +148,11 @@ HAB_data = HAB_data %>%
 
 write_csv(HAB_data, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data.csv")
 
-HAB_data = HAB_data %>%   
+HAB_data_long = HAB_data %>%   
   gather(key = "Observations", value = "measurement",pDA, PN_deli, PN_seri, Alex)
+
+write_csv(HAB_data_long, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data_long.csv")
+
 
 
 ```
@@ -383,9 +389,9 @@ function(input, output) {
 
 dataset <- diamonds
 
-pageWithSidebar(
+fluidPage(
 
-  headerPanel("Diamonds Explorer"),
+  titlePanel("Diamonds Explorer"),
   
   sidebarPanel(
 
@@ -409,5 +415,26 @@ pageWithSidebar(
 )
 
 runApp()
+deployApp()
+```
+
+```{r plot}
+
+data= HAB_data_long %>% 
+  filter(Location == "CPP",
+         Observations == "pDA")
+        
+plot = ggplot(data=data, aes(x=Date, y=measurement))+
+  geom_point(aes(color=Observations))+
+  geom_line(aes(color=Observations))+
+  labs(x = "Date Range", y = "Cells/L")+
+  theme_bw()+
+  theme(
+    legend.position="none",
+    panel.grid.major=element_blank(),
+    panel.grid.minor=element_blank(),
+    axis.title.x=element_text(size=12),
+    axis.title.y=element_text(size=12),
+    title=element_text(size=12))
 
 ```
