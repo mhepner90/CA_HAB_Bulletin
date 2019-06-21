@@ -14,16 +14,20 @@ library(lubridate)
 #rsconnect::setAccountInfo(name='sccoos', token='46A35F225508EFAB929987BC33C4E3AE', secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM') 
 
 #2. Load Data 
-HAB_data_long = read_csv("~/Google Drive File Stream/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data_long.csv") #%>% 
-   # .[complete.cases(.),] %>% 
-    #mutate(Date=mdy(Date))
+githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HAB_data_long.rds")
+download.file(githubURL, "HAB_data_long.rds")
+HAB_data_long = readRDS("HAB_data_long.rds")
+
+#source_data("https://github.com/mhepner90/CA_HAB_Bulletin/blob/master/HABMAP_Data/HAB_data_long.rds?raw=true")
+#HAB_data_long = read_rds("HABMAP_Data/HAB_data_long.rds")
+#HAB_data_long = write_rds(HAB_data_long, "HABMAP_Data/HAB_data_long.rds")
+#HAB_data_long = read_csv("HABMAP_Data/HAB_data_long.csv") 
 # Parsed with column specification:
 #     cols(
 #         Location = col_character(),
 #         Date = col_date(format = ""),
 #         Observations = col_character(),
 #         measurement = col_double()
-#print(glimpse(HAB_data_long))
 
 #Listening on http://127.0.0.1:6181
 
@@ -31,26 +35,32 @@ HAB_data_long = read_csv("~/Google Drive File Stream/My Drive/SCCOOS/CA_HAB_Bull
 ui = fluidPage(
     theme = shinytheme("cerulean"), #changes theme style to blue 
     titlePanel("California HAB Monitoring",
-               windowTitle = "HAB"),     # Application title
+               windowTitle = "SCCOOS"),     # Application title
     sidebarLayout(
         sidebarPanel( #Inputs: Select variables to plot 
             selectInput(inputId = "Location", 
                         label = h3("Sampling Location"), 
-                        # choices =c("Newport Pier"="NP",
-                        #            "Stearns Wharf"="SW",
-                        #            "Cal Poly Pier"="CPP",
-                        #            "Santa Cruz Municipal Wharf"="HAB_SCW"),
-                        choices=sort(unique(HAB_data_long$Location)),
+                        choices =c("Newport Pier"="NP",
+                                    "Stearns Wharf"="SW",
+                                    "Cal Poly Pier"="CPP",
+                                    "Santa Cruz Municipal Wharf"="HAB_SCW"), # "Monterey Wharf", # "Santa Monica Pier",
+                        #choices=sort(unique(HAB_data_long$Location)),
                         #selected ="Cal Poly Pier",
                         multiple = F),
             selectInput(inputId="Observations",
                         label=h3("HAB Species"),
-                        choices = sort(unique(HAB_data_long$Observations)),
-                        #choices=c("Domoic Acid" = "pDA", 
-                        #           "Alexandrium spp." = "Alex",
-                        #           "Pseudo-nitzschia delicatissima group" = "PN_deli",
-                        #           "Pseudo-nitzschia seriata group" = "PN_seri"),
-                        # selected = "Domoic Acid",
+                        #choices = sort(unique(HAB_data_long$Observations)),
+                        choices=c("Domoic Acid" = "pDA", 
+                                   "Alexandrium spp." = "Alex",
+                                   "Pseudo-nitzschia delicatissima group" = "PN_deli",
+                                   "Pseudo-nitzschia seriata group" = "PN_seri"),   
+                        #c("Akashiwo sanguinea",
+                        #   "Ceratium spp.",
+                        #   "Cochlodinium spp.",
+                        #   "Dinophysis spp.",
+                        #   "Gymnodinium spp.",
+                        #   "Prorocentrum spp.",
+                         selected = "Domoic Acid",
                         multiple = F),
             #sliderInput("Date", "Date Range", 2008, 2019, value= c(2008,2019), sep=""),
             dateRangeInput(inputId="Date", 
@@ -86,13 +96,20 @@ server = shinyServer(function(input, output) {
                 Date>=startDate & Date<=endDate)
         
         ggplot(data=filtered_data, aes(x=Date, y=measurement, group=Observations))+ 
-            geom_point(aes(color=Observations))+
-            geom_line(aes(color=Observations))+
+            geom_point(aes(color=Observations),lwd = 1)+
+            geom_line(aes(color=Observations),lwd = 1)+
             scale_x_date(date_breaks = "1 month", 
                          labels=date_format("%b-%Y"),
                          limits = as.Date(c(startDate,endDate)))+
             labs(x = "Date Range", y = "Cells/L")+
-            theme(axis.text.x = element_text(angle = 45, hjust = 1))
+            theme_bw()+
+            theme(axis.text.x = element_text(angle = 45, hjust = 1),
+                  panel.grid.major=element_blank(),
+                  panel.grid.minor=element_blank(),
+                  legend.position="none",
+                  axis.title.x=element_text(size=12),
+                  axis.title.y=element_text(size=12),
+                  title=element_text(size=12))
     })
 })
     
@@ -106,5 +123,6 @@ server = shinyServer(function(input, output) {
 #5. Run the application 
 shinyApp(ui = ui, server = server)
 
-deployApp("California_HAB")
+#deployApp("California_HAB")
+
 #https://sccoos.shinyapps.io/california_hab/
