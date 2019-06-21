@@ -106,5 +106,5 @@ server = shinyServer(function(input, output) {
 #5. Run the application 
 shinyApp(ui = ui, server = server)
 
-#deployApp("California_HAB")
+deployApp("California_HAB")
 #https://sccoos.shinyapps.io/california_hab/
