@@ -1,0 +1,10 @@
+name: california_hab
+title:
+username:
+account: sccoos
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 991018
+bundleId: 2167914
+url: https://sccoos.shinyapps.io/california_hab/
+when: 1561070987.73187
