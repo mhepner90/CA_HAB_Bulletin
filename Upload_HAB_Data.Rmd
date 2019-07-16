@@ -15,6 +15,48 @@ library(ggplot2) #ggplot
 
 ```
 
+ERDDAP Dataset ID:
+[HABs-CalPoly](http://erddap.sccoos.org/erddap/tabledap/HABs-CalPoly.html)
+[HABs-MontereyWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-MontereyWharf.html)
+[HABs-NewportPier](http://erddap.sccoos.org/erddap/tabledap/HABs-NewportPier.html) 
+[HABs-SantaCruzWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-SantaCruzWharf.html) 
+[HABs-SantaMonicaPier](http://erddap.sccoos.org/erddap/tabledap/HABs-SantaMonicaPier.html)
+[HABs-ScrippsPier](http://erddap.sccoos.org/erddap/tabledap/HABs-ScrippsPier.html) 
+[HABs-StearnsWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-StearnsWharf.html)
+
+```{r download data from ERDDAP}
+
+CalCOFI = info('siocalcofiHydroCasts')
+calcofi.df <- tabledap(CalCOFI, 
+                       fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'),
+                       'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
+
+CalPoly = info("HABs-CalPoly", url= "http://erddap.sccoos.org/erddap/tabledap/")
+#CalPoly = info("HABs-CalPoly", url= "http://erddap.sccoos.org/erddap/")
+CalPoly_Data = tabledap(CalPoly, 
+                        fields = c('Ceratium','Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp','time'),
+                        'time >= 2008-08-15T00:00:00Z', 'time <= 2019-05-26T05:35:00Z')
+
+                        #''Akashiwo_sanguinea', 'Alexandrium_spp',' Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA'), 'time>=2009-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
+
+#'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp'
+#'Other_Diatoms','Other_Dinoflagellates', 'Total_Phytoplankton', 'tDA'
+
+Monterey = info("HABs-MontereyWharf",url= "http://erddap.sccoos.org/erddap/") 
+
+Newport = info("HABs-NewportPier",url= "http://erddap.sccoos.org/erddap/") 
+
+SantaCruz = info("HABs-SantaCruzWharf",url= "http://erddap.sccoos.org/erddap/") 
+
+SantaMonica = info("HABs-SantaMonicaPier",url= "http://erddap.sccoos.org/erddap/") 
+
+Scripps = info("HABs-ScrippsPier",url= "http://erddap.sccoos.org/erddap/") 
+
+Stearns = info("HABs-StearnsWharf",url= "http://erddap.sccoos.org/erddap/") 
+
+
+```
+
 cols(
   `Latitude (dec deg N)` = col_double(),
   `Longitude (dec deg E)` = col_double(),
