@@ -15,6 +15,23 @@ library(ggplot2) #ggplot
 
 ```
 
+Example [R code](https://rmendels.github.io/Using_rerddap.nb.html) on how to download data from ERDDAP Servers by Roy Mendelssohn and Scott Chamberlain. 
+
+```{r examples, echo=FALSE, include=F}
+
+#IOOS Glider Data
+Glider = info("sp064-20161214T1913", url="https://data.ioos.us/gliders/erddap/")
+glider_data = tabledap(Glider, fields = c('depth', 'salinity','time'),'time>=2016-12-14', 'time<=2016-12-23', url='https://data.ioos.us/gliders/erddap/')
+
+#Example CalCOFI 
+CalCOFI = info('siocalcofiHydroCasts')
+#CalCOFI2 = info("siocalcofiHydroCasts", url="https://coastwatch.pfeg.noaa.gov/erddap/") works with both methods 
+calcofi.df <- tabledap(CalCOFI, 
+                       fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'),
+                       'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
+
+```
+
 ERDDAP Dataset ID:
 [HABs-CalPoly](http://erddap.sccoos.org/erddap/tabledap/HABs-CalPoly.html)
 [HABs-MontereyWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-MontereyWharf.html)
@@ -24,35 +41,100 @@ ERDDAP Dataset ID:
 [HABs-ScrippsPier](http://erddap.sccoos.org/erddap/tabledap/HABs-ScrippsPier.html) 
 [HABs-StearnsWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-StearnsWharf.html)
 
-```{r download data from ERDDAP}
+HABMAP Variables: 
+1. Akashiwo_sanguinea                        
+2. Alexandrium_spp                             
+3. Ammonium     
+4. Avg_Chloro     
+5. Avg_Phaeo     
+6. Ceratium                      
+7. Chl_Volume_Filtered     
+8. Chl1   
+9. Chl2   
+10. Cochlodinium                          
+11. DA_Volume_Filtered    
+12. dDA                          
+13. depth    
+14. Dinophysis_spp    
+15. Gymnodinium_spp       
+16. latitude     
+17. Lingulodinium_polyedra                     
+18. Location_Code                           
+19. longitude    
+20. Nitrate   
+21. Nitrite     
+22. Nitrite_Nitrate   
+23. Other_Diatoms                         
+24. Other_Dinoflagellates                           
+25. pDA                            
+26. Phaeo1     
+27. Phaeo2    
+28. Phosphate    
+29. Prorocentrum_spp                              
+30. Pseudo_nitzschia_delicatissima_group                              
+31. Pseudo_nitzschia_seriata_group                              
+32. SampleID                               
+33. Silicate     
+34. tDA                           
+35. Temp                          
+36. time    
+37. Total_Phytoplankton                           
+38. Volume_Settled_for_Counting     
 
-CalCOFI = info('siocalcofiHydroCasts')
-calcofi.df <- tabledap(CalCOFI, 
-                       fields = c('cst_cnt',  'date', 'year', 'month', 'julian_date', 'julian_day', 'rpt_line', 'rpt_sta', 'cruz_num', 'intchl', 'intc14', 'time'),
-                       'time>=1984-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
+```{r download HABMAP Data from ERDDAP}
 
-CalPoly = info("HABs-CalPoly", url= "http://erddap.sccoos.org/erddap/tabledap/")
-#CalPoly = info("HABs-CalPoly", url= "http://erddap.sccoos.org/erddap/")
-CalPoly_Data = tabledap(CalPoly, 
-                        fields = c('Ceratium','Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp','time'),
-                        'time >= 2008-08-15T00:00:00Z', 'time <= 2019-05-26T05:35:00Z')
-
-                        #''Akashiwo_sanguinea', 'Alexandrium_spp',' Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA'), 'time>=2009-01-01T00:00:00Z', 'time<=2014-04-17T05:35:00Z')
-
-#'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp'
-#'Other_Diatoms','Other_Dinoflagellates', 'Total_Phytoplankton', 'tDA'
+variables = c('Location_Code','time','Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+  
+CalPoly = rerddap::info(datasetid = "HABs-CalPoly", url="http://erddap.sccoos.org/erddap/")
+CalPoly_Data = tabledap(CalPoly, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
 
 Monterey = info("HABs-MontereyWharf",url= "http://erddap.sccoos.org/erddap/") 
+Monterey_Data = tabledap(Monterey, fields = variables, 'time>=2008-08-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
 
 Newport = info("HABs-NewportPier",url= "http://erddap.sccoos.org/erddap/") 
+Newport_Data = tabledap(Newport, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
 
 SantaCruz = info("HABs-SantaCruzWharf",url= "http://erddap.sccoos.org/erddap/") 
+SantaCruz_Data = tabledap(SantaCruz, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
 
 SantaMonica = info("HABs-SantaMonicaPier",url= "http://erddap.sccoos.org/erddap/") 
+SantaMonica_Data = tabledap(SantaMonica, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
 
 Scripps = info("HABs-ScrippsPier",url= "http://erddap.sccoos.org/erddap/") 
+Scripps_Data = tabledap(Scripps, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
 
 Stearns = info("HABs-StearnsWharf",url= "http://erddap.sccoos.org/erddap/") 
+Stearns_Data = tabledap(Stearns, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+
+#Bind all the Data into one datatable 
+
+HABMAP_Data = dplyr::bind_rows(list(CalPoly_Data, Monterey_Data,Newport_Data,SantaCruz_Data,SantaMonica_Data,Scripps_Data,Stearns_Data))
+
+```
+
+```{r HABMAP Data in Long Format}
+
+HABMAP_Data_Long = HABMAP_Data %>%   
+  gather(key = "Observations", value = "Measurement", 'Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+         
+#Add a column for units - need this for Shiny app 
+HAB_data_long_units = HABMAP_Data_Long %>% 
+  mutate(Units = ifelse(grepl("pDA", Observations),'ng/mL',
+                        ifelse(grepl('Temp', Observations), "Celsius",
+                               ifelse(grepl("'Avg_Chloro'|'Avg_Phaeo'", Observations), "mg/m3",
+                                      ifelse(grepl("
+                                      'Akashiwo_sanguinea'|
+                                      'Alexandrium_spp'|
+                                      'Ceratium'|
+                                      'Cochlodinium'|
+                                      'Dinophysis_spp'|
+                                      'Gymnodinium_spp'|
+                                      'Lingulodinium_polyedra'|
+                                      'Prorocentrum_spp'|
+                                      'Pseudo_nitzschia_delicatissima_group'|
+                                      'Pseudo_nitzschia_seriata_group'", Observations), "cells/L", "uM")))))
+
+write_rds(HAB_data_long_units, "HABMAP_Data/HAB_data_long_units.rds")
 
 
 ```
@@ -96,146 +178,4 @@ cols(
   `Cochlodinium (cells/L)` = col_double(),
   `Gymnodinium spp. (cells/L)` = col_double(),
   `Total Phytoplankton (cells/L)` = col_double()
-  
-```{r Format Nutrient Data}
 
-Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv") #550x39
-Cal_Poly_Org = Cal_Poly_Org %>%
-  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`)%>% 
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/NP_upload.csv")  #560x33 missing lat,long,depth,SampleID,year, week
-Newport_Org = Newport_Org %>%
-  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`)%>% 
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-
-Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SCW_upload.csv") #382x27 missing
-Santa_Cruz_Org = Santa_Cruz_Org %>%  
-  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`) %>% 
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-
-Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SW_upload.csv") #552x39
-Stearn_Wharf_Org = Stearn_Wharf_Org %>%
-  select("Location Code", `Date Collected (YYYY-MM-DD)`,`Temp (deg C)`,`Nitrate (uM)`, `Phosphate (uM)`,`Silicate (uM)`,`Ammonium (uM)`,`Avg Chloro (mg/m3)`)%>%
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-#Scripps_Pier_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/SP_upload.csv")
-#Santa_Monica_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SMP_upload.csv")
-#Monterey_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/MW_upload.csv") 
-
-Nutrient_data = dplyr::bind_rows(Cal_Poly_Org, Newport_Org) 
-Nutrient_data = dplyr::bind_rows(Nutrient_data, Santa_Cruz_Org) 
-Nutrient_data = dplyr::bind_rows(Nutrient_data, Stearn_Wharf_Org)
-
-Nutrient_data = Nutrient_data %>%
-  mutate(
-    Location =`Location Code`, 
-    Date = `Date Collected (YYYY-MM-DD)`,
-    Temp = `Temp (deg C)`, 
-    Chloro = `Avg Chloro (mg/m3)`,
-    Phaeo = `Avg Phaeo (mg/m3)`,
-    Nitrate = `Nitrate (uM)`,
-    Phosphate = `Phosphate (uM)`,
-    Silicate = `Silicate (uM)`,
-    Nitrite = `Nitrite (uM)`,
-    Amonium = `Ammonium (uM)`) %>%
-  select(Location, Date, Temp,Chloro,Phaeo,Nitrite, Nitrate,Phosphate,Silicate, Amonium) 
-
-Nutrient_data_long = Nutrient_data %>%   
-  gather(key = "Observations", value = "measurement",Temp,Chloro,Phaeo,Nitrite, Nitrate,Phosphate,Silicate, Amonium)
-
-write_rds(Nutrient_data_long, "HABMAP_Data/Nutrient_data.rds")
-
-Nutrient_data = readRDS("HABMAP_Data/Nutrient_data_long.rds")
-
-```
-
-```{r Format HAB data}
-
-Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv") #550x39
-
-Cal_Poly_Org = Cal_Poly_Org %>%
-  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)') %>% 
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-
-Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/NP_upload.csv")  #560x33 missing lat,long,depth,SampleID,year, week
-Newport_Org = Newport_Org %>%
-  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)') %>% 
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-
-Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SCW_upload.csv") #382x27 missing
-Santa_Cruz_Org = Santa_Cruz_Org %>%  
-  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)') %>% 
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`))
-
-Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SW_upload.csv") #552x39
-Stearn_Wharf_Org = Stearn_Wharf_Org %>%
-  select("Location Code", 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)')%>%
-  mutate(`Date Collected (YYYY-MM-DD)` = as.character(`Date Collected (YYYY-MM-DD)`),
-         'pDA (ng/mL)' = as.integer('pDA (ng/mL)'))
-
-HAB_data = dplyr::bind_rows(Cal_Poly_Org, Newport_Org) 
-HAB_data = dplyr::bind_rows(HAB_data, Santa_Cruz_Org) 
-HAB_data = dplyr::bind_rows(HAB_data, Stearn_Wharf_Org)
-
-HAB_data = HAB_data %>%
-  mutate(
-    Location =`Location Code`, 
-    Date = `Date Collected (YYYY-MM-DD)`,
-    pDA = `pDA (ng/mL)`,
-    PN_deli = `Pseudo-nitzschia delicatissima group (cells/L)`,
-    PN_seri = `Pseudo-nitzschia seriata group (cells/L)`,
-    Alex = `Alexandrium spp. (cells/L)`) %>%
-  select(Location, Date,pDA,PN_deli,PN_seri,Alex) 
-
-write_csv(HAB_data, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data.csv")
-
-HAB_data_long = HAB_data %>%   
-  gather(key = "Observations", value = "measurement",pDA, PN_deli, PN_seri, Alex)
-
-write_csv(HAB_data_long, "/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/HAB_data_long.csv")
-
-```
-
-```{r HAB data}
-
-Cal_Poly_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/CPP_upload.csv")
-                        #col_types=cols(`Date Collected (YYYY-MM-DD)` = col_date(format="%Y-%m-%d"))) 
-#`Date Collected (YYYY-MM-DD)` = col_date(format = ""),
-
-Newport_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/NP_upload.csv",
-                       col_types=cols(`Time Collected (hh:mm:ss PT)` = col_character()))
-
-Santa_Cruz_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SCW_upload.csv",
-                          col_types=cols(`Time Collected (hh:mm:ss PT)` = col_character()))
-
-Stearn_Wharf_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SW_upload.csv",
-                            col_types=cols(`Time Collected (hh:mm:ss PT)` = col_character(),
-                                          SampleID = col_character(),
-                                          `pDA (ng/mL)` = col_double())) 
-
-#Scripps_Pier_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/SP_upload.csv")
-#Santa_Monica_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_05/HABMAP_data/SMP_upload.csv")
-#Monterey_Org = read_csv("/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/2019_04/HABMAP_data/MW_upload.csv") 
-
-HAB_data = dplyr::bind_rows(Cal_Poly_Org, Newport_Org) 
-HAB_data = dplyr::bind_rows(HAB_data, Santa_Cruz_Org) 
-HAB_data = dplyr::bind_rows(HAB_data, Stearn_Wharf_Org)
-
-HAB_data = HAB_data %>%
-  select('Location Code', 'Date Collected (YYYY-MM-DD)','pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)','Temp (deg C)','Nitrate (uM)', 'Phosphate (uM)','Silicate (uM)','Ammonium (uM)','Avg Chloro (mg/m3)','Avg Phaeo (mg/m3)')
-
-HAB_data_long = HAB_data %>%   
-  gather(key = "Observations", value = "Measurement", 'pDA (ng/mL)','Pseudo-nitzschia delicatissima group (cells/L)','Pseudo-nitzschia seriata group (cells/L)','Alexandrium spp. (cells/L)','Temp (deg C)','Nitrate (uM)', 'Phosphate (uM)','Silicate (uM)','Ammonium (uM)','Avg Chloro (mg/m3)', 'Avg Phaeo (mg/m3)')
-
-HAB_data_long_units = HAB_data_long %>% 
-  mutate(Units = ifelse(grepl("pDA (ng/mL)", Observations),'ng/mL',
-                        ifelse(grepl('Temp (deg C)', Observations), "Celsius",
-                               ifelse(grepl("'Avg Chloro (mg/m3)'|'Avg Phaeo (mg/m3)'", Observations), "mg/m3",
-                                      ifelse(grepl("'Pseudo-nitzschia delicatissima group (cells/L)'|
-                                                     'Pseudo-nitzschia seriata group (cells/L)'|
-                                                     'Alexandrium spp. (cells/L)'", Observations), "cells/L", "uM")))))
-
-write_rds(HAB_data_long_units, "HABMAP_Data/HAB_data_long_units.rds")
-
-#HAB_data_long = readRDS("HABMAP_Data/HAB_data_long.rds")
-
-```
