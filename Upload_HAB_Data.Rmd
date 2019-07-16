@@ -9,6 +9,7 @@ output: html_document
 
 #getwd() "/home/rstudio/mhepner/SCCOOS Products"
 #rm(list=ls()) 
+library(rerddap)
 library(tidyverse)
 library(ggplot2) #ggplot
 
