@@ -1,23 +1,21 @@
 ---
-title: "HAB Data"
+title: "HABMAP Data"
 author: "Megan Hepner"
 date: "6/17/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r Libraries, echo=T, warning=F, error=F, message=F, tidy=T}
 
-#getwd() "/home/rstudio/mhepner/SCCOOS Products"
 #rm(list=ls()) 
 library(rerddap)
 library(tidyverse)
-library(ggplot2) #ggplot
 
 ```
 
 Example [R code](https://rmendels.github.io/Using_rerddap.nb.html) on how to download data from ERDDAP Servers by Roy Mendelssohn and Scott Chamberlain. 
 
-```{r examples, echo=FALSE, include=F}
+```{r Example, echo=T}
 
 #IOOS Glider Data
 Glider = info("sp064-20161214T1913", url="https://data.ioos.us/gliders/erddap/")
@@ -32,16 +30,16 @@ calcofi.df <- tabledap(CalCOFI,
 
 ```
 
-ERDDAP Dataset ID:
-[HABs-CalPoly](http://erddap.sccoos.org/erddap/tabledap/HABs-CalPoly.html)
-[HABs-MontereyWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-MontereyWharf.html)
-[HABs-NewportPier](http://erddap.sccoos.org/erddap/tabledap/HABs-NewportPier.html) 
-[HABs-SantaCruzWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-SantaCruzWharf.html) 
-[HABs-SantaMonicaPier](http://erddap.sccoos.org/erddap/tabledap/HABs-SantaMonicaPier.html)
-[HABs-ScrippsPier](http://erddap.sccoos.org/erddap/tabledap/HABs-ScrippsPier.html) 
-[HABs-StearnsWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-StearnsWharf.html)
+### ERDDAP Dataset ID:
+1. [HABs-CalPoly](http://erddap.sccoos.org/erddap/tabledap/HABs-CalPoly.html)
+2. [HABs-MontereyWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-MontereyWharf.html)
+3. [HABs-NewportPier](http://erddap.sccoos.org/erddap/tabledap/HABs-NewportPier.html) 
+4. [HABs-SantaCruzWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-SantaCruzWharf.html) 
+5. [HABs-SantaMonicaPier](http://erddap.sccoos.org/erddap/tabledap/HABs-SantaMonicaPier.html)
+6. [HABs-ScrippsPier](http://erddap.sccoos.org/erddap/tabledap/HABs-ScrippsPier.html) 
+7. [HABs-StearnsWharf](http://erddap.sccoos.org/erddap/tabledap/HABs-StearnsWharf.html)
 
-HABMAP Variables: 
+### HABMAP Variables: 
 1. Akashiwo_sanguinea                        
 2. Alexandrium_spp                             
 3. Ammonium     
@@ -81,7 +79,9 @@ HABMAP Variables:
 37. Total_Phytoplankton                           
 38. Volume_Settled_for_Counting     
 
-```{r download HABMAP Data from ERDDAP}
+### Pull HABMAP Data from [ERDDAP](http://erddap.sccoos.org/erddap/) 
+
+```{r Download HABMAP Data from ERDDAP, echo=T, tidy=T}
 
 variables = c('Location_Code','time','Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
   
@@ -112,13 +112,14 @@ HABMAP_Data = dplyr::bind_rows(list(CalPoly_Data, Monterey_Data,Newport_Data,San
 
 ```
 
+### Arrange Data in Long Format and Save 
 ```{r HABMAP Data in Long Format}
 
 HABMAP_Data_Long = HABMAP_Data %>%   
   gather(key = "Observations", value = "Measurement", 'Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
          
 #Add a column for units - need this for Shiny app 
-HAB_data_long_units = HABMAP_Data_Long %>% 
+HABMAP_Data_Long_Units = HABMAP_Data_Long %>% 
   mutate(Units = ifelse(grepl("pDA", Observations),'ng/mL',
                         ifelse(grepl('Temp', Observations), "Celsius",
                                ifelse(grepl("'Avg_Chloro'|'Avg_Phaeo'", Observations), "mg/m3",
@@ -134,48 +135,15 @@ HAB_data_long_units = HABMAP_Data_Long %>%
                                       'Pseudo_nitzschia_delicatissima_group'|
                                       'Pseudo_nitzschia_seriata_group'", Observations), "cells/L", "uM")))))
 
-write_rds(HAB_data_long_units, "HABMAP_Data/HAB_data_long_units.rds")
+HABMAP_Data_Long_Units = HABMAP_Data_Long_Units %>%
+  mutate(Date = as.Date(time)) %>%
+  select(Location_Code, Date, Observations, Measurement, Units)%>%
+  as.tibble()
+  
+
+#Save HABMAP long formated data table 
+write_rds(HABMAP_Data_Long_Units, "HABMAP_Data/HABMAP_Data_Long_Units.rds")
 
 
 ```
-
-cols(
-  `Latitude (dec deg N)` = col_double(),
-  `Longitude (dec deg E)` = col_double(),
-  `Depth (m)` = col_double(),
-  `SampleID` = col_character(),
-  `Location Code` = col_character(),
-  `Date Collected (YYYY-MM-DD)` = col_date(format = ""),
-  `Time Collected (hh:mm:ss PT)` = col_time(format = ""),
-  `Temp (deg C)` = col_double(),
-  `Chl Volume Filtered (mL)` = col_double(),
-  `Chl1 (mg/m3)` = col_double(),
-  `Chl2 (mg/m3)` = col_double(),
-  `Avg Chloro (mg/m3)` = col_double(),
-  `Phaeo1 (mg/m3)` = col_double(),
-  `Phaeo2 (mg/m3)` = col_double(),
-  `Avg Phaeo (mg/m3)` = col_double(),
-  `Nitrate (uM)` = col_double(),
-  `Phosphate (uM)` = col_double(),
-  `Silicate (uM)` = col_double(),
-  `Nitrite (uM)` = col_double(),
-  `Ammonium (uM)` = col_double(),
-  `DA Volume Filtered (mL)` = col_double(),
-  `pDA (ng/mL)` = col_double(),
-  `tDA` = col_logical(),
-  `dDA` = col_logical(),
-  `Volume Settled for counting (mL)` = col_double(),
-  `Akashiwo sanguinea  (cells/L)` = col_double(),
-  `Alexandrium spp. (cells/L)` = col_double(),
-  `Dinophysis spp.  (cells/L)` = col_double(),
-  `Lingulodinium polyedrum (cells/L)` = col_double(),
-  `Prorocentrum spp.  (cells/L)` = col_double(),
-  `Pseudo-nitzschia delicatissima group (cells/L)` = col_double(),
-  `Pseudo-nitzschia seriata group (cells/L)` = col_double(),
-  `Other Diatoms (cells/L)` = col_double(),
-  `Other Dinoflagellates (cells/L)` = col_double(),
-  `Ceratium spp.(cells/L)` = col_double(),
-  `Cochlodinium (cells/L)` = col_double(),
-  `Gymnodinium spp. (cells/L)` = col_double(),
-  `Total Phytoplankton (cells/L)` = col_double()
 
