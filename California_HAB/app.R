@@ -14,59 +14,63 @@ library(lubridate)
 #rsconnect::setAccountInfo(name='sccoos', token='46A35F225508EFAB929987BC33C4E3AE', secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM') 
 
 #2. Load Data 
-githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HAB_data_long.rds")
-download.file(githubURL, "HAB_data_long.rds")
-HAB_data_long = readRDS("HAB_data_long.rds")
+#githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HABMAP_Data_Long_Units.rds")
+#download.file(githubURL, "HABMAP_Data_Long_Units.rds")
+#HABMAP_Data = readRDS("HABMAP_Data_Long_Units.rds")
 
-#source_data("https://github.com/mhepner90/CA_HAB_Bulletin/blob/master/HABMAP_Data/HAB_data_long.rds?raw=true")
-#HAB_data_long = read_rds("HABMAP_Data/HAB_data_long.rds")
-#HAB_data_long = write_rds(HAB_data_long, "HABMAP_Data/HAB_data_long.rds")
-#HAB_data_long = read_csv("HABMAP_Data/HAB_data_long.csv") 
-# Parsed with column specification:
-#     cols(
-#         Location = col_character(),
-#         Date = col_date(format = ""),
-#         Observations = col_character(),
-#         measurement = col_double()
+HABMAP_Data = read_csv("HABMAP_Data/HABMAP_data_tes2t.csv")
+#unique(HABMAP_Data$Location_Code)
+#unique(HABMAP_Data$Observations)
 
 #Listening on http://127.0.0.1:6181
 
 #3. Define UI{} User Interface for Application 
 ui = fluidPage(
     theme = shinytheme("cerulean"), #changes theme style to blue 
-    titlePanel("California HAB Monitoring",
+    titlePanel("California HABMAP Monitoring",
                windowTitle = "SCCOOS"),     # Application title
     sidebarLayout(
         sidebarPanel( #Inputs: Select variables to plot 
-            selectInput(inputId = "Location", 
+            selectInput(inputId = "Location_Code", 
                         label = h3("Sampling Location"), 
-                        choices =c("Newport Pier"="NP",
-                                    "Stearns Wharf"="SW",
-                                    "Cal Poly Pier"="CPP",
-                                    "Santa Cruz Municipal Wharf"="HAB_SCW"), # "Monterey Wharf", # "Santa Monica Pier",
-                        #choices=sort(unique(HAB_data_long$Location)),
-                        #selected ="Cal Poly Pier",
+                        choices =c("Scripps Pier"="SP",
+                                   "Newport Pier"="NBP", #NP 
+                                   "Santa Monica Pier"="SMP",
+                                   "Stearns Wharf"="SW",
+                                   "Cal Poly Pier"="CPP",
+                                   "Monterey Wharf"="MW",
+                                   "Santa Cruz Municipal Wharf"="HAB_SCW"
+                                   ), 
+                        selected ="Cal Poly Pier",
                         multiple = F),
             selectInput(inputId="Observations",
-                        label=h3("HAB Species"),
+                        label=h3("Observations"),
                         #choices = sort(unique(HAB_data_long$Observations)),
-                        choices=c("Domoic Acid" = "pDA", 
-                                   "Alexandrium spp." = "Alex",
-                                   "Pseudo-nitzschia delicatissima group" = "PN_deli",
-                                   "Pseudo-nitzschia seriata group" = "PN_seri"),   
-                        #c("Akashiwo sanguinea",
-                        #   "Ceratium spp.",
-                        #   "Cochlodinium spp.",
-                        #   "Dinophysis spp.",
-                        #   "Gymnodinium spp.",
-                        #   "Prorocentrum spp.",
-                         selected = "Domoic Acid",
+                        choices=c(#"Domoic Acid" = "pDA", 
+                                   "Pseudo-nitzschia delicatissima group" = "Pseudo_nitzschia_delicatissima_group",
+                                   "Pseudo-nitzschia seriata group" = "Pseudo_nitzschia_seriata_group",
+                                    "Alexandrium spp." = "Alexandrium_spp",
+                                    "Akashiwo sanguinea" = "Akashiwo_sanguinea",
+                                    #"Ceratium spp." = "Ceratium",
+                                    #"Cochlodinium spp."= "Cochlodinium", 
+                                    "Dinophysis spp."="Dinophysis_spp",
+                                    #"Gymnodinium spp."= "Gymnodinium_spp",
+                                    "Lingulodinium polyedra"="Lingulodinium_polyedra",
+                                    "Prorocentrum spp." = "Prorocentrum_spp",
+                                    "Ammonium"= "Ammonium",
+                                    "Average Chlorophyll-a"= "Avg_Chloro",    
+                                    "Average Phaeo-pigments"= "Avg_Phaeo",
+                                    "Nitrate"= "Nitrate",
+                                    "Phosphate"= "Phosphate",                           
+                                    "Silicic Acid"= "Silicate",
+                                    "Temperature"= "Temp"),  
+                         selected = "Alexandrium spp.",
                         multiple = F),
             #sliderInput("Date", "Date Range", 2008, 2019, value= c(2008,2019), sep=""),
             dateRangeInput(inputId="Date", 
                             label=h3("Date Range"), 
-                            start=min(HAB_data_long$Date),
-                            end= max(HAB_data_long$Date))
+                            start=min(HABMAP_Data$Date),
+                            end= max(HABMAP_Data$Date))
             #dateRangeInput(inputId="Date", 
             #               label= h3("Date Range"), 
             #               start= Sys.Date() -14, end=Sys.Date()+2,
@@ -89,19 +93,19 @@ server = shinyServer(function(input, output) {
         startDate=as.Date(input$Date[1])
         endDate=as.Date(input$Date[2])
         
-        filtered_data=HAB_data_long %>% 
+        filtered_data=HABMAP_Data %>% 
             filter(
-                Location == input$Location,
+                Location_Code == input$Location,
                 Observations == input$Observations,
                 Date>=startDate & Date<=endDate)
         
         ggplot(data=filtered_data, aes(x=Date, y=measurement, group=Observations))+ 
-            geom_point(aes(color=Observations),lwd = 1)+
-            geom_line(aes(color=Observations),lwd = 1)+
+            geom_point(aes(color=Observations),lwd = 1.5)+
+            geom_line(aes(color=Observations),lwd = 1.5)+
             scale_x_date(date_breaks = "1 month", 
                          labels=date_format("%b-%Y"),
                          limits = as.Date(c(startDate,endDate)))+
-            labs(x = "Date Range", y = "Cells/L")+
+            labs(x = "Date Range", y = "Units")+
             theme_bw()+
             theme(axis.text.x = element_text(angle = 45, hjust = 1),
                   panel.grid.major=element_blank(),

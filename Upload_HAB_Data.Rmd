@@ -83,10 +83,13 @@ calcofi.df <- tabledap(CalCOFI,
 
 ```{r Download HABMAP Data from ERDDAP, echo=T, tidy=T}
 
-variables = c('Location_Code','time','Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
-  
+#variables = c('Location_Code','time','Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+
+variables = c('Location_Code','time','Alexandrium_spp', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+
 CalPoly = rerddap::info(datasetid = "HABs-CalPoly", url="http://erddap.sccoos.org/erddap/")
 CalPoly_Data = tabledap(CalPoly, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+#Does not have data for Akashiwo_sanguinea, Ceratium, Cochlodinium, tDA
 
 Monterey = info("HABs-MontereyWharf",url= "http://erddap.sccoos.org/erddap/") 
 Monterey_Data = tabledap(Monterey, fields = variables, 'time>=2008-08-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
@@ -147,3 +150,50 @@ write_rds(HABMAP_Data_Long_Units, "HABMAP_Data/HABMAP_Data_Long_Units.rds")
 
 ```
 
+```{r Roy}
+
+CalPoly_Data = tabledap(CalPoly, fields = 'Pseudo_nitzschia_seriata_group', 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+str(CalPoly_Data)
+
+#Classes ‘tabledap’ and 'data.frame':  557 obs. of  1 variable:
+#$ Pseudo_nitzschia_seriata_group: chr  "3198.8298" "41584.785" "8530.213" "0.0" ...
+#- attr(*, "datasetid")= chr "HABs-CalPoly"
+#- attr(*, "path")= chr "/Users/rmendels/Library/Caches/R/rerddap/ecb5ae0e53ec761b7ac2c2aade7670b4.csv"
+#- attr(*, "url")= chr "http://erddap.sccoos.org/erddap/tabledap/HABs-CalPoly.csv?Pseudo_nitzschia_seriata_group&time%3E%3D2008-01-01T0"| __truncated__
+
+variables = c('Location_Code','time','Akashiwo_sanguinea','Alexandrium_spp', 'Dinophysis_spp',  'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+
+HABMAP = rerddap::info(datasetid = "HABs-pre20190601", url="http://erddap.sccoos.org/erddap/")
+HABMAP_Data = tabledap(CalPoly, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+#Does not have data for Akashiwo_sanguinea, Ceratium, Cochlodinium, 'Gymnodinium_spp', Other_Diatoms, Other_Dinoflagellates, Total_Phytoplankton, #dDA, tDA #Nitrite_Nitrate, sample ID
+
+HABMAP_Data = read_csv("HABMAP_Data/HABMAP_data_test.csv")
+
+HABMAP_Data_Long = HABMAP_Data %>%   
+  gather(key = "Observations", value = "Measurement", 'Akashiwo_sanguinea', 'Alexandrium_spp','Dinophysis_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+
+#Add a column for units - need this for Shiny app 
+HABMAP_Data_Long_Units = HABMAP_Data_Long %>% 
+  mutate(Units = ifelse(grepl('Temp', Observations), "Celsius",
+                               ifelse(grepl("'Avg_Chloro'|'Avg_Phaeo'", Observations), "mg/m3",
+                                      ifelse(grepl("
+                                      'Akashiwo_sanguinea'|
+                                      'Alexandrium_spp'|
+                                      'Dinophysis_spp'|
+                                      'Lingulodinium_polyedra'|
+                                      'Prorocentrum_spp'|
+                                      'Pseudo_nitzschia_delicatissima_group'|
+                                      'Pseudo_nitzschia_seriata_group'", Observations), "cells/L", "uM"))))
+
+HABMAP_Data_Long_Units_Date = HABMAP_Data_Long_Units %>%
+  mutate(Date = as.Date(time))%>%
+  select(Location_Code, Date, Observations, Measurement, Units)
+  
+HABMAP_Data_Long_Units_Date = as.tibble(HABMAP_Data_Long_Units_Date)
+write_csv(HABMAP_Data_Long_Units_Date, "HABMAP_data_test2.csv")
+
+#Save HABMAP long formated data table 
+write_rds(HABMAP_Data_Long_Units, "HABMAP_Data/HABMAP_Data_Long_Units_test.rds")
+
+
+```
