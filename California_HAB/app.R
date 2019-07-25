@@ -18,7 +18,7 @@ library(lubridate)
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 #HABMAP_Data = readRDS("HABMAP_Data_Long_Units.rds")
 
-HABMAP_Data = read_csv("HABMAP_Data/HABMAP_data_tes2t.csv")
+HABMAP_Data = read_csv("HABMAP_Data/HABMAP_data_test2.csv")
 #unique(HABMAP_Data$Location_Code)
 #unique(HABMAP_Data$Observations)
 
@@ -39,7 +39,7 @@ ui = fluidPage(
                                    "Stearns Wharf"="SW",
                                    "Cal Poly Pier"="CPP",
                                    "Monterey Wharf"="MW",
-                                   "Santa Cruz Municipal Wharf"="HAB_SCW"
+                                   "Santa Cruz Municipal Wharf"= "SCW" #"HAB_SCW"
                                    ), 
                         selected ="Cal Poly Pier",
                         multiple = F),
@@ -95,11 +95,11 @@ server = shinyServer(function(input, output) {
         
         filtered_data=HABMAP_Data %>% 
             filter(
-                Location_Code == input$Location,
+                Location_Code == input$Location_Code, #Location
                 Observations == input$Observations,
                 Date>=startDate & Date<=endDate)
         
-        ggplot(data=filtered_data, aes(x=Date, y=measurement, group=Observations))+ 
+        ggplot(data=filtered_data, aes(x=Date, y=Measurement, group=Observations))+ 
             geom_point(aes(color=Observations),lwd = 1.5)+
             geom_line(aes(color=Observations),lwd = 1.5)+
             scale_x_date(date_breaks = "1 month", 
