@@ -19,7 +19,7 @@ library(lubridate)
 #githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HABMAP_Data_Long_Units.rds")
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 
-HABMAP_Data = read_rds("California_HAB/HABMAP_Data.rds") #"California_HAB/HABMAP_Data.rds"
+HABMAP_Data = read_rds("HABMAP_Data.rds") #"California_HAB/HABMAP_Data.rds"
 #unique(HABMAP_Data$Location_Code)
 #unique(HABMAP_Data$Observations)
 
