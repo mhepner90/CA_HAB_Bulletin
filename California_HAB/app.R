@@ -19,11 +19,11 @@ library(lubridate)
 #githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HABMAP_Data_Long_Units.rds")
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 
-HABMAP_Data = read_rds("HABMAP_Data.rds") #"California_HAB/HABMAP_Data.rds"
+#setwd("/Users/mhepner/Documents/GitHub/CA_HAB_Bulletin/California_HAB")
+HABMAP_Data = read_rds("HABMAP_Data.rds") 
+#print(HABMAP_Data)
 #unique(HABMAP_Data$Location_Code)
 #unique(HABMAP_Data$Observations)
-
-#Listening on http://127.0.0.1:6181
 
 #3. Define UI{} User Interface for Application 
 ui = fluidPage(
@@ -41,39 +41,39 @@ ui = fluidPage(
                                    "Cal Poly Pier"="CPP",
                                    "Monterey Wharf"="MW",
                                    "Santa Cruz Municipal Wharf"= "SCW" #"HAB_SCW"
-                                   ), 
+                        ), 
                         selected ="CPP",
                         multiple = F),
             selectInput(inputId="Observations",
                         label=h3("Observations"),
                         #choices = sort(unique(HAB_data_long$Observations)),
                         choices=c(#"Domoic Acid" = "pDA", 
-                                   "Pseudo-nitzschia delicatissima group (cells/L)" = "Pseudo_nitzschia_delicatissima_group",
-                                   "Pseudo-nitzschia seriata group (cells/L)" = "Pseudo_nitzschia_seriata_group",
-                                    "Alexandrium spp. (cells/L)" = "Alexandrium_spp",
-                                    "Akashiwo sanguinea (cells/L)" = "Akashiwo_sanguinea",
-                                    #"Ceratium spp. (cells/L)" = "Ceratium",
-                                    #"Cochlodinium spp. (cells/L)"= "Cochlodinium", 
-                                    "Dinophysis spp. (cells/L)"="Dinophysis_spp",
-                                    #"Gymnodinium spp."= "Gymnodinium_spp",
-                                    "Lingulodinium polyedra (cells/L)"="Lingulodinium_polyedra",
-                                    "Prorocentrum spp. (cells/L)" = "Prorocentrum_spp",
-                                    "Average Chlorophyll-a (mg/m3)"= "Avg_Chloro",    
-                                    "Average Phaeo-pigments (mg/m3)"= "Avg_Phaeo",
-                                    "Ammonium (μm)"= "Ammonium",
-                                    "Nitrate (μm)"= "Nitrate",
-                                    "Phosphate (μm)"= "Phosphate",                           
-                                    "Silicic Acid (μm)"= "Silicate",
-                                    "Temperature (°C)"= "Temp"),  
-                         selected = "Alexandrium_spp",
+                            "Pseudo-nitzschia delicatissima group (cells/L)" = "Pseudo_nitzschia_delicatissima_group",
+                            "Pseudo-nitzschia seriata group (cells/L)" = "Pseudo_nitzschia_seriata_group",
+                            "Alexandrium spp. (cells/L)" = "Alexandrium_spp",
+                            "Akashiwo sanguinea (cells/L)" = "Akashiwo_sanguinea",
+                            #"Ceratium spp. (cells/L)" = "Ceratium",
+                            #"Cochlodinium spp. (cells/L)"= "Cochlodinium", 
+                            "Dinophysis spp. (cells/L)"="Dinophysis_spp",
+                            #"Gymnodinium spp."= "Gymnodinium_spp",
+                            "Lingulodinium polyedra (cells/L)"="Lingulodinium_polyedra",
+                            "Prorocentrum spp. (cells/L)" = "Prorocentrum_spp",
+                            "Average Chlorophyll-a (mg/m3)"= "Avg_Chloro",    
+                            "Average Phaeo-pigments (mg/m3)"= "Avg_Phaeo",
+                            "Ammonium (μm)"= "Ammonium",
+                            "Nitrate (μm)"= "Nitrate",
+                            "Phosphate (μm)"= "Phosphate",                           
+                            "Silicic Acid (μm)"= "Silicate",
+                            "Temperature (°C)"= "Temp"),  
+                        selected = "Alexandrium_spp",
                         multiple = F),
             #sliderInput("Date", "Date Range", 2008, 2019, value= c(2008,2019), sep=""),
             dateRangeInput(inputId="Date", 
                            label=h3("Date Range"), 
                            start = Sys.Date() - 365, 
                            end = Sys.Date())
-                           #start=min(HABMAP_Data$Date),
-                           #end= max(HABMAP_Data$Date))
+            #start=min(HABMAP_Data$Date),
+            #end= max(HABMAP_Data$Date))
         ),
         
         
@@ -85,20 +85,18 @@ ui = fluidPage(
                 type = "tabs",
                 tabPanel("Plot", plotOutput("HABplot")),
                 tabPanel("Table", dataTableOutput("HABtable")) 
-                )
             )
+        )
     )
 )
 
 #4. Define server logic required to draw the plots 
-#server = function(input, output) {
 
 server = shinyServer(function(input, output) {
     
     output$HABplot <- renderPlot({ 
         
         Observations=input$Observations
-        #Units=input$Units
         startDate=as.Date(input$Date[1])
         endDate=as.Date(input$Date[2])
         
@@ -133,7 +131,7 @@ server = shinyServer(function(input, output) {
         
         filtered_data=HABMAP_Data %>% 
             filter(
-                Location_Code == input$Location_Code, #Location
+                Location_Code == input$Location_Code, 
                 Observations == input$Observations,
                 Date>=startDate & Date<=endDate)
         
@@ -142,15 +140,11 @@ server = shinyServer(function(input, output) {
     })
 })
 
-#output$downloadData <- downloadHandler(
-# filename = function() { paste(input$dataset, '.csv', sep='') },
-#content = function(file) {
-#   write.csv(datasetInput(), file)
-#actionButton(inputId = "write_csv", label = "Write CSV")    
-
 #5. Run the application 
 shinyApp(ui = ui, server = server)
 
 #deployApp("California_HAB")
+#deployApp(appDir = getwd(), appName = "california_hab")
+#rsconnect::showLogs("California_HAB")
 
 #https://sccoos.shinyapps.io/california_hab/
