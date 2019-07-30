@@ -10,15 +10,16 @@ library(ggplot2)
 library(rsconnect)
 library(scales)
 library(lubridate)
+#https://shiny.rstudio.com/gallery/
+
 #install.packages('rsconnect')
 #rsconnect::setAccountInfo(name='sccoos', token='46A35F225508EFAB929987BC33C4E3AE', secret='pa1zqctDeVWPoaT6zjsE4Y+dw1u9D1yK/VMNjThM') 
 
 #2. Load Data 
 #githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HABMAP_Data_Long_Units.rds")
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
-#HABMAP_Data = readRDS("HABMAP_Data_Long_Units.rds")
 
-HABMAP_Data = read_csv("HABMAP_Data/HABMAP_data_test2.csv")
+HABMAP_Data = read_rds("HABMAP_Data.rds") #"California_HAB/HABMAP_Data.rds"
 #unique(HABMAP_Data$Location_Code)
 #unique(HABMAP_Data$Observations)
 
@@ -41,44 +42,51 @@ ui = fluidPage(
                                    "Monterey Wharf"="MW",
                                    "Santa Cruz Municipal Wharf"= "SCW" #"HAB_SCW"
                                    ), 
-                        selected ="Cal Poly Pier",
+                        selected ="CPP",
                         multiple = F),
             selectInput(inputId="Observations",
                         label=h3("Observations"),
                         #choices = sort(unique(HAB_data_long$Observations)),
                         choices=c(#"Domoic Acid" = "pDA", 
-                                   "Pseudo-nitzschia delicatissima group" = "Pseudo_nitzschia_delicatissima_group",
-                                   "Pseudo-nitzschia seriata group" = "Pseudo_nitzschia_seriata_group",
-                                    "Alexandrium spp." = "Alexandrium_spp",
-                                    "Akashiwo sanguinea" = "Akashiwo_sanguinea",
-                                    #"Ceratium spp." = "Ceratium",
-                                    #"Cochlodinium spp."= "Cochlodinium", 
-                                    "Dinophysis spp."="Dinophysis_spp",
+                                   "Pseudo-nitzschia delicatissima group (cells/L)" = "Pseudo_nitzschia_delicatissima_group",
+                                   "Pseudo-nitzschia seriata group (cells/L)" = "Pseudo_nitzschia_seriata_group",
+                                    "Alexandrium spp. (cells/L)" = "Alexandrium_spp",
+                                    "Akashiwo sanguinea (cells/L)" = "Akashiwo_sanguinea",
+                                    #"Ceratium spp. (cells/L)" = "Ceratium",
+                                    #"Cochlodinium spp. (cells/L)"= "Cochlodinium", 
+                                    "Dinophysis spp. (cells/L)"="Dinophysis_spp",
                                     #"Gymnodinium spp."= "Gymnodinium_spp",
-                                    "Lingulodinium polyedra"="Lingulodinium_polyedra",
-                                    "Prorocentrum spp." = "Prorocentrum_spp",
-                                    "Ammonium"= "Ammonium",
-                                    "Average Chlorophyll-a"= "Avg_Chloro",    
-                                    "Average Phaeo-pigments"= "Avg_Phaeo",
-                                    "Nitrate"= "Nitrate",
-                                    "Phosphate"= "Phosphate",                           
-                                    "Silicic Acid"= "Silicate",
-                                    "Temperature"= "Temp"),  
-                         selected = "Alexandrium spp.",
+                                    "Lingulodinium polyedra (cells/L)"="Lingulodinium_polyedra",
+                                    "Prorocentrum spp. (cells/L)" = "Prorocentrum_spp",
+                                    "Average Chlorophyll-a (mg/m3)"= "Avg_Chloro",    
+                                    "Average Phaeo-pigments (mg/m3)"= "Avg_Phaeo",
+                                    "Ammonium (μm)"= "Ammonium",
+                                    "Nitrate (μm)"= "Nitrate",
+                                    "Phosphate (μm)"= "Phosphate",                           
+                                    "Silicic Acid (μm)"= "Silicate",
+                                    "Temperature (°C)"= "Temp"),  
+                         selected = "Alexandrium_spp",
                         multiple = F),
             #sliderInput("Date", "Date Range", 2008, 2019, value= c(2008,2019), sep=""),
             dateRangeInput(inputId="Date", 
-                            label=h3("Date Range"), 
-                            start=min(HABMAP_Data$Date),
-                            end= max(HABMAP_Data$Date))
-            #dateRangeInput(inputId="Date", 
-            #               label= h3("Date Range"), 
-            #               start= Sys.Date() -14, end=Sys.Date()+2,
-            #               format="dd/mm/yyyy")
+                           label=h3("Date Range"), 
+                           start = Sys.Date() - 365, 
+                           end = Sys.Date())
+                           #start=min(HABMAP_Data$Date),
+                           #end= max(HABMAP_Data$Date))
         ),
+        
+        
+        #mainPanel(plotOutput("HABplot")
+        
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("HABplot"))
+            tabsetPanel(
+                type = "tabs",
+                tabPanel("Plot", plotOutput("HABplot")),
+                tabPanel("Table", dataTableOutput("HABtable")) 
+                )
+            )
     )
 )
 
@@ -90,6 +98,7 @@ server = shinyServer(function(input, output) {
     output$HABplot <- renderPlot({ 
         
         Observations=input$Observations
+        #Units=input$Units
         startDate=as.Date(input$Date[1])
         endDate=as.Date(input$Date[2])
         
@@ -100,7 +109,7 @@ server = shinyServer(function(input, output) {
                 Date>=startDate & Date<=endDate)
         
         ggplot(data=filtered_data, aes(x=Date, y=Measurement, group=Observations))+ 
-            geom_point(aes(color=Observations),lwd = 1.5)+
+            geom_point(aes(color=Observations),lwd = 3)+
             geom_line(aes(color=Observations),lwd = 1.5)+
             scale_x_date(date_breaks = "1 month", 
                          labels=date_format("%b-%Y"),
@@ -115,14 +124,29 @@ server = shinyServer(function(input, output) {
                   axis.title.y=element_text(size=12),
                   title=element_text(size=12))
     })
-})
     
-    # output$dateRangeText = renderText({
-    #     paste("input$Date is", 
-    #           paste(as.character(input$Date), collapse = " to "))
-    # })
-    #actionButton(inputId = "write_csv", label = "Write CSV")    
-#})
+    output$HABtable = renderDataTable({
+        
+        Observations=input$Observations
+        startDate=as.Date(input$Date[1])
+        endDate=as.Date(input$Date[2])
+        
+        filtered_data=HABMAP_Data %>% 
+            filter(
+                Location_Code == input$Location_Code, #Location
+                Observations == input$Observations,
+                Date>=startDate & Date<=endDate)
+        
+        DT::datatable(filtered_data,
+                      options = list(pageLength=15, searching= FALSE))
+    })
+})
+
+#output$downloadData <- downloadHandler(
+# filename = function() { paste(input$dataset, '.csv', sep='') },
+#content = function(file) {
+#   write.csv(datasetInput(), file)
+#actionButton(inputId = "write_csv", label = "Write CSV")    
 
 #5. Run the application 
 shinyApp(ui = ui, server = server)

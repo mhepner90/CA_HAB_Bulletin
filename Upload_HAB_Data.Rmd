@@ -174,22 +174,16 @@ HABMAP_Data_Long = HABMAP_Data %>%
 
 #Add a column for units - need this for Shiny app 
 HABMAP_Data_Long_Units = HABMAP_Data_Long %>% 
-  mutate(Units = ifelse(grepl('Temp', Observations), "Celsius",
-                               ifelse(grepl("'Avg_Chloro'|'Avg_Phaeo'", Observations), "mg/m3",
-                                      ifelse(grepl("
-                                      'Akashiwo_sanguinea'|
-                                      'Alexandrium_spp'|
-                                      'Dinophysis_spp'|
-                                      'Lingulodinium_polyedra'|
-                                      'Prorocentrum_spp'|
-                                      'Pseudo_nitzschia_delicatissima_group'|
-                                      'Pseudo_nitzschia_seriata_group'", Observations), "cells/L", "uM"))))
+  mutate(Units = ifelse(grepl('Temp', Observations), 'Celsius',
+                        ifelse(grepl("Avg_Chloro|Avg_Phaeo", Observations), 'mg/m3',
+                               ifelse(grepl("Akashiwo_sanguinea|Alexandrium_spp|Dinophysis_spp|Lingulodinium_polyedra|Prorocentrum_spp|Pseudo_nitzschia_delicatissima_group|Pseudo_nitzschia_seriata_group", Observations), 'cells/L', 'uM'))))
 
 HABMAP_Data_Long_Units_Date = HABMAP_Data_Long_Units %>%
   mutate(Date = as.Date(time))%>%
   select(Location_Code, Date, Observations, Measurement, Units)
   
 HABMAP_Data_Long_Units_Date = as.tibble(HABMAP_Data_Long_Units_Date)
+write_rds(HABMAP_Data_Long_Units_Date, "California_HAB/HABMAP_Data.rds")
 write_csv(HABMAP_Data_Long_Units_Date, "HABMAP_data_test2.csv")
 
 #Save HABMAP long formated data table 

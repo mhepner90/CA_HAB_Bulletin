@@ -5,8 +5,6 @@ account: sccoos
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 991018
-bundleId: 2170148
+bundleId: 2277243
 url: https://sccoos.shinyapps.io/california_hab/
-when: 1561149591.98922
-asMultiple: FALSE
-asStatic: FALSE
+when: 1564501840.22136
