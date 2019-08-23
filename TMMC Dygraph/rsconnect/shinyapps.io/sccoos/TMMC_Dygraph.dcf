@@ -1,0 +1,12 @@
+name: TMMC_Dygraph
+title: TMMC_Dygraph
+username:
+account: sccoos
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1108179
+bundleId: 2347279
+url: https://sccoos.shinyapps.io/TMMC_Dygraph/
+when: 1566537043.33271
+asMultiple: FALSE
+asStatic: FALSE

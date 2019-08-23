@@ -1,5 +1,3 @@
-
-#example code https://cfss.uchicago.edu/notes/shiny/
 #rm(list=ls()) 
 
 # 1. Load Libraries 
@@ -10,6 +8,8 @@ library(ggplot2)
 library(rsconnect)
 library(scales)
 library(lubridate)
+#library(data.table)
+library(DT)
 #https://shiny.rstudio.com/gallery/
 
 #install.packages('rsconnect')
@@ -75,9 +75,6 @@ ui = fluidPage(
             #start=min(HABMAP_Data$Date),
             #end= max(HABMAP_Data$Date))
         ),
-        
-        
-        #mainPanel(plotOutput("HABplot")
         
         # Show a plot of the generated distribution
         mainPanel(

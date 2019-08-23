@@ -1,0 +1,78 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(dygraphs) #dygraphs 
+library(ggplot2) #ggplot
+library(tidyverse)
+library(dplyr)
+library(htmlwidgets)
+library(xts)
+
+TMMC_data = read.csv('/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/Stranding_Data/Data/1998-2019_TMMC_DA.csv')
+
+# dygraph_test = TMMC_data %>%
+#   select(Age_Class, Sex, Common_Name, Strand_Date, Stranding_City, Stranding_County,Stranding_Locality,Latitude, Longitude) %>%
+#   na.omit() %>%
+#   mutate(Strand_Date = as.Date(Strand_Date, format ="%m/%d/%Y")) %>%
+#   mutate(Year = format(as.Date(Strand_Date, format="%m/%d/%Y"), "%Y")) %>% 
+#   mutate(Year_Month = format(as.Date(Strand_Date), "%Y-%m")) %>% 
+#   group_by(Year_Month) %>% #Age_Class, 
+#   summarize(Counts = length(Year_Month))
+# 
+# dygraph_test$Year_Month = as.yearmon(dygraph_test$Year_Month, "%Y-%m")
+# don2 = xts(x=dygraph_test$Counts, order.by = dygraph_test$Year_Month)
+# 
+# dygraph(don2, main = "TMMC California Sea Lion Strandings Suspected DA", xlab = "", ylab= "Sea Lion Strandings") %>%
+#   dyOptions(labelsUTC = TRUE, fillGraph=TRUE, fillAlpha=0.4, drawGrid = T, drawPoints = T) %>% #colors="#D8AE5A"
+#   dyRangeSelector() %>%
+#   dyAxis("x", valueRange = c(1998, 2019))
+
+test2 = TMMC_data %>%
+  select(Strand_Date,Common_Name,Stranding_County) %>%
+  mutate(Year_Month = format(as.Date(Strand_Date),"%Y-%m")) %>%
+  group_by(Year_Month)%>%
+  summarize(Strandings=length(Year_Month))
+
+test2$Year_Month = as.yearmon(test2$Year_Month, "%Y-%m")
+don3 = xts(x=test2$Strandings, order.by = test2$Year_Month)
+```
+
+```{r Dygraph, echo=FALSE}
+dygraph(data=don3, main = "TMMC California Sea Lion Strandings Suspected DA", xlab = "", ylab= "Sea Lion Strandings Due to Suspected DA") %>%
+  dyOptions(labelsUTC = TRUE, fillGraph=TRUE, fillAlpha=0.4, drawGrid = T, drawPoints = T) %>% #colors="#D8AE5A"
+  dyRangeSelector() %>%
+  dyAxis("x", valueRange = c(1998, 2019))
+```
+
+```{r Dygraph Dataset}
+
+TMMC_data = read.csv('/Volumes/GoogleDrive/My Drive/SCCOOS/CA_HAB_Bulletin/Stranding_Data/Data/1998-2019_TMMC_DA.csv') #2091x22
+
+write_rds(TMMC_data, 'TMMC Dygraph/TMMC_Data.rds')
+
+TMMC_data = TMMC_data %>%
+  select(Common_Name,Strand_Date, Stranding_County, Stranding_City, Age_Class) %>%
+  filter(Common_Name =='California Sea Lion') %>%
+  mutate(Year_Month = format(as.Date(Strand_Date),"%Y-%m")) 
+
+All_Strandings = TMMC_data %>% #224x3
+  group_by(Year_Month, Common_Name)%>%
+  summarize(Strandings=length(Year_Month))
+
+Group_County = TMMC_data %>% #664x3
+  group_by(Year_Month, Stranding_County)%>%
+  summarize(County=length(Year_Month))
+
+Group_City = TMMC_data %>% #1177x3 
+  group_by(Year_Month, Stranding_City)%>%
+  summarize(City=length(Year_Month))
+
+Group_Age = TMMC_data %>% #533x3
+  group_by(Year_Month, Age_Class)%>%
+  summarize(Age=length(Year_Month))
+
+Bind = left_join(All_Strandings, Group_County, by="Year_Month")
