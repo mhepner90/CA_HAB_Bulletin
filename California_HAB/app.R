@@ -20,7 +20,7 @@ library(DT)
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 
 #setwd("/Users/mhepner/Documents/GitHub/CA_HAB_Bulletin/California_HAB")
-HABMAP_Data = read_rds("HABMAP_Data.rds") 
+HABMAP_Data = read_rds("HABMAP_Data2.rds") 
 #print(HABMAP_Data)
 #unique(HABMAP_Data$Location_Code)
 #unique(HABMAP_Data$Observations)
@@ -34,8 +34,8 @@ ui = fluidPage(
         sidebarPanel( #Inputs: Select variables to plot 
             selectInput(inputId = "Location_Code", 
                         label = h3("Sampling Location"), 
-                        choices =c("Scripps Pier"="SP",
-                                   "Newport Pier"="NBP", #NP 
+                        choices =c(#"Scripps Pier"="SP",
+                                   "Newport Pier"="NP", #NP 
                                    "Santa Monica Pier"="SMP",
                                    "Stearns Wharf"="SW",
                                    "Cal Poly Pier"="CPP",
@@ -47,15 +47,16 @@ ui = fluidPage(
             selectInput(inputId="Observations",
                         label=h3("Observations"),
                         #choices = sort(unique(HAB_data_long$Observations)),
-                        choices=c(#"Domoic Acid" = "pDA", 
+                        choices=c(
+                            "Domoic Acid (ng/mL)" = "pDA", 
                             "Pseudo-nitzschia delicatissima group (cells/L)" = "Pseudo_nitzschia_delicatissima_group",
                             "Pseudo-nitzschia seriata group (cells/L)" = "Pseudo_nitzschia_seriata_group",
                             "Alexandrium spp. (cells/L)" = "Alexandrium_spp",
                             "Akashiwo sanguinea (cells/L)" = "Akashiwo_sanguinea",
-                            #"Ceratium spp. (cells/L)" = "Ceratium",
-                            #"Cochlodinium spp. (cells/L)"= "Cochlodinium", 
+                            "Ceratium spp. (cells/L)" = "Ceratium",
+                            "Cochlodinium spp. (cells/L)"= "Cochlodinium",   
                             "Dinophysis spp. (cells/L)"="Dinophysis_spp",
-                            #"Gymnodinium spp."= "Gymnodinium_spp",
+                            "Gymnodinium spp. (cells/L)"= "Gymnodinium_spp",
                             "Lingulodinium polyedra (cells/L)"="Lingulodinium_polyedra",
                             "Prorocentrum spp. (cells/L)" = "Prorocentrum_spp",
                             "Average Chlorophyll-a (mg/m3)"= "Avg_Chloro",    

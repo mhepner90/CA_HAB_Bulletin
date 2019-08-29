@@ -11,6 +11,10 @@ output: html_document
 library(rerddap)
 library(tidyverse)
 
+select = dplyr::select #override MASS::select 
+group_by =  dplyr::group_by #override plotly::group_by
+summarise = dplyr::summarise #override plotly::summarise
+
 ```
 
 Example [R code](https://rmendels.github.io/Using_rerddap.nb.html) on how to download data from ERDDAP Servers by Roy Mendelssohn and Scott Chamberlain. 
@@ -85,11 +89,10 @@ calcofi.df <- tabledap(CalCOFI,
 
 #variables = c('Location_Code','time','Akashiwo_sanguinea', 'Alexandrium_spp','Ceratium', 'Cochlodinium', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
 
-variables = c('Location_Code','time','Alexandrium_spp', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
+variables = c('Location_Code','time','Alexandrium_spp', 'Akashiwo_sanguinea', 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA', "Cochlodinium", "Ceratium", 'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
 
 CalPoly = rerddap::info(datasetid = "HABs-CalPoly", url="http://erddap.sccoos.org/erddap/")
 CalPoly_Data = tabledap(CalPoly, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
-#Does not have data for Akashiwo_sanguinea, Ceratium, Cochlodinium, tDA
 
 Monterey = info("HABs-MontereyWharf",url= "http://erddap.sccoos.org/erddap/") 
 Monterey_Data = tabledap(Monterey, fields = variables, 'time>=2008-08-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
@@ -189,5 +192,96 @@ write_csv(HABMAP_Data_Long_Units_Date, "HABMAP_data_test2.csv")
 #Save HABMAP long formated data table 
 write_rds(HABMAP_Data_Long_Units, "HABMAP_Data/HABMAP_Data_Long_Units_test.rds")
 
+
+```
+
+```{r review data}
+
+CalPoly$variables$variable_name
+glimpse(CalPoly_Data)
+
+CalPoly_Data_NA = CalPoly_Data %>%
+  mutate(
+    Akashiwo_sanguinea = replace(Akashiwo_sanguinea, Akashiwo_sanguinea == "NaN", NA),
+    Alexandrium_spp = replace(Alexandrium_spp, Alexandrium_spp == "NaN", NA),
+    #Ceratium = replace(Ceratium, Ceratium == "NaN", NA),
+    #Cochlodinium = replace(Cochlodinium, Cochlodinium == "NaN", NA),
+    Dinophysis_spp = replace(Dinophysis_spp, Dinophysis_spp == "NaN", NA),
+    Gymnodinium_spp = replace(Gymnodinium_spp, Gymnodinium_spp == "NaN", NA),
+    Lingulodinium_polyedra = replace(Lingulodinium_polyedra, Lingulodinium_polyedra == "NaN", NA),
+    Prorocentrum_spp= replace(Prorocentrum_spp, Prorocentrum_spp == "NaN", NA),
+    Pseudo_nitzschia_delicatissima_group= replace(Pseudo_nitzschia_delicatissima_group, Pseudo_nitzschia_delicatissima_group == "NaN", NA),
+    Pseudo_nitzschia_seriata_group= replace(Pseudo_nitzschia_seriata_group, Pseudo_nitzschia_seriata_group == "NaN", NA),
+    pDA= replace(pDA, pDA == "NaN", NA),
+    Ammonium = replace(Ammonium, Ammonium == "NaN", NA),
+    Avg_Chloro= replace(Avg_Chloro, Avg_Chloro == "NaN", NA),
+    Avg_Phaeo= replace(Avg_Phaeo, Avg_Phaeo == "NaN", NA),
+    Nitrate= replace(Nitrate, Nitrate == "NaN", NA),
+    Phosphate= replace(Phosphate, Phosphate == "NaN", NA),
+    Silicate= replace(Silicate, Silicate == "NaN", NA),
+    Temp= replace(Temp, Temp == "NaN", NA))
+
+ CalPoly_Data_NA %>% 
+   select_if(function(x) any(is.na(x))) %>% 
+   summarise_each(funs(sum(is.na(.)))) -> extra_NA
+ library(knitr)
+ kable(extra_NA)
+
+CalPoly_Sum = CalPoly_Data_NA %>%
+    mutate(Year = format(as.Date(time, format ="%Y-%m-%d"),"%Y"),
+           Month = format(as.Date(time, format ="%Y-%m-%d"),"%m"),
+           Pseudo_nitzschia_delicatissima_group = as.numeric(Pseudo_nitzschia_delicatissima_group),
+           Pseudo_nitzschia_seriata_group = as.numeric(Pseudo_nitzschia_seriata_group),
+          Alexandrium_spp = as.numeric(Alexandrium_spp),
+           pDA = as.numeric(pDA))%>%
+  drop_na()%>%
+  group_by(Year)%>%
+  summarize(
+    sampling_events = length(Pseudo_nitzschia_delicatissima_group),
+    pndeli_mean = mean(Pseudo_nitzschia_delicatissima_group),
+    pndeli_max = max(Pseudo_nitzschia_delicatissima_group),
+    #pndeli_year_min =  min(Pseudo_nitzschia_delicatissima_group),
+    #pnseri_year_n = length(Pseudo_nitzschia_seriata_group),
+    pnseri_mean = mean(Pseudo_nitzschia_seriata_group),
+    pnseri_max = max(Pseudo_nitzschia_seriata_group),
+    #pnseri_year_min =  min(Pseudo_nitzschia_seriata_group),
+    #alex_year_n = length(Alexandrium_spp),
+    alex_mean = mean(Alexandrium_spp),
+    alex_max = max(Alexandrium_spp),
+    #alex_year_min =  min(Alexandrium_spp),
+    #pDA_year_n = length(pDA),
+    pDA_mean = mean(pDA),
+    pDA_max = max(pDA))
+
+write.csv(CalPoly_Sum, "/Volumes/GoogleDrive/My Drive/SCCOOS/Meeting Notes and Agendas/2019_09_12_HABMAP Meeting/CalPoly_Sum.csv")
+    #pDA_year_min =  min(pDA))
+#Does not have data for Akashiwo_sanguinea, Ceratium, Cochlodinium, tDA
+
+glimpse(Monterey_Data)
+
+min(Monterey_Data$time)
+"2011-12-07T08:00:00Z"
+max(Monterey_Data$time)
+"2019-04-24T07:00:00Z"
+
+Monterey_Sum = Monterey_Data %>%
+    mutate(Year = format(as.Date(time, format ="%Y-%m-%d"),"%Y"),
+           Month = format(as.Date(time, format ="%Y-%m-%d"),"%m"),
+           Pseudo_nitzschia_delicatissima_group = as.numeric(Pseudo_nitzschia_delicatissima_group),
+           Pseudo_nitzschia_seriata_group = as.numeric(Pseudo_nitzschia_seriata_group),
+          Alexandrium_spp = as.numeric(Alexandrium_spp),
+           pDA = as.numeric(pDA))%>%
+  group_by(Year)%>%
+  summarize(
+    sampling_events = length(Pseudo_nitzschia_delicatissima_group),
+    pndeli_mean = mean(Pseudo_nitzschia_delicatissima_group),
+    pndeli_max = max(Pseudo_nitzschia_delicatissima_group),
+    pnseri_mean = mean(Pseudo_nitzschia_seriata_group),
+    pnseri_max = max(Pseudo_nitzschia_seriata_group),
+    alex_mean = mean(Alexandrium_spp),
+    alex_max = max(Alexandrium_spp),
+    pDA_mean = mean(pDA),
+    pDA_max = max(pDA))
+write.csv(Monterey_Sum, "/Volumes/GoogleDrive/My Drive/SCCOOS/Meeting Notes and Agendas/2019_09_12_HABMAP Meeting/Monterey_Sum.csv")
 
 ```

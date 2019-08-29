@@ -5,8 +5,8 @@ account: sccoos
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1108179
-bundleId: 2347279
+bundleId: 2365246
 url: https://sccoos.shinyapps.io/TMMC_Dygraph/
-when: 1566537043.33271
+when: 1567029357.01923
 asMultiple: FALSE
 asStatic: FALSE
