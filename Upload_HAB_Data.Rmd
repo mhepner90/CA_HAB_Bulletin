@@ -150,7 +150,7 @@ HABMAP_Data_Long_Units2 = HABMAP_Data_Long_Units %>%
 HABMAP_Data_Long_Units2$Measurement[is.nan(HABMAP_Data_Long_Units2$Measurement)] = NA
 
 #Save HABMAP long formated data table 
-write_rds(HABMAP_Data_Long_Units2, "~/Documents/GitHub/CA_HAB_Bulletin/California_HAB/HABMAP_Data_Long_Units2.rds")
+write_rds(HABMAP_Data_Long_Units2, "~/Documents/GitHub/CA_HAB_Bulletin/California_HAB/HABMAP_Data_Long_Units.rds")
 
 
 ```
