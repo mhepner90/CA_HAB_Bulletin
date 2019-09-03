@@ -20,10 +20,9 @@ library(DT)
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 
 #setwd("/Users/mhepner/Documents/GitHub/CA_HAB_Bulletin/California_HAB")
-HABMAP_Data = read_rds("HABMAP_Data2.rds") 
+HABMAP_Data = read_rds("HABMAP_Data_Long_Units2.rds") 
+#HABMAP_Data = read_rds("HABMAP_Data.rds") 
 #print(HABMAP_Data)
-#unique(HABMAP_Data$Location_Code)
-#unique(HABMAP_Data$Observations)
 
 #3. Define UI{} User Interface for Application 
 ui = fluidPage(
@@ -39,8 +38,8 @@ ui = fluidPage(
                                    "Santa Monica Pier"="SMP",
                                    "Stearns Wharf"="SW",
                                    "Cal Poly Pier"="CPP",
-                                   "Monterey Wharf"="MW",
-                                   "Santa Cruz Municipal Wharf"= "SCW" #"HAB_SCW"
+                                   "Monterey Wharf"= "HAB_MWII", #"MW", #"HAB_MWII"
+                                   "Santa Cruz Municipal Wharf"= "HAB_SCW" #"HAB_SCW"
                         ), 
                         selected ="CPP",
                         multiple = F),
@@ -73,8 +72,6 @@ ui = fluidPage(
                            label=h3("Date Range"), 
                            start = Sys.Date() - 365, 
                            end = Sys.Date())
-            #start=min(HABMAP_Data$Date),
-            #end= max(HABMAP_Data$Date))
         ),
         
         # Show a plot of the generated distribution
