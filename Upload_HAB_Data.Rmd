@@ -112,7 +112,7 @@ Stearns_Data = tabledap(Stearns, fields = variables, 'time>=2008-01-01T00:00:00Z
 
 #Bind all the Data into one datatable 
 
-HABMAP_Data = dplyr::bind_rows(list(CalPoly_Data, Monterey_Data,Newport_Data,SantaCruz_Data,SantaMonica_Data,Stearns_Data)) #Scripps_Data
+HABMAP_Data = dplyr::bind_rows(list(CalPoly_Data, Monterey_Data,Newport_Data,SantaCruz_Data,SantaMonica_Data,Stearns_Data,Scripps_Data)) #Scripps_Data
 
 #glimpse(HABMAP_Data)
 
