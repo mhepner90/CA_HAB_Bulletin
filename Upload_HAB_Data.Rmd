@@ -10,6 +10,7 @@ output: html_document
 #rm(list=ls()) 
 library(rerddap)
 library(tidyverse)
+library(readr)
 
 select = dplyr::select #override MASS::select 
 group_by =  dplyr::group_by #override plotly::group_by
