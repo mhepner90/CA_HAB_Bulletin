@@ -98,7 +98,7 @@ Stearns_Data = tabledap(Stearns, fields = variables, 'time>=2008-01-01T00:00:00Z
 
 #Bind all the Data into one datatable 
 
-HABMAP_Data = dplyr::bind_rows(list(CalPoly_Data, Monterey_Data,Newport_Data,SantaCruz_Data,SantaMonica_Data,Stearns_Data)) #Scripps_Data
+HABMAP_Data = dplyr::bind_rows(list(CalPoly_Data, Monterey_Data,Newport_Data,SantaCruz_Data,SantaMonica_Data,Stearns_Data, Scripps_Data)) 
 
 #glimpse(HABMAP_Data)
 
@@ -140,7 +140,8 @@ HABMAP_Data_Long_Units2 = HABMAP_Data_Long_Units %>%
 #HABMAP_Data_Long_Units2$Measurement[is.nan(HABMAP_Data_Long_Units2$Measurement)] = NA #doesnt work since R is not recgonizing NaN
 
 HABMAP_Data_Long_Remove_NaN = HABMAP_Data_Long_Units2 %>%
-  mutate(Measurement = replace(Measurement, Measurement == "NaN", NA)) #55,548X5
+  mutate(Measurement = replace(Measurement, Measurement == "NaN", NA)) %>% #55,548X5
+  mutate(Measurement = as.integer(Measurement))
 
 test_NA = HABMAP_Data_Long_Remove_NaN %>% #12779 NAs
   summarise(count=sum(is.na(Measurement))) 
