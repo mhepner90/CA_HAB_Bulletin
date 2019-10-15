@@ -32,7 +32,7 @@ ui = fluidPage(
         sidebarPanel( #Inputs: Select variables to plot 
             selectInput(inputId = "Location_Code", 
                         label = h3("Sampling Location"), 
-                        choices =c("Scripps Pier - SCCOOS"="SP",
+                        choices =c("Scripps Pier - SCCOOS"="SIO",
                                    "Newport Pier - SCCOOS"="NP",  
                                    "Santa Monica Pier - SCCOOS"= "SMP",
                                    "Stearns Wharf - SCCOOS"= "SW",
