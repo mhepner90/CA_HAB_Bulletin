@@ -1,0 +1,27 @@
+---
+title: "Pull_CAF_OAH_Data"
+author: "Megan Hepner"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(rerddap)
+library(tidyverse)
+library(readr)
+
+select = dplyr::select #override MASS::select 
+group_by =  dplyr::group_by #override plotly::group_by
+summarise = dplyr::summarise #override plotly::summarise
+```
+
+```{r pull data, include=FALSE}
+
+#Variables you want to read 
+variables = c()
+
+#
+CalPoly = rerddap::info(datasetid = "HABs-CalPoly", url="http://erddap.sccoos.org/erddap/")
+CalPoly_Data = tabledap(CalPoly, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+
+```
