@@ -76,25 +76,25 @@ Example [R code](https://rmendels.github.io/Using_rerddap.nb.html) on how to dow
 variables = c('Location_Code','time','Alexandrium_spp', 'Akashiwo_sanguinea',"Cochlodinium", "Ceratium", 'Dinophysis_spp', 'Gymnodinium_spp', 'Lingulodinium_polyedra', 'Prorocentrum_spp','Pseudo_nitzschia_delicatissima_group','Pseudo_nitzschia_seriata_group','pDA',  'Ammonium','Avg_Chloro','Avg_Phaeo','Nitrate','Phosphate', 'Silicate', 'Temp')
 
 CalPoly = rerddap::info(datasetid = "HABs-CalPoly", url="http://erddap.sccoos.org/erddap/")
-CalPoly_Data = tabledap(CalPoly, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+CalPoly_Data = tabledap(CalPoly, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 Monterey = info("HABs-MontereyWharf",url= "http://erddap.sccoos.org/erddap/") 
-Monterey_Data = tabledap(Monterey, fields = variables, 'time>=2008-08-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+Monterey_Data = tabledap(Monterey, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 Newport = info("HABs-NewportPier",url= "http://erddap.sccoos.org/erddap/") 
-Newport_Data = tabledap(Newport, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+Newport_Data = tabledap(Newport, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 SantaCruz = info("HABs-SantaCruzWharf",url= "http://erddap.sccoos.org/erddap/") 
-SantaCruz_Data = tabledap(SantaCruz, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+SantaCruz_Data = tabledap(SantaCruz, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 SantaMonica = info("HABs-SantaMonicaPier",url= "http://erddap.sccoos.org/erddap/")
-SantaMonica_Data = tabledap(SantaMonica, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+SantaMonica_Data = tabledap(SantaMonica, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 Scripps = info("HABs-ScrippsPier",url= "http://erddap.sccoos.org/erddap/") 
-Scripps_Data = tabledap(Scripps, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+Scripps_Data = tabledap(Scripps, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 Stearns = info("HABs-StearnsWharf",url= "http://erddap.sccoos.org/erddap/") 
-Stearns_Data = tabledap(Stearns, fields = variables, 'time>=2008-01-01T00:00:00Z', 'time<=2050-04-17T05:35:00Z', url = "http://erddap.sccoos.org/erddap/")
+Stearns_Data = tabledap(Stearns, fields = variables, url = "http://erddap.sccoos.org/erddap/")
 
 #Bind all the Data into one datatable 
 
