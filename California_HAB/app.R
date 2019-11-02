@@ -138,7 +138,7 @@ server = shinyServer(function(input, output) {
 #5. Run the application 
 shinyApp(ui = ui, server = server)
 
-#deployApp("California_HAB")
+#deployApp(appName = "california_hab")
 #deployApp(appDir = getwd(), appName = "california_hab")
 #rsconnect::showLogs("California_HAB")
 
