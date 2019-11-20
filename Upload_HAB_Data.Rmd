@@ -9,8 +9,10 @@ output: html_document
 
 #rm(list=ls()) 
 library(rerddap)
+library(tidyr)
 library(tidyverse)
 library(readr)
+library(dplyr)
 
 select = dplyr::select #override MASS::select 
 group_by =  dplyr::group_by #override plotly::group_by
@@ -130,7 +132,7 @@ HABMAP_Data_Long_Units = HABMAP_Data_Long %>%
 HABMAP_Data_Long_Units2 = HABMAP_Data_Long_Units %>%
   mutate(Date = as.Date(time)) %>%
   select(Location_Code, Date, Observations, Measurement, Units) %>%
-  as.tibble()
+  as_tibble()
 
 #Replace all NaN with NA
 #test_NaN = HABMAP_Data_Long_Units2 %>% summarise(count=sum(is.nan(Measurement))) #R is not recgonizing NaN 
