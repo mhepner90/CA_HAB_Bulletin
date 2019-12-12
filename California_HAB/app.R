@@ -19,8 +19,8 @@ library(DT)
 #githubURL = ("https://raw.github.com/mhepner90/CA_HAB_Bulletin/master/HABMAP_Data/HABMAP_Data_Long_Units.rds")
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 
-#setwd("/Users/mhepner/Documents/GitHub/CA_HAB_Bulletin/California_HAB")
-HABMAP_Data = read_rds("HABMAP_Data_Long_Units.rds") 
+#getwd() "/home/rstudio/mhepner/SCCOOS Products" 
+HABMAP_Data = read_rds("California_HAB/HABMAP_Data_Long_Units.rds") 
 #HABMAP_Data = read_rds("HABMAP_Data.rds") 
 #print(HABMAP_Data)
 
