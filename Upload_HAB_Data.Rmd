@@ -150,6 +150,6 @@ test_NaN = HABMAP_Data_Long_Remove_NaN %>% #0 NaN
   summarise(count=sum(is.nan(Measurement))) 
 
 #Save HABMAP long formated data table 
-write_rds(HABMAP_Data_Long_Remove_NaN, "~/Documents/GitHub/CA_HAB_Bulletin/California_HAB/HABMAP_Data_Long_Units.rds")
+write_rds(HABMAP_Data_Long_Remove_NaN, "California_HAB/HABMAP_Data_Long_Units.rds")
 
 ```
