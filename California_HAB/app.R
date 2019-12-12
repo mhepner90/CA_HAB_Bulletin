@@ -8,6 +8,7 @@ library(ggplot2)
 library(rsconnect)
 library(scales)
 library(lubridate)
+#library(data.table)
 library(DT)
 #https://shiny.rstudio.com/gallery/
 
@@ -19,8 +20,8 @@ library(DT)
 #download.file(githubURL, "HABMAP_Data_Long_Units.rds")
 
 #setwd("/Users/mhepner/Documents/GitHub/CA_HAB_Bulletin/California_HAB")
-#HABMAP_Data = read_rds("/Users/mhepner/Documents/GitHub/CA_HAB_Bulletin/California_HAB/HABMAP_Data_Long_Units.rds") 
 HABMAP_Data = read_rds("HABMAP_Data_Long_Units.rds") 
+#HABMAP_Data = read_rds("HABMAP_Data.rds") 
 #print(HABMAP_Data)
 
 #3. Define UI{} User Interface for Application 
@@ -32,13 +33,13 @@ ui = fluidPage(
         sidebarPanel( #Inputs: Select variables to plot 
             selectInput(inputId = "Location_Code", 
                         label = h3("Sampling Location"), 
-                        choices =c("Scripps Pier - SCCOOS"="SIO",
-                                   "Newport Pier - SCCOOS"="NP",  
-                                   "Santa Monica Pier - SCCOOS"= "SMP",
-                                   "Stearns Wharf - SCCOOS"= "SW",
-                                   "Cal Poly Pier - SCCOOS "="CPP",
-                                   "Monterey Wharf - CeNCOOS"= "HAB_MWII", 
-                                   "Santa Cruz Municipal Wharf - CeNCOOS"= "HAB_SCW" 
+                        choices =c(#"Scripps Pier"="SP",
+                                   "Newport Pier"="NP", #NP 
+                                   "Santa Monica Pier"="SMP",
+                                   "Stearns Wharf"="SW",
+                                   "Cal Poly Pier"="CPP",
+                                   "Monterey Wharf"= "HAB_MWII", #"MW", #"HAB_MWII"
+                                   "Santa Cruz Municipal Wharf"= "HAB_SCW" #"HAB_SCW"
                         ), 
                         selected ="CPP",
                         multiple = F),
@@ -137,7 +138,7 @@ server = shinyServer(function(input, output) {
 #5. Run the application 
 shinyApp(ui = ui, server = server)
 
-#deployApp("California_HAB")
+#deployApp(appName = "california_hab")
 #deployApp(appDir = getwd(), appName = "california_hab")
 #rsconnect::showLogs("California_HAB")
 
